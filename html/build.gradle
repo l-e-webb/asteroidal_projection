@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.louiswebbgames.hyperbocalypse.GdxDefinition'
-    devModules 'com.louiswebbgames.hyperbocalypse.GdxDefinitionSuperdev'
+    modules 'com.louiswebbgames.asteroidalprojection.GdxDefinition'
+    devModules 'com.louiswebbgames.asteroidalprojection.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {
@@ -61,7 +61,7 @@ task addSource << {
 tasks.compileGwt.dependsOn(addSource)
 tasks.draftCompileGwt.dependsOn(addSource)
 
-sourceCompatibility = 1.6
+sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 

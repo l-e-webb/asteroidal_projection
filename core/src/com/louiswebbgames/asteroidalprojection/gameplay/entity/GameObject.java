@@ -1,4 +1,4 @@
-package com.louiswebbgames.hyperbocalypse.gameplay.entity;
+package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
@@ -7,24 +7,25 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.louiswebbgames.hyperbocalypse.gameplay.GameplayConstants;
-import com.louiswebbgames.hyperbocalypse.gameplay.PlayStage;
-import com.louiswebbgames.hyperbocalypse.gameplay.geometry.Projection;
-import com.louiswebbgames.hyperbocalypse.utility.Log;
-import com.louiswebbgames.hyperbocalypse.utility.ShapeRenderRequest;
+import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
+import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
+import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
+import com.louiswebbgames.asteroidalprojection.utility.Log;
+import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
 /**
  * Abstract superclass for all objects in the game, implements most Steerable
  * interface methods and some scene2d Actor methods.  Defines each object
- * as having radius, position, and velocity properties.  Note that some
- * subclasses, such as base, are immobile.
+ * as having radius, position, and velocity properties.
  */
 public abstract class GameObject extends Group implements Steerable<Vector2> {
 
-    static boolean debug = true;
+    static boolean debug = false;
 
     public static final String LOG_TAG = GameObject.class.getSimpleName();
 
@@ -43,12 +44,13 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     float minLinearSpeed;
     boolean tagged;
     final EntityType type;
+    CollisionType collisionType;
     int updateFrame;
 
     boolean independentFacing = false;
     boolean independentScaling = true;
 
-    public GameObject(float x, float y, float width, float height, EntityType type) {
+    public GameObject(float x, float y, float width, float height, EntityType type, CollisionType colType) {
         linearVelocity = new Vector2(1, 0);
         angularVelocity = 0;
         orientation = 0;
@@ -58,19 +60,23 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         this.type = type;
         updateFrame = 0;
         updateScale();
+        this.collisionType = colType;
     }
 
-    public GameObject(float x, float y, float radius, EntityType type) {
-        this(x, y, radius * 2, radius * 2, type);
+    public GameObject(float x, float y, float radius, EntityType type, CollisionType colType) {
+        this(x, y, radius * 2, radius * 2, type, colType);
     }
 
     @Override
     public void act(float delta) {
+        super.act(delta);
+
+        updatePositionVector();
+
         if (distanceFromOrigin() > GameplayConstants.HORIZON) {
             destroy();
             return;
         }
-        super.act(delta);
         update(delta);
         calculateVelocity(delta);
         moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
@@ -149,8 +155,9 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     public void update(float delta) {}
 
     public void destroy() {
+        Log.log(LOG_TAG, "Removing entity of type " + type.toString() + " at position " + getPosition().toString());
+        ((PlayStage)getStage()).removeObject(this);
         remove();
-        Log.log(LOG_TAG, "Removing entity of type " + type.toString() + " at position " + Projection.project(getPosition()).toString());
     }
 
     @Override
@@ -343,8 +350,41 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         return type;
     }
 
+    public float distance(GameObject object) {
+        return position.dst(object.position);
+    }
+
     public float distanceFromOrigin() {
         return Vector2.Zero.dst(position);
     }
+
+    public boolean collidesWith(GameObject object) {
+        if (distance(object) > getBoundingRadius() + object.getBoundingRadius()) return false;
+        switch (collisionType) {
+            case CIRCLE:
+                switch (object.collisionType) {
+                    case CIRCLE:
+                        return Intersector.overlaps(
+                                getCircle(), object.getCircle()
+                        );
+                    case POINT:
+                        return getCircle().contains(object.getPosition());
+                }
+            case POINT:
+                switch (object.collisionType) {
+                    case CIRCLE:
+                        return object.getCircle().contains(position);
+                    case POINT:
+                        return false;
+                }
+        }
+        return false;
+    }
+
+    public Circle getCircle() {
+        return new Circle(position, getBoundingRadius());
+    }
+
+    public void reportHit(Vector2 hitDirection) {}
 
 }

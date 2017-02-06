@@ -1,14 +1,16 @@
-package com.louiswebbgames.hyperbocalypse;
+package com.louiswebbgames.asteroidalprojection;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.louiswebbgames.hyperbocalypse.gameplay.PlayStage;
 
 public abstract class GameScreen implements Screen {
+
+    int width;
+    int height;
 
     Stage stage;
     Viewport viewport;
@@ -23,6 +25,17 @@ public abstract class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)
+                || Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT))
+                && Gdx.input.isKeyPressed(Input.Keys.ENTER)
+            ) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(width, height);
+            } else {
+                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            }
+        }
+
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -39,6 +52,8 @@ public abstract class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        this.width = width;
+        this.height = height;
     }
 
     @Override

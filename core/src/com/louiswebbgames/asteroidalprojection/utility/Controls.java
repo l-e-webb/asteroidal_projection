@@ -1,4 +1,4 @@
-package com.louiswebbgames.hyperbocalypse.utility;
+package com.louiswebbgames.asteroidalprojection.utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -22,7 +22,7 @@ public class Controls {
     }
 
     public static boolean fire() {
-        return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+        return Gdx.input.isButtonPressed(Input.Buttons.LEFT) || Gdx.input.isKeyPressed(Input.Keys.Z);
     }
 
     public static boolean secondaryFire() {

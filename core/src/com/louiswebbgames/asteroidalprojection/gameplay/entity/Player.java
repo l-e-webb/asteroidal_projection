@@ -1,28 +1,27 @@
-package com.louiswebbgames.hyperbocalypse.gameplay.entity;
+package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.louiswebbgames.hyperbocalypse.gameplay.GameplayConstants;
-import com.louiswebbgames.hyperbocalypse.gameplay.PlayStage;
-import com.louiswebbgames.hyperbocalypse.gameplay.geometry.Projection;
-import com.louiswebbgames.hyperbocalypse.utility.Assets;
-import com.louiswebbgames.hyperbocalypse.utility.Controls;
-import com.louiswebbgames.hyperbocalypse.utility.Log;
+import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
+import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
+import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
+import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Controls;
 
 public class Player extends GameObject {
 
     public static final String LOG_TAG = Player.class.getSimpleName();
 
     protected float dampening;
-
     protected float fireTimer;
 
+    protected boolean mouseControls;
+
     public Player() {
-        super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER);
+        super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.POINT);
         independentFacing = true;
         setMaxAngularSpeed(0);
         setMaxLinearSpeed(GameplayConstants.PLAYER_MAX_SPEED);
@@ -41,15 +40,30 @@ public class Player extends GameObject {
 
     @Override
     public void update(float delta) {
-        Vector2 mouseDirection = getStage().screenToStageCoordinates(
-                new Vector2(Gdx.input.getX(), Gdx.input.getY())
-        );
-        setOrientation(mouseDirection.angleRad());
-        if (fireTimer < GameplayConstants.PLAYER_SHOT_COOLDOWN) {
-            fireTimer += delta;
-        } else if (Controls.fire()) {
-            ((PlayStage)getStage()).addPlayerProjectile(mouseDirection);
-            fireTimer = 0;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+            mouseControls = !mouseControls;
+        }
+        if (linearVelocity.len() > getZeroLinearSpeedThreshold()) {
+            setOrientation(linearVelocity.angleRad());
+        }
+        if (mouseControls) {
+            Vector2 mouseDirection = getStage().screenToStageCoordinates(
+                    new Vector2(Gdx.input.getX(), Gdx.input.getY())
+            );
+            //setOrientation(mouseDirection.angleRad());
+            if (fireTimer < GameplayConstants.PLAYER_SHOT_COOLDOWN) {
+                fireTimer += delta;
+            } else if (Controls.fire()) {
+                ((PlayStage)getStage()).addPlayerProjectile(mouseDirection);
+                fireTimer = 0;
+            }
+        } else {
+            if (fireTimer < GameplayConstants.PLAYER_SHOT_COOLDOWN) {
+                fireTimer += delta;
+            } else if (Controls.fire()) {
+                ((PlayStage)getStage()).addPlayerProjectile(new Vector2(1, 0).setAngleRad(getOrientation()));
+                fireTimer = 0;
+            }
         }
     }
 

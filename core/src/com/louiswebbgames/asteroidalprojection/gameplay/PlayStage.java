@@ -1,24 +1,22 @@
-package com.louiswebbgames.hyperbocalypse.gameplay;
+package com.louiswebbgames.asteroidalprojection.gameplay;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.louiswebbgames.hyperbocalypse.gameplay.entity.Asteroid;
-import com.louiswebbgames.hyperbocalypse.gameplay.entity.GameObject;
-import com.louiswebbgames.hyperbocalypse.gameplay.entity.Player;
-import com.louiswebbgames.hyperbocalypse.gameplay.entity.PlayerShot;
-import com.louiswebbgames.hyperbocalypse.gameplay.geometry.Projection;
-import com.louiswebbgames.hyperbocalypse.utility.Log;
-import com.louiswebbgames.hyperbocalypse.utility.ShapeRenderRequest;
+import com.louiswebbgames.asteroidalprojection.gameplay.entity.Asteroid;
+import com.louiswebbgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.louiswebbgames.asteroidalprojection.gameplay.entity.Player;
+import com.louiswebbgames.asteroidalprojection.gameplay.entity.PlayerShot;
+import com.louiswebbgames.asteroidalprojection.gameplay.geometry.GridRenderer;
+import com.louiswebbgames.asteroidalprojection.utility.Log;
+import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -31,24 +29,31 @@ public class PlayStage extends Stage {
     Vector2 worldOffset;
 
     Set<PlayerShot> playerShots;
-    Set<Asteroid> asteroidSet;
+    Set<Asteroid> asteroids;
+    Group asteroidGroup;
+    Group playerShotGroup;
 
     ShapeRenderer shapeRenderer;
     Queue<ShapeRenderRequest> renderRequestQueue;
 
     ShapeRenderRequest squareBorder;
     ShapeRenderRequest circleBorder;
+    GridRenderer gridRenderer;
 
     public PlayStage(Viewport viewport) {
         super(viewport);
         initPlayer();
+        playerShots = new HashSet<>();
+        asteroids = new HashSet<>();
+        asteroidGroup = new Group();
+        playerShotGroup = new Group();
+        addActor(asteroidGroup);
+        addActor(playerShotGroup);
         worldOffset = new Vector2();
         asteroidSpawner = new AsteroidSpawner();
         shapeRenderer = new ShapeRenderer();
-        renderRequestQueue = new LinkedList<ShapeRenderRequest>();
-        squareBorder = new ShapeRenderRequest() {
-            @Override
-            public void draw(ShapeRenderer renderer) {
+        renderRequestQueue = new LinkedList<>();
+        squareBorder = renderer -> {
                 renderer.set(ShapeRenderer.ShapeType.Line);
                 renderer.setColor(Color.WHITE);
                 renderer.rect(
@@ -56,17 +61,14 @@ public class PlayStage extends Stage {
                         0.01f - getViewport().getWorldHeight() / 2,
                         getViewport().getWorldWidth() - 0.01f,
                         getViewport().getWorldHeight() - 0.01f);
-            }
         };
-        circleBorder = new ShapeRenderRequest() {
-            @Override
-            public void draw(ShapeRenderer renderer) {
+        circleBorder = renderer -> {
                 renderer.set(ShapeRenderer.ShapeType.Line);
                 renderer.setColor(Color.WHITE);
                 float radius = 0.99f * getViewport().getWorldWidth() / 2;
                 renderer.circle(0, 0, radius, 20);
-            }
         };
+        gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
     }
 
     protected void initPlayer() {
@@ -86,6 +88,8 @@ public class PlayStage extends Stage {
 
         addShapeRenderRequest(squareBorder);
         addShapeRenderRequest(circleBorder);
+        addShapeRenderRequest(gridRenderer);
+        gridRenderer.setOffset(worldOffset);
         shapeRenderer.setProjectionMatrix(getViewport().getCamera().combined);
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
@@ -110,20 +114,39 @@ public class PlayStage extends Stage {
     public void addEnemy() {}
 
     public void addAsteroid(float x, float y, float radius, Vector2 velocity) {
-        //TODO: add to set.
-        addActor(new Asteroid(x, y, radius, velocity));
+        Asteroid asteroid = new Asteroid(x - worldOffset.x, y - worldOffset.y, radius, velocity);
+        asteroids.add(asteroid);
+        asteroidGroup.addActor(asteroid);
     }
 
     public void addPlayerProjectile(Vector2 heading) {
         PlayerShot shot = new PlayerShot(heading.setLength(GameplayConstants.PLAYER_SHOT_SPEED));
         shot.moveBy(-worldOffset.x, -worldOffset.y);
-        //TODO: add to set.
-        addActor(shot);
-        shot.updatePositionVector();
+        playerShots.add(shot);
+        playerShotGroup.addActor(shot);
     }
 
     public void addShapeRenderRequest(ShapeRenderRequest request) {
         renderRequestQueue.add(request);
+    }
+
+    public void removeObject(GameObject object) {
+        switch (object.getType()) {
+            case ASTEROID:
+                asteroids.remove(object);
+                break;
+            case PLAYER_SHOT:
+                playerShots.remove(object);
+                break;
+        }
+    }
+
+    public Set<Asteroid> getAsteroids() {
+        return asteroids;
+    }
+
+    public Set<PlayerShot> getPlayerShots() {
+        return playerShots;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.louiswebbgames.hyperbocalypse.utility;
+package com.louiswebbgames.asteroidalprojection.utility;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 

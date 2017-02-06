@@ -1,4 +1,4 @@
-package com.louiswebbgames.hyperbocalypse.gameplay.geometry;
+package com.louiswebbgames.asteroidalprojection.gameplay.geometry;
 
 import com.badlogic.gdx.math.Vector2;
 

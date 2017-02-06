@@ -1,9 +1,8 @@
-package com.louiswebbgames.hyperbocalypse;
+package com.louiswebbgames.asteroidalprojection;
 
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.louiswebbgames.hyperbocalypse.gameplay.PlayStage;
-import com.louiswebbgames.hyperbocalypse.gameplay.geometry.Projection;
+import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
+import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
 
 public class PlayScreen extends GameScreen {
 
