@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 
-public class HyperbocalypseGame extends Game {
+public class AsteroidalProjectionGame extends Game {
 	
 	@Override
 	public void create () {

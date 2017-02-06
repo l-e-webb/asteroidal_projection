@@ -2,7 +2,7 @@ package com.louiswebbgames.asteroidalprojection.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.louiswebbgames.asteroidalprojection.HyperbocalypseGame;
+import com.louiswebbgames.asteroidalprojection.AsteroidalProjectionGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		config.width = 800;
 		config.height = 800;
 		config.resizable = true;
-		new LwjglApplication(new HyperbocalypseGame(), config);
+		new LwjglApplication(new AsteroidalProjectionGame(), config);
 	}
 }

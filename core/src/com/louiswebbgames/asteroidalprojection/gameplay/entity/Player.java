@@ -40,7 +40,7 @@ public class Player extends GameObject {
 
     @Override
     public void update(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.X)) {
             mouseControls = !mouseControls;
         }
         if (linearVelocity.len() > getZeroLinearSpeedThreshold()) {
