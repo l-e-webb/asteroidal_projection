@@ -63,7 +63,7 @@ public class Asteroid extends GameObject {
             angle += 360f / pieces;
             heading.setAngle(angle);
             float newRadius = MathUtils.random(0.9f, 1.1f) * averageRadius;
-            stage.addAsteroid(position.x, position.y, newRadius, heading);
+            stage.addAsteroid(new Asteroid(position.x, position.y, newRadius, heading));
         }
         destroy();
     }

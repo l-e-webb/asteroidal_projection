@@ -9,9 +9,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class GameScreen implements Screen {
 
-    int width;
-    int height;
-
     Stage stage;
     Viewport viewport;
 
@@ -30,7 +27,7 @@ public abstract class GameScreen implements Screen {
                 && Gdx.input.isKeyPressed(Input.Keys.ENTER)
             ) {
             if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(width, height);
+                Gdx.graphics.setWindowedMode(800, 800);
             } else {
                 Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
             }
@@ -52,8 +49,6 @@ public abstract class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        this.width = width;
-        this.height = height;
     }
 
     @Override

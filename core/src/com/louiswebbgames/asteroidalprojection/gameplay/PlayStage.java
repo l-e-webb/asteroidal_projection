@@ -8,10 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.louiswebbgames.asteroidalprojection.gameplay.entity.Asteroid;
-import com.louiswebbgames.asteroidalprojection.gameplay.entity.GameObject;
-import com.louiswebbgames.asteroidalprojection.gameplay.entity.Player;
-import com.louiswebbgames.asteroidalprojection.gameplay.entity.PlayerShot;
+import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AsteroidCollisionDetector;
+import com.louiswebbgames.asteroidalprojection.gameplay.entity.*;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.GridRenderer;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
@@ -23,15 +21,17 @@ import java.util.Set;
 
 public class PlayStage extends Stage {
 
-    GameObject player;
+    Player player;
     AsteroidSpawner asteroidSpawner;
 
     Vector2 worldOffset;
 
-    Set<PlayerShot> playerShots;
+    Set<Projectile> projectiles;
     Set<Asteroid> asteroids;
+    Set<Enemy> enemies;
     Group asteroidGroup;
-    Group playerShotGroup;
+    Group projectileGroup;
+    Group enemyGroup;
 
     ShapeRenderer shapeRenderer;
     Queue<ShapeRenderRequest> renderRequestQueue;
@@ -43,12 +43,16 @@ public class PlayStage extends Stage {
     public PlayStage(Viewport viewport) {
         super(viewport);
         initPlayer();
-        playerShots = new HashSet<>();
+        projectiles = new HashSet<>();
         asteroids = new HashSet<>();
+        enemies = new HashSet<>();
         asteroidGroup = new Group();
-        playerShotGroup = new Group();
+        AsteroidCollisionDetector.setAsteroids(asteroids);
+        projectileGroup = new Group();
+        enemyGroup = new Group();
+        addActor(enemyGroup);
         addActor(asteroidGroup);
-        addActor(playerShotGroup);
+        addActor(projectileGroup);
         worldOffset = new Vector2();
         asteroidSpawner = new AsteroidSpawner();
         shapeRenderer = new ShapeRenderer();
@@ -69,6 +73,7 @@ public class PlayStage extends Stage {
                 renderer.circle(0, 0, radius, 20);
         };
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
+        addEnemy(new SeekerEnemy(17, 0, player));
     }
 
     protected void initPlayer() {
@@ -111,19 +116,23 @@ public class PlayStage extends Stage {
         return worldOffset;
     }
 
-    public void addEnemy() {}
-
-    public void addAsteroid(float x, float y, float radius, Vector2 velocity) {
-        Asteroid asteroid = new Asteroid(x - worldOffset.x, y - worldOffset.y, radius, velocity);
-        asteroids.add(asteroid);
-        asteroidGroup.addActor(asteroid);
+    public void addEnemy(Enemy enemy) {
+        enemy.moveBy(-worldOffset.x, -worldOffset.y);
+        enemies.add(enemy);
+        enemyGroup.addActor(enemy);
     }
 
-    public void addPlayerProjectile(Vector2 heading) {
-        PlayerShot shot = new PlayerShot(heading.setLength(GameplayConstants.PLAYER_SHOT_SPEED));
-        shot.moveBy(-worldOffset.x, -worldOffset.y);
-        playerShots.add(shot);
-        playerShotGroup.addActor(shot);
+    public void addAsteroid(Asteroid asteroid) {
+        asteroid.moveBy(-worldOffset.x, -worldOffset.y);
+        asteroids.add(asteroid);
+        asteroidGroup.addActor(asteroid);
+        asteroid.updatePositionVector();
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectile.moveBy(-worldOffset.x, -worldOffset.y);
+        projectiles.add(projectile);
+        projectileGroup.addActor(projectile);
     }
 
     public void addShapeRenderRequest(ShapeRenderRequest request) {
@@ -135,9 +144,11 @@ public class PlayStage extends Stage {
             case ASTEROID:
                 asteroids.remove(object);
                 break;
-            case PLAYER_SHOT:
-                playerShots.remove(object);
+            case PROJECTILE:
+                projectiles.remove(object);
                 break;
+            case ENEMY:
+                enemies.remove(object);
         }
     }
 
@@ -145,8 +156,16 @@ public class PlayStage extends Stage {
         return asteroids;
     }
 
-    public Set<PlayerShot> getPlayerShots() {
-        return playerShots;
+    public Set<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public Set<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
@@ -178,12 +197,12 @@ public class PlayStage extends Stage {
                                 GameplayConstants.ASTEROID_ANGLE_VAR)
                 );
                 velocity.setLength(MathUtils.random(0.5f, 1.5f) * GameplayConstants.ASTEROID_SPEED_AVERAGE);
-                PlayStage.this.addAsteroid(
+                PlayStage.this.addAsteroid(new Asteroid(
                         pos.x,
                         pos.y,
                         MathUtils.random(GameplayConstants.ASTEROID_MIN_RADIUS, GameplayConstants.ASTEROID_MAX_RADIUS),
                         velocity
-                );
+                ));
                 timer = 0;
                 setNext();
             }

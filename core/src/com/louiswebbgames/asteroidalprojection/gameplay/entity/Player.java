@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.LaserWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.Controls;
 
@@ -20,6 +22,8 @@ public class Player extends GameObject {
 
     protected boolean mouseControls;
 
+    protected Weapon laserWeapon;
+
     public Player() {
         super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.POINT);
         independentFacing = true;
@@ -28,6 +32,7 @@ public class Player extends GameObject {
         setMinLinearSpeed(0);
         setMaxLinearAcceleration(GameplayConstants.PLAYER_ACCEL);
         dampening = GameplayConstants.PLAYER_DAMPENING;
+        laserWeapon = new LaserWeapon(this, true);
     }
 
     @Override
@@ -47,21 +52,21 @@ public class Player extends GameObject {
             setOrientation(linearVelocity.angleRad());
         }
         if (mouseControls) {
-            Vector2 mouseDirection = getStage().screenToStageCoordinates(
+            Vector2 mousePosition = getStage().screenToStageCoordinates(
                     new Vector2(Gdx.input.getX(), Gdx.input.getY())
             );
             //setOrientation(mouseDirection.angleRad());
-            if (fireTimer < GameplayConstants.PLAYER_SHOT_COOLDOWN) {
+            if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
                 fireTimer += delta;
             } else if (Controls.fire()) {
-                ((PlayStage)getStage()).addPlayerProjectile(mouseDirection);
+                laserWeapon.fire(mousePosition);
                 fireTimer = 0;
             }
         } else {
-            if (fireTimer < GameplayConstants.PLAYER_SHOT_COOLDOWN) {
+            if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
                 fireTimer += delta;
             } else if (Controls.fire()) {
-                ((PlayStage)getStage()).addPlayerProjectile(new Vector2(1, 0).setAngleRad(getOrientation()));
+                laserWeapon.fire(new Vector2(1, 0).setAngleRad(getOrientation()));
                 fireTimer = 0;
             }
         }

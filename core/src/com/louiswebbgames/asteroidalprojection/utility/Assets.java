@@ -20,6 +20,9 @@ public class Assets implements Disposable, AssetErrorListener  {
     public TextureRegion shot;
     public TextureRegion asteroid;
     public TextureRegion playerLaser;
+    public TextureRegion enemyLaser;
+    public TextureRegion seekerEnemy;
+    public TextureRegion sniperEnemy;
 
     private AssetManager assetManager;
 
@@ -36,6 +39,8 @@ public class Assets implements Disposable, AssetErrorListener  {
         shot = atlas.findRegion("laser");
         asteroid = atlas.findRegion("octagon_sun");
         playerLaser = atlas.findRegion("laser");
+        enemyLaser = playerLaser;
+        seekerEnemy = triangle;
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {
