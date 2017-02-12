@@ -3,6 +3,7 @@ package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
@@ -17,15 +18,16 @@ public class Player extends GameObject {
 
     public static final String LOG_TAG = Player.class.getSimpleName();
 
+    protected PlayerState state;
+
     protected float dampening;
     protected float fireTimer;
-
-    protected boolean mouseControls;
+    protected float blinkingTimer;
 
     protected Weapon laserWeapon;
 
     public Player() {
-        super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.POINT);
+        super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.CIRCLE);
         independentFacing = true;
         setMaxAngularSpeed(0);
         setMaxLinearSpeed(GameplayConstants.PLAYER_MAX_SPEED);
@@ -33,6 +35,7 @@ public class Player extends GameObject {
         setMaxLinearAcceleration(GameplayConstants.PLAYER_ACCEL);
         dampening = GameplayConstants.PLAYER_DAMPENING;
         laserWeapon = new LaserWeapon(this, true);
+        setState(PlayerState.BLINKING);
     }
 
     @Override
@@ -45,31 +48,34 @@ public class Player extends GameObject {
 
     @Override
     public void update(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB) || Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-            mouseControls = !mouseControls;
+        if (state == PlayerState.BLINKING) {
+            blinkingTimer -= delta;
+            if (blinkingTimer < 0) {
+                setState(PlayerState.NORMAL);
+            }
         }
         if (linearVelocity.len() > getZeroLinearSpeedThreshold()) {
             setOrientation(linearVelocity.angleRad());
         }
-        if (mouseControls) {
-            Vector2 mousePosition = getStage().screenToStageCoordinates(
-                    new Vector2(Gdx.input.getX(), Gdx.input.getY())
-            );
-            //setOrientation(mouseDirection.angleRad());
-            if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
-                fireTimer += delta;
-            } else if (Controls.fire()) {
-                laserWeapon.fire(mousePosition);
-                fireTimer = 0;
-            }
-        } else {
-            if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
-                fireTimer += delta;
-            } else if (Controls.fire()) {
-                laserWeapon.fire(new Vector2(1, 0).setAngleRad(getOrientation()));
-                fireTimer = 0;
-            }
+        Vector2 mousePosition = getStage().screenToStageCoordinates(
+                new Vector2(Gdx.input.getX(), Gdx.input.getY())
+        );
+        //setOrientation(mouseDirection.angleRad());
+        if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
+            fireTimer += delta;
+        } else if (Controls.fire() && state != PlayerState.BLINKING) {
+            laserWeapon.fire(mousePosition);
+            fireTimer = 0;
         }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        if (state == PlayerState.BLINKING && blinkingTimer % GameplayConstants.PLAYER_BLINDING_PERIOD <
+                        GameplayConstants.PLAYER_BLINDING_PERIOD / 2) {
+            return;
+        }
+        super.draw(batch, parentAlpha);
     }
 
     @Override
@@ -102,6 +108,13 @@ public class Player extends GameObject {
         linearVelocity.add(accel).limit(getMaxLinearSpeed());
     }
 
+    public void setState(PlayerState state) {
+        this.state = state;
+        if (state == PlayerState.BLINKING) {
+            blinkingTimer = GameplayConstants.PLAYER_BLINKING_DURATION;
+        }
+    }
+
     @Override
     public void moveBy(float x, float y) {
         ((PlayStage) getStage()).moveWorld(-x, -y);
@@ -109,12 +122,26 @@ public class Player extends GameObject {
 
     @Override
     public TextureRegion getTexture() {
-        return Assets.instance.triangle;
+        return Assets.instance.player;
     }
 
     @Override
     public Location<Vector2> newLocation() {
         return new Player();
+    }
+
+    @Override
+    public boolean reportHit(Vector2 hitDirection) {
+        if (state != PlayerState.BLINKING) {
+            setState(PlayerState.BLINKING);
+            return true;
+        }
+        return false;
+    }
+
+    public enum PlayerState {
+        NORMAL,
+        BLINKING
     }
 
 }

@@ -8,6 +8,8 @@ import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 
+import java.util.Iterator;
+
 public class Laser extends Projectile {
 
     public static final String LOG_TAG = Laser.class.getSimpleName();
@@ -22,32 +24,44 @@ public class Laser extends Projectile {
     }
 
     @Override
+    public void destroy() {
+        ((PlayStage)getStage()).removeObject(this);
+        super.destroy();
+    }
+
+    @Override
     public void update(float delta) {
         super.update(delta);
-        for (Asteroid asteroid : ((PlayStage)getStage()).getAsteroids()) {
+        PlayStage stage = (PlayStage) getStage();
+        for (Iterator<Asteroid> iterator = stage.getAsteroids().iterator(); iterator.hasNext(); ) {
+            Asteroid asteroid = iterator.next();
             if (collidesWith(asteroid)) {
-                Log.log(LOG_TAG, "Laser colliding with asteroid.");
-                asteroid.reportHit(linearVelocity);
-                destroy();
-                return;
+                Log.log(LOG_TAG, "Laser colliding with asteroid at " + getPosition().toString());
+                if (asteroid.reportHit(linearVelocity)) {
+                    destroy();
+                    return;
+                }
             }
         }
         if (playerLaser) {
-            for (Enemy enemy : ((PlayStage)getStage()).getEnemies()) {
+            for (Iterator<Enemy> iterator = stage.getEnemies().iterator(); iterator.hasNext(); ) {
+                Enemy enemy = iterator.next();
                 if (collidesWith(enemy)) {
-                    Log.log(LOG_TAG, "Player laser colliding with enemy.");
-                    enemy.reportHit(linearVelocity);
-                    destroy();
-                    return;
+                    Log.log(LOG_TAG, "Player laser colliding with enemy at " + getPosition().toString());
+                    if (enemy.reportHit(linearVelocity)) {
+                        destroy();
+                        iterator.remove();
+                        return;
+                    }
                 }
             }
         } else {
             Player player = ((PlayStage)getStage()).getPlayer();
             if (collidesWith(player)) {
-                Log.log(LOG_TAG, "Enemy laser colliding with player.");
-                player.reportHit(linearVelocity);
-                destroy();
-                return;
+                Log.log(LOG_TAG, "Enemy laser colliding with player at " + getPosition().toString());
+                if (player.reportHit(linearVelocity)) {
+                    destroy();
+                }
             }
         }
     }

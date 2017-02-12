@@ -8,6 +8,8 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 
 public class AvoidAsteroids extends RaycastObstacleAvoidance<Vector2> {
 
+    public static boolean debug = false;
+
     public AvoidAsteroids(Steerable<Vector2> owner) {
         super(
                 owner,

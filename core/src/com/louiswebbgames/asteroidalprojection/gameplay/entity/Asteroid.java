@@ -10,6 +10,8 @@ import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 
+import java.util.Iterator;
+
 public class Asteroid extends GameObject {
 
     public static final String LOG_TAG = Asteroid.class.getSimpleName();
@@ -23,6 +25,32 @@ public class Asteroid extends GameObject {
                 GameplayConstants.ASTEROID_MIN_ANGULAR_VEL,
                 GameplayConstants.ASTEROID_MAX_ANGULAR_VEL
         );
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        PlayStage stage = (PlayStage) getStage();
+        for (Iterator<Enemy> iterator = stage.getEnemies().iterator(); iterator.hasNext(); ) {
+            Enemy enemy = iterator.next();
+            if (collidesWith(enemy)) {
+                Log.log(LOG_TAG, "Asteroid colliding with enemy at " + getPosition().toString());
+                if (enemy.reportHit(new Vector2(enemy.getPosition()).sub(getPosition()))) {
+                    iterator.remove();
+                }
+            }
+        }
+        Player player = stage.getPlayer();
+        if (collidesWith(player)) {
+            Log.log(LOG_TAG, "Asteroid colliding with player at " + getPosition().toString());
+            player.reportHit(new Vector2(player.getPosition()).sub(getPosition()));
+        }
+    }
+
+    @Override
+    public void destroy(boolean removeFromCollection) {
+        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RDAIUS);
+        super.destroy(removeFromCollection);
     }
 
     @Override
@@ -41,13 +69,12 @@ public class Asteroid extends GameObject {
     }
 
     @Override
-    public void reportHit(Vector2 hitDirection) {
-        super.reportHit(hitDirection);
+    public boolean reportHit(Vector2 hitDirection) {
         Log.log(LOG_TAG, "Reporting hit on asteroid.");
         float radius = getWidth() / 2;
         if (radius < GameplayConstants.ASTEROID_MIN_RADIUS) {
             destroy();
-            return;
+            return true;
         }
         int pieces = MathUtils.random(2, 3);
         float averageRadius;
@@ -66,5 +93,6 @@ public class Asteroid extends GameObject {
             stage.addAsteroid(new Asteroid(position.x, position.y, newRadius, heading));
         }
         destroy();
+        return true;
     }
 }

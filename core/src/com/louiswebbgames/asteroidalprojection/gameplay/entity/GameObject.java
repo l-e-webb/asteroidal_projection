@@ -154,10 +154,16 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     public void update(float delta) {}
 
-    public void destroy() {
+    public void destroy(boolean removeFromCollection) {
         Log.log(LOG_TAG, "Removing entity of type " + type.toString() + " at position " + getPosition().toString());
-        ((PlayStage)getStage()).removeObject(this);
+        if (removeFromCollection) {
+            ((PlayStage)getStage()).removeObject(this);
+        }
         remove();
+    }
+
+    public void destroy() {
+        this.destroy(true);
     }
 
     @Override
@@ -385,6 +391,8 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         return new Circle(position, getBoundingRadius());
     }
 
-    public void reportHit(Vector2 hitDirection) {}
+    public boolean reportHit(Vector2 hitDirection) {
+        return false;
+    }
 
 }

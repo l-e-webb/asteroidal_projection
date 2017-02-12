@@ -23,6 +23,7 @@ public class PlayStage extends Stage {
 
     Player player;
     AsteroidSpawner asteroidSpawner;
+    EnemySpawner enemySpawner;
 
     Vector2 worldOffset;
 
@@ -32,6 +33,7 @@ public class PlayStage extends Stage {
     Group asteroidGroup;
     Group projectileGroup;
     Group enemyGroup;
+    Group explosionGroup;
 
     ShapeRenderer shapeRenderer;
     Queue<ShapeRenderRequest> renderRequestQueue;
@@ -50,11 +52,14 @@ public class PlayStage extends Stage {
         AsteroidCollisionDetector.setAsteroids(asteroids);
         projectileGroup = new Group();
         enemyGroup = new Group();
+        explosionGroup = new Group();
         addActor(enemyGroup);
         addActor(asteroidGroup);
         addActor(projectileGroup);
+        addActor(explosionGroup);
         worldOffset = new Vector2();
         asteroidSpawner = new AsteroidSpawner();
+        enemySpawner = new EnemySpawner();
         shapeRenderer = new ShapeRenderer();
         renderRequestQueue = new LinkedList<>();
         squareBorder = renderer -> {
@@ -85,6 +90,7 @@ public class PlayStage extends Stage {
     public void act(float delta) {
         super.act(delta);
         asteroidSpawner.update(delta);
+        enemySpawner.update(delta);
     }
 
     @Override
@@ -133,6 +139,11 @@ public class PlayStage extends Stage {
         projectile.moveBy(-worldOffset.x, -worldOffset.y);
         projectiles.add(projectile);
         projectileGroup.addActor(projectile);
+    }
+
+    public void addExplosion(float x, float y, float radius) {
+        x -= worldOffset.x; y -= worldOffset.y;
+        explosionGroup.addActor(new Explosion(x, y, radius));
     }
 
     public void addShapeRenderRequest(ShapeRenderRequest request) {
@@ -186,7 +197,7 @@ public class PlayStage extends Stage {
 
         void update(float delta) {
             timer += delta;
-            if (timer > nextAsteroid) {
+            if (timer > nextAsteroid || asteroids.size() < GameplayConstants.MIN_ASTEROIDS_PRESENT) {
                 Vector2 pos = new Vector2(1, 0);
                 pos.setAngle(MathUtils.random(360f));
                 pos.setLength(GameplayConstants.HORIZON * 0.95f);
@@ -210,6 +221,45 @@ public class PlayStage extends Stage {
 
         void setNext() {
             nextAsteroid = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ASTEROID_SPAWN_AVERAGE;
+        }
+    }
+
+    private class EnemySpawner {
+
+        float timer;
+        float nextEnemy;
+
+        EnemySpawner() {
+            timer = 0;
+            setNext();
+        }
+
+        void update(float delta) {
+            timer += delta;
+            if (timer > nextEnemy || enemies.size() < GameplayConstants.MIN_ENEMIES_PRESENT) {
+                Vector2 pos = new Vector2(1, 0);
+                pos.setAngle(MathUtils.random(360f));
+                pos.setLength(GameplayConstants.HORIZON * 0.95f);
+                Enemy enemy;
+                switch (MathUtils.random(2)) {
+                    case 0:default:
+                        enemy = new SeekerEnemy(pos.x, pos.y, player);
+                        break;
+                    case 1:
+                        enemy = new SniperEnemy(pos.x, pos.y, player);
+                        break;
+                    case 2:
+                        enemy = new FlyByEnemy(pos.x, pos.y, player);
+                        break;
+                }
+                addEnemy(enemy);
+                setNext();
+            }
+        }
+
+        void setNext() {
+            nextEnemy = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ENEMY_SPAWN_AVERAGE;
+            timer = 0;
         }
     }
 

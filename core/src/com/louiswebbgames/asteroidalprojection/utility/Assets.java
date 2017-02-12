@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
+import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 
 /**
  * Singleton for loading and managing assets.
@@ -16,13 +18,14 @@ public class Assets implements Disposable, AssetErrorListener  {
     public static final String LOG_TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
 
-    public TextureRegion triangle;
-    public TextureRegion shot;
+    public TextureRegion player;
     public TextureRegion asteroid;
     public TextureRegion playerLaser;
     public TextureRegion enemyLaser;
     public TextureRegion seekerEnemy;
     public TextureRegion sniperEnemy;
+    public TextureRegion flyByEnemy;
+    public Animation<TextureRegion> explosion;
 
     private AssetManager assetManager;
 
@@ -35,12 +38,18 @@ public class Assets implements Disposable, AssetErrorListener  {
         assetManager.finishLoading();
 
         TextureAtlas atlas = assetManager.get(Constants.ATLAS_PATH);
-        triangle = atlas.findRegion("triangle");
-        shot = atlas.findRegion("laser");
-        asteroid = atlas.findRegion("octagon_sun");
-        playerLaser = atlas.findRegion("laser");
-        enemyLaser = playerLaser;
-        seekerEnemy = triangle;
+        player = atlas.findRegion("triangle");
+        asteroid = atlas.findRegion("septagon");
+        playerLaser = atlas.findRegion("bluelaser");
+        enemyLaser = atlas.findRegion("redlaser");
+        explosion = new Animation<>(
+                GameplayConstants.EXPLOSION_FRAME_DURATION,
+                atlas.findRegions("explosion"),
+                Animation.PlayMode.NORMAL
+        );
+        seekerEnemy = atlas.findRegion("red_triangle");
+        sniperEnemy = seekerEnemy;
+        flyByEnemy = seekerEnemy;
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {
