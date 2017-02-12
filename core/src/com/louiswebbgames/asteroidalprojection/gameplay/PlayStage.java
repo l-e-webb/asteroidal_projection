@@ -196,8 +196,11 @@ public class PlayStage extends Stage {
         }
 
         void update(float delta) {
-            timer += delta;
-            if (timer > nextAsteroid || asteroids.size() < GameplayConstants.MIN_ASTEROIDS_PRESENT) {
+            if (timer < nextAsteroid) {
+                timer += delta;
+            }
+            if (timer > nextAsteroid && asteroids.size() < GameplayConstants.MAX_ASTEROIDS_PRESENT
+                    || asteroids.size() < GameplayConstants.MIN_ASTEROIDS_PRESENT) {
                 Vector2 pos = new Vector2(1, 0);
                 pos.setAngle(MathUtils.random(360f));
                 pos.setLength(GameplayConstants.HORIZON * 0.95f);
@@ -235,8 +238,11 @@ public class PlayStage extends Stage {
         }
 
         void update(float delta) {
-            timer += delta;
-            if (timer > nextEnemy || enemies.size() < GameplayConstants.MIN_ENEMIES_PRESENT) {
+            if (timer < nextEnemy) {
+                timer += delta;
+            }
+            if (timer > nextEnemy && enemies.size() < GameplayConstants.MAX_ENEMIES_PRESENT
+                    || enemies.size() < GameplayConstants.MIN_ENEMIES_PRESENT) {
                 Vector2 pos = new Vector2(1, 0);
                 pos.setAngle(MathUtils.random(360f));
                 pos.setLength(GameplayConstants.HORIZON * 0.95f);

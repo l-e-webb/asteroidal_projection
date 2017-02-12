@@ -60,6 +60,11 @@ public abstract class Enemy extends GameObject {
         return true;
     }
 
+    @Override
+    public float getBoundingRadius() {
+        return super.getBoundingRadius() * GameplayConstants.ENEMY_COLLISION_RADIUS_MOD;
+    }
+
     private class AvoidAsteroidDebugRenderer implements ShapeRenderRequest {
         @Override
         public void draw(ShapeRenderer renderer) {

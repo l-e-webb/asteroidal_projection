@@ -16,7 +16,7 @@ public class SeekerEnemy extends Enemy {
     GameObject target;
 
     public SeekerEnemy(float x, float y, GameObject target) {
-        super(x, y, GameplayConstants.SEEKER_RADIUS * 2);
+        super(x, y, GameplayConstants.SEEKER_RADIUS);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SEEKER_MAINTAIN_DISTANCE));
         Weapon weapon = new LaserWeapon(this, false);

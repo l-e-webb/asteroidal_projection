@@ -19,7 +19,8 @@ public class GameplayConstants {
     public static final float PLAYER_BLINDING_PERIOD = 0.2f;
 
     //Enemy
-    public static final float SEEKER_RADIUS = 0.08f;
+    public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
+    public static final float SEEKER_RADIUS = 0.15f;
     public static final float SEEKER_MIN_SPEED = 0.5f;
     public static final float SEEKER_MAX_SPEED = 1.8f;
     public static final float SEEKER_ACCEL = 4f;
@@ -27,7 +28,7 @@ public class GameplayConstants {
     public static final float SEEKER_MAX_ANGULAR_ACCEL = 3 * MathUtils.PI;
     public static final float SEEKER_MAINTAIN_DISTANCE = 3f;
     public static final float SEEKER_WEAPON_RANGE = 4f;
-    public static final float SNIPER_RADIUS = 0.08f;
+    public static final float SNIPER_RADIUS = 0.15f;
     public static final float SNIPER_MIN_SPEED = 0.25f;
     public static final float SNIPER_MAX_SPEED = 1.4f;
     public static final float SNIPER_ACCEL = 3f;
@@ -35,8 +36,8 @@ public class GameplayConstants {
     public static final float SNIPER_MAX_ANGULAR_ACCEL = 3 * MathUtils.PI;
     public static final float SNIPER_MAINTAIN_DISTANCE = 12f;
     public static final float SNIPER_WEAPON_RANGE = 14f;
-    public static final float FLY_BY_RADIUS = 0.08f;
-    public static final float FLY_BY_MIN_SPEED = 1f;
+    public static final float FLY_BY_RADIUS = 0.15f;
+    public static final float FLY_BY_MIN_SPEED = 2.5f;
     public static final float FLY_BY_MAX_SPEED = 5.5f;
     public static final float FLY_BY_ACCEL = 8f;
     public static final float FLY_BY_MAX_ANGULAR_SPEED = MathUtils.PI / 2;
@@ -61,11 +62,13 @@ public class GameplayConstants {
     //Asteroid spawning
     public static final float ASTEROID_SPAWN_AVERAGE = 1.5f;
     public static final float ASTEROID_ANGLE_VAR = 7.5f;
-    public static final int MIN_ASTEROIDS_PRESENT = 3;
+    public static final int MIN_ASTEROIDS_PRESENT = 7;
+    public static final int MAX_ASTEROIDS_PRESENT = 17;
 
     //Enemy spawning
     public static final float ENEMY_SPAWN_AVERAGE = 3f;
     public static final float MIN_ENEMIES_PRESENT = 1;
+    public static final float MAX_ENEMIES_PRESENT = 5;
 
     //Steering behaviors
     public static final float ASTEROID_AVOIDANCE_CENTRAL_RAY_LENGTH = 2f;
