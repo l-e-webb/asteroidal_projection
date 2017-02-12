@@ -2,7 +2,7 @@
 
 Asteroidal Projection is inspired by the classic arcade game Asteroids, but comes with a twist.  The game occurs in the normal Euclidean plane projected into the unit disc.  An entire infinite 2D space is inside the disc-shaped play area.  Sizes and distances are distorted the farther you get from the center.  Objects will appear to shrink and go slower as they near the edges of the disc.
 
-You can play online [here](https:l-e-webb.github.io/asteroidal_projection).
+You can play online [here](https://l-e-webb.github.io/asteroidal_projection).
 
 ##License
 
