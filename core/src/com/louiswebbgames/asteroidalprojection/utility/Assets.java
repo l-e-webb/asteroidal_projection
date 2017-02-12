@@ -38,22 +38,22 @@ public class Assets implements Disposable, AssetErrorListener  {
         assetManager.finishLoading();
 
         TextureAtlas atlas = assetManager.get(Constants.ATLAS_PATH);
-        player = atlas.findRegion("triangle");
-        asteroid = atlas.findRegion("septagon");
-        playerLaser = atlas.findRegion("bluelaser");
-        enemyLaser = atlas.findRegion("redlaser");
+        player = atlas.findRegion(Constants.PLAYER_REGION);
+        asteroid = atlas.findRegion(Constants.ASTEROID_REGION);
+        playerLaser = atlas.findRegion(Constants.PLAYER_LASER_REGION);
+        enemyLaser = atlas.findRegion(Constants.ENEMY_LASER_REGION);
         explosion = new Animation<>(
                 GameplayConstants.EXPLOSION_FRAME_DURATION,
-                atlas.findRegions("explosion"),
+                atlas.findRegions(Constants.EXPLOSION_REGIONS),
                 Animation.PlayMode.NORMAL
         );
-        seekerEnemy = atlas.findRegion("red_triangle");
+        seekerEnemy = atlas.findRegion(Constants.ENEMY_REGION);
         sniperEnemy = seekerEnemy;
         flyByEnemy = seekerEnemy;
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {
-        Gdx.app.error(LOG_TAG, "Unable to load asset " + asset.fileName, throwable);
+        Log.log(LOG_TAG, "Unable to load asset " + asset.fileName);
     }
 
     public void dispose() {

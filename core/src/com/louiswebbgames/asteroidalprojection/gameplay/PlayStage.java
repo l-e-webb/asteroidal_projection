@@ -75,7 +75,7 @@ public class PlayStage extends Stage {
                 renderer.set(ShapeRenderer.ShapeType.Line);
                 renderer.setColor(Color.WHITE);
                 float radius = 0.99f * getViewport().getWorldWidth() / 2;
-                renderer.circle(0, 0, radius, 20);
+                renderer.circle(0, 0, radius, 50);
         };
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
         addEnemy(new SeekerEnemy(17, 0, player));

@@ -1,222 +1,54 @@
 
 sprites.pack.png
-size: 1024,256
+size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 star
   rotate: false
-  xy: 762, 130
+  xy: 306, 96
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 1
 star
   rotate: false
-  xy: 772, 130
+  xy: 356, 170
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 2
 star
   rotate: false
-  xy: 876, 196
+  xy: 382, 196
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 3
-boss
-  rotate: false
-  xy: 306, 190
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 1
-boss
-  rotate: false
-  xy: 306, 124
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 2
-boss
-  rotate: false
-  xy: 420, 190
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 3
-boss
-  rotate: false
-  xy: 306, 58
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 4
-bosscore
-  rotate: false
-  xy: 420, 124
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 1
-bosscore
-  rotate: false
-  xy: 534, 190
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 2
-bosscore
-  rotate: false
-  xy: 420, 58
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 3
-bosscore
-  rotate: false
-  xy: 534, 124
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 4
-bossdamage
-  rotate: false
-  xy: 648, 190
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 1
-bossdamage
-  rotate: false
-  xy: 534, 58
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 2
-bossdamage
-  rotate: false
-  xy: 648, 124
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 3
-bossdamage
-  rotate: false
-  xy: 762, 190
-  size: 112, 64
-  orig: 112, 64
-  offset: 0, 0
-  index: 4
-turret
-  rotate: false
-  xy: 866, 114
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-turretshoot
-  rotate: false
-  xy: 782, 64
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-turretturn
-  rotate: false
-  xy: 896, 172
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-turretturnshoot
-  rotate: false
-  xy: 930, 180
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-enemy
-  rotate: false
-  xy: 356, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-enemy
-  rotate: false
-  xy: 698, 82
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-enemyshoot
-  rotate: false
-  xy: 812, 148
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-enemyshoot
-  rotate: false
-  xy: 926, 214
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-enemyturn
-  rotate: false
-  xy: 398, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-enemyturn
-  rotate: false
-  xy: 968, 214
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-enemyturnshoot
-  rotate: false
-  xy: 440, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-enemyturnshoot
-  rotate: false
-  xy: 482, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
 explosion
   rotate: false
-  xy: 306, 8
+  xy: 306, 206
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 explosion
   rotate: false
-  xy: 648, 74
+  xy: 306, 156
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 explosion
   rotate: false
-  xy: 762, 140
+  xy: 356, 206
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 explosion
   rotate: false
-  xy: 876, 206
+  xy: 306, 106
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -242,135 +74,16 @@ triangle
   orig: 200, 250
   offset: 0, 0
   index: -1
-player
-  rotate: false
-  xy: 524, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-player
-  rotate: false
-  xy: 566, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-playershoot
-  rotate: false
-  xy: 608, 16
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-playershoot
-  rotate: false
-  xy: 650, 32
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-playerturn
-  rotate: false
-  xy: 740, 82
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-playerturn
-  rotate: false
-  xy: 854, 148
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-playerturnshoot
-  rotate: false
-  xy: 782, 98
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 1
-playerturnshoot
-  rotate: false
-  xy: 824, 106
-  size: 40, 40
-  orig: 40, 40
-  offset: 0, 0
-  index: 2
-extralife
-  rotate: false
-  xy: 990, 188
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-missileammo
-  rotate: false
-  xy: 824, 80
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-points
-  rotate: false
-  xy: 850, 80
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-triplelaser
-  rotate: false
-  xy: 698, 56
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
 bluelaser
   rotate: false
-  xy: 964, 188
+  xy: 356, 180
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
-missile
-  rotate: false
-  xy: 650, 6
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: 1
-missile
-  rotate: false
-  xy: 676, 6
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: 2
 redlaser
   rotate: false
-  xy: 876, 88
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-round_lg
-  rotate: false
-  xy: 930, 154
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-round_sm
-  rotate: false
-  xy: 964, 162
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-sharp
-  rotate: false
-  xy: 990, 162
+  xy: 406, 230
   size: 24, 24
   orig: 24, 24
   offset: 0, 0

@@ -4,6 +4,7 @@
               <title>Asteroidal Projection</title>
               <meta http-equiv="content-type" content="text/html; charset=UTF-8">
               <link href="styles.css" rel="stylesheet" type="text/css">
+              <link rel="icon" href="icon.png"/>
               <script src="soundmanager2-setup.js"></script>
   			  <script src="soundmanager2-jsmin.js"></script>
        </head>
@@ -15,13 +16,16 @@
                      <h2 align="center">Asteroidal Projection</h2>
                      <h4>Controls:</h4>
                      <p>
-                            <b>Move:</b> WASD or arrow keys<br>
-                            <b>Fire:</b> Z or left-click<br>
-                            <b>Turn mouse aiming on/off:</b> X<br>
+                            <b>Move:</b> WASD<br>
+                            <b>Fire:</b> left-click<br>
+                            <b>Aim:</b> mouse location
                      </p>
                      <h4>About</h4>
                      <p>
                             Asteroidal Projection is inspired by the classic arcade game Asteroids, but comes with a twist.  The game occurs in the normal Euclidean plane projected into the unit disc.  An entire infinite 2D space is inside the disc-shaped play area.  Sizes and distances are distorted the farther you get from the center.  Objects will appear to shrink and go slower as they near the edges of the disc.
+                     </p>
+                     <p>
+                            <b>Note:</b> this game is still under development.  There will soon be a life total, a score count, powerups, etc.
                      </p>
                      <p>
                             A game by Louis Webb.
@@ -52,5 +56,10 @@
               }
               document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
               document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
+              document.addEventListener("keydown", function (e) {
+                if([37,38,39,40].indexOf(e.keyCode) > -1){
+                  e.preventDefault();
+                }
+              }, false);
        </script>
 </html>
