@@ -2,15 +2,20 @@ package com.louiswebbgames.asteroidalprojection.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AsteroidCollisionDetector;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.*;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.GridRenderer;
+import com.louiswebbgames.asteroidalprojection.ui.HealthRenderer;
+import com.louiswebbgames.asteroidalprojection.ui.ScoreRenderer;
+import com.louiswebbgames.asteroidalprojection.ui.UiConstants;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
@@ -20,6 +25,8 @@ import java.util.Queue;
 import java.util.Set;
 
 public class PlayStage extends Stage {
+
+    int score;
 
     Player player;
     AsteroidSpawner asteroidSpawner;
@@ -177,6 +184,14 @@ public class PlayStage extends Stage {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void incrementScore(int addition) {
+        score += addition;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     @Override

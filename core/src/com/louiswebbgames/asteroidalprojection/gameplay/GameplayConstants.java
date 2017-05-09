@@ -17,6 +17,7 @@ public class GameplayConstants {
     public static final float PLAYER_DAMPENING = 7f;
     public static final float PLAYER_BLINKING_DURATION = 2f;
     public static final float PLAYER_BLINDING_PERIOD = 0.2f;
+    public static final int PLAYER_MAX_HEALTH = 5;
 
     //Enemy
     public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
@@ -28,6 +29,7 @@ public class GameplayConstants {
     public static final float SEEKER_MAX_ANGULAR_ACCEL = 3 * MathUtils.PI;
     public static final float SEEKER_MAINTAIN_DISTANCE = 3f;
     public static final float SEEKER_WEAPON_RANGE = 4f;
+    public static final int SEEKER_POINT_VALUE = 50;
     public static final float SNIPER_RADIUS = 0.15f;
     public static final float SNIPER_MIN_SPEED = 0.25f;
     public static final float SNIPER_MAX_SPEED = 1.4f;
@@ -36,6 +38,7 @@ public class GameplayConstants {
     public static final float SNIPER_MAX_ANGULAR_ACCEL = 3 * MathUtils.PI;
     public static final float SNIPER_MAINTAIN_DISTANCE = 12f;
     public static final float SNIPER_WEAPON_RANGE = 14f;
+    public static final int SNIPER_POINT_VALUE = 60;
     public static final float FLY_BY_RADIUS = 0.15f;
     public static final float FLY_BY_MIN_SPEED = 2.5f;
     public static final float FLY_BY_MAX_SPEED = 5.5f;
@@ -43,6 +46,7 @@ public class GameplayConstants {
     public static final float FLY_BY_MAX_ANGULAR_SPEED = MathUtils.PI / 2;
     public static final float FLY_BY_MAX_ANGULAR_ACCEL = 2 * MathUtils.PI / 3;
     public static final float FLY_BY_WEAPON_RANGE = 5f;
+    public static final int FLY_BY_POINT_VALUE = 70;
 
     //Laser
     public static final float LASER_WIDTH = 0.05f;

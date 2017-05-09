@@ -26,6 +26,7 @@ public class FlyByEnemy extends Enemy {
         Weapon weapon = new LaserWeapon(this, false);
         firePattern = new FireAtTarget(target, FireRate.FAST_DOUBLE_SHOT, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE);
         setBehavior(new Pursue<>(this, target));
+        pointValue = GameplayConstants.FLY_BY_POINT_VALUE;
     }
 
     @Override

@@ -20,6 +20,8 @@ public class Player extends GameObject {
 
     protected PlayerState state;
 
+    protected int health;
+
     protected float dampening;
     protected float fireTimer;
     protected float blinkingTimer;
@@ -36,6 +38,7 @@ public class Player extends GameObject {
         dampening = GameplayConstants.PLAYER_DAMPENING;
         laserWeapon = new LaserWeapon(this, true);
         setState(PlayerState.BLINKING);
+        health = GameplayConstants.PLAYER_MAX_HEALTH;
     }
 
     @Override
@@ -48,6 +51,7 @@ public class Player extends GameObject {
 
     @Override
     public void update(float delta) {
+        if (!alive()) return;
         if (state == PlayerState.BLINKING) {
             blinkingTimer -= delta;
             if (blinkingTimer < 0) {
@@ -71,6 +75,7 @@ public class Player extends GameObject {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (!alive()) return;
         if (state == PlayerState.BLINKING && blinkingTimer % GameplayConstants.PLAYER_BLINDING_PERIOD <
                         GameplayConstants.PLAYER_BLINDING_PERIOD / 2) {
             return;
@@ -115,6 +120,14 @@ public class Player extends GameObject {
         }
     }
 
+    public boolean alive() {
+        return state != PlayerState.DEAD;
+    }
+
+    public int currentHealth() {
+        return health;
+    }
+
     @Override
     public void moveBy(float x, float y) {
         ((PlayStage) getStage()).moveWorld(-x, -y);
@@ -133,7 +146,8 @@ public class Player extends GameObject {
     @Override
     public boolean reportHit(Vector2 hitDirection) {
         if (state != PlayerState.BLINKING) {
-            setState(PlayerState.BLINKING);
+            health -= 1;
+            setState(health > 0 ? PlayerState.BLINKING : PlayerState.DEAD);
             return true;
         }
         return false;
@@ -141,7 +155,8 @@ public class Player extends GameObject {
 
     public enum PlayerState {
         NORMAL,
-        BLINKING
+        BLINKING,
+        DEAD
     }
 
 }

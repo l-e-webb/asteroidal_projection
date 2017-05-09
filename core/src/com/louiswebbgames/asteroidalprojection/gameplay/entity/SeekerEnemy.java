@@ -26,6 +26,7 @@ public class SeekerEnemy extends Enemy {
         setMaxLinearAcceleration(GameplayConstants.SEEKER_ACCEL);
         setMaxAngularSpeed(GameplayConstants.SEEKER_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.SEEKER_MAX_ANGULAR_ACCEL);
+        pointValue = GameplayConstants.SEEKER_POINT_VALUE;
     }
 
     @Override

@@ -19,6 +19,8 @@ public abstract class Enemy extends GameObject {
     EnemyFirePattern firePattern;
     private AvoidAsteroidDebugRenderer debugRenderer = new AvoidAsteroidDebugRenderer();
 
+    protected int pointValue;
+
     public Enemy(float x, float y, float width, float height) {
         super(x, y, width, height, EntityType.ENEMY, CollisionType.CIRCLE);
         independentFacing = false;
@@ -51,7 +53,9 @@ public abstract class Enemy extends GameObject {
 
     @Override
     public void destroy(boolean removeFromCollection) {
-        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_LARGE_RADIUS);
+        PlayStage stage = (PlayStage) getStage();
+        stage.addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_LARGE_RADIUS);
+        stage.incrementScore(pointValue);
         super.destroy(removeFromCollection);
     }
 

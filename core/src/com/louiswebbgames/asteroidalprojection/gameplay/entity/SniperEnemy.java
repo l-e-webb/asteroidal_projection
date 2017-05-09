@@ -26,6 +26,7 @@ public class SniperEnemy extends Enemy {
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SNIPER_MAINTAIN_DISTANCE));
         Weapon weapon = new LaserWeapon(this, false);
         firePattern = new FireAtTarget(target, FireRate.SLOW_DOUBLE_SHOT, weapon, GameplayConstants.SNIPER_WEAPON_RANGE);
+        pointValue = GameplayConstants.SNIPER_POINT_VALUE;
     }
 
     @Override
