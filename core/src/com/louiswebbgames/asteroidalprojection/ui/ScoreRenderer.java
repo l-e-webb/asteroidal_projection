@@ -11,15 +11,15 @@ public class ScoreRenderer extends Label {
 
     public ScoreRenderer(PlayStage playStage) {
         super("", UiConstants.basicLabelStyle);
-        setSize(175, 50);
+        setSize(175, 100);
         this.playStage = playStage;
         setAlignment(Align.center);
-        setDebug(true);
+        setDebug(false);
     }
 
     @Override
     public void act(float delta) {
-        setText("Score: " + playStage.getScore());
+        setText("Score:\n" + playStage.getScore());
         setPosition(getStage().getViewport().getWorldWidth(), getStage().getViewport().getWorldHeight(), Align.topRight);
     }
 }

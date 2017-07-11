@@ -15,15 +15,15 @@ public class HealthRenderer extends Label {
     public HealthRenderer(Player player) {
         super("", UiConstants.basicLabelStyle);
         this.player = player;
-        setSize(175, 50);
+        setSize(175, 100);
         setAlignment(Align.center);
-        setDebug(true);
+        setDebug(false);
     }
 
     @Override
     public void act(float delta) {
         setPosition(0, getStage().getViewport().getWorldHeight(), Align.topLeft);
-        setText("Health: " + player.currentHealth());
+        setText("Health:\n" + player.currentHealth());
     }
 
 }
