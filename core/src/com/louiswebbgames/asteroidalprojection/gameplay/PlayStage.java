@@ -40,6 +40,7 @@ public class PlayStage extends Stage {
     Group asteroidGroup;
     Group projectileGroup;
     Group enemyGroup;
+    Group powerupGroup;
     Group explosionGroup;
 
     ShapeRenderer shapeRenderer;
@@ -59,10 +60,12 @@ public class PlayStage extends Stage {
         AsteroidCollisionDetector.setAsteroids(asteroids);
         projectileGroup = new Group();
         enemyGroup = new Group();
+        powerupGroup = new Group();
         explosionGroup = new Group();
         addActor(enemyGroup);
         addActor(asteroidGroup);
         addActor(projectileGroup);
+        addActor(powerupGroup);
         addActor(explosionGroup);
         worldOffset = new Vector2();
         asteroidSpawner = new AsteroidSpawner();
@@ -146,6 +149,12 @@ public class PlayStage extends Stage {
         projectile.moveBy(-worldOffset.x, -worldOffset.y);
         projectiles.add(projectile);
         projectileGroup.addActor(projectile);
+    }
+
+    public void addPowerup(Powerup powerup) {
+        powerup.moveBy(-worldOffset.x, -worldOffset.y);
+        powerupGroup.addActor(powerup);
+        powerup.setPlayer(player);
     }
 
     public void addExplosion(float x, float y, float radius) {

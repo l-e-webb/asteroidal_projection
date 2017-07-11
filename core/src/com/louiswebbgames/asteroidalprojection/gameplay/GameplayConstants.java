@@ -48,12 +48,38 @@ public class GameplayConstants {
     public static final float FLY_BY_WEAPON_RANGE = 5f;
     public static final int FLY_BY_POINT_VALUE = 70;
 
-    //Laser
-    public static final float LASER_WIDTH = 0.05f;
-    public static final float LASER_HEIGHT = 0.1f;
+    //Projectiles
+    public static final float LASER_WIDTH = 0.15f;
+    public static final float LASER_HEIGHT = 0.15f;
+    public static final float PIERCING_LASER_WIDTH = 0.15f;
+    public static final float PIERCING_LASER_HEIGHT = 0.15f;
+    public static final float ROUND_PROJECTILE_WIDTH = 0.25f;
+    public static final float MISSILE_WIDTH = 0.1f;
+    public static final float MISSILE_HEIGHT = 0.1f;
+    public static final float MISSILE_FRAME_DURATION = 0.25f;
     public static final float PLAYER_LASER_SPEED = 8f;
     public static final float ENEMY_LASER_SPEED = 8f;
+    public static final float PLAYER_ROUND_SPEED = 6f;
+    public static final float ENEMY_ROUND_SPEED = 6f;
+    public static final float PLAYER_MISSILE_INITIAL_SPEED = 5f;
+    public static final float PLAYER_MISSILE_ACCEL = 5f;
+    public static final float ENEMY_MISSILE_INITIAL_SPEED = 5f;
+    public static final float ENEMY_MISSILE_ACCEL = 5f;
     public static final float PLAYER_LASER_COOLDOWN = 0.5f;
+    public static final float PIERCING_LASER_COLLISION_COOLDOWN = 0.15f;
+    public static final float PLAYER_TRIPLE_LASER_SPREAD = 45f;
+
+
+    //Powerups
+    public static final float POWERUP_WIDTH = 0.4f;
+    public static final float POWERUP_HEIGHT = 0.4f;
+    public static final float POWERUP_MIN_SPEED = 0;
+    public static final float POWERUP_MAX_SPEED = 0.2f;
+    public static final float PIERCING_LASER_DURATION = 20f;
+    public static final float TRIPLE_LASER_DURATION = 15f;
+    public static final int POINTS_POWERUP_VALUE = 500;
+    public static final float POWERUP_SPAWN_CHANCE = 0.2f;
+
 
     //Asteroids
     public static final float ASTEROID_SPEED_AVERAGE = 1.8f;

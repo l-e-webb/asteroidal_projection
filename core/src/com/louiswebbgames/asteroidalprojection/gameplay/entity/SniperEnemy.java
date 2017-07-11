@@ -7,7 +7,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireAtTarget;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireRate;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.MaintainDistance;
-import com.louiswebbgames.asteroidalprojection.gameplay.weapon.LaserWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 
@@ -24,7 +24,7 @@ public class SniperEnemy extends Enemy {
         setMaxLinearAcceleration(GameplayConstants.SNIPER_MAX_ANGULAR_ACCEL);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SNIPER_MAINTAIN_DISTANCE));
-        Weapon weapon = new LaserWeapon(this, false);
+        Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_PIERCING_LASER);
         firePattern = new FireAtTarget(target, FireRate.SLOW_DOUBLE_SHOT, weapon, GameplayConstants.SNIPER_WEAPON_RANGE);
         pointValue = GameplayConstants.SNIPER_POINT_VALUE;
     }

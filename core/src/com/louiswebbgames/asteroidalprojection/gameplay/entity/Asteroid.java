@@ -85,12 +85,18 @@ public class Asteroid extends GameObject {
         }
         float angle = hitDirection.angle() + 90;
         PlayStage stage = (PlayStage) getStage();
+        boolean spawnedPowerup = false;
         for (int i = 0; i < pieces; i++) {
             Vector2 heading = new Vector2(1, 0);
             angle += 360f / pieces;
             heading.setAngle(angle);
-            float newRadius = MathUtils.random(0.9f, 1.1f) * averageRadius;
-            stage.addAsteroid(new Asteroid(position.x, position.y, newRadius, heading));
+            if (!spawnedPowerup && Math.random() < GameplayConstants.POWERUP_SPAWN_CHANCE) {
+                stage.addPowerup(Powerup.makeRandomPowerup(position.x, position.y, heading));
+                spawnedPowerup = true;
+            } else {
+                float newRadius = MathUtils.random(0.9f, 1.1f) * averageRadius;
+                stage.addAsteroid(new Asteroid(position.x, position.y, newRadius, heading));
+            }
         }
         destroy();
         return true;

@@ -1,7 +1,6 @@
 package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,7 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
-import com.louiswebbgames.asteroidalprojection.gameplay.weapon.LaserWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.Controls;
@@ -26,7 +26,13 @@ public class Player extends GameObject {
     protected float fireTimer;
     protected float blinkingTimer;
 
+    protected Weapon primaryWeapon;
+    protected Weapon secondaryWeapon;
     protected Weapon laserWeapon;
+    protected Weapon tripleLaserWeapon;
+
+    protected float tripleLaserDuration;
+    protected float piercingLaserDuration;
 
     public Player() {
         super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.CIRCLE);
@@ -36,7 +42,13 @@ public class Player extends GameObject {
         setMinLinearSpeed(0);
         setMaxLinearAcceleration(GameplayConstants.PLAYER_ACCEL);
         dampening = GameplayConstants.PLAYER_DAMPENING;
-        laserWeapon = new LaserWeapon(this, true);
+        laserWeapon = new BaseWeapon(this, Projectile.ProjectileType.PLAYER_LASER);
+        tripleLaserWeapon = new TripleLaserWeapon(
+                this,
+                Projectile.ProjectileType.PLAYER_LASER,
+                GameplayConstants.PLAYER_TRIPLE_LASER_SPREAD
+        );
+        primaryWeapon = laserWeapon;
         setState(PlayerState.BLINKING);
         health = GameplayConstants.PLAYER_MAX_HEALTH;
     }
@@ -65,10 +77,23 @@ public class Player extends GameObject {
                 new Vector2(Gdx.input.getX(), Gdx.input.getY())
         );
         //setOrientation(mouseDirection.angleRad());
+        if (tripleLaserDuration > 0) {
+            tripleLaserDuration -= delta;
+            if (tripleLaserDuration < 0) {
+                primaryWeapon = laserWeapon;
+            }
+        }
+        if (piercingLaserDuration > 0) {
+            piercingLaserDuration -= delta;
+            if (piercingLaserDuration < 0) {
+                laserWeapon.setProjectileType(Projectile.ProjectileType.PLAYER_LASER);
+                tripleLaserWeapon.setProjectileType(Projectile.ProjectileType.PLAYER_LASER);
+            }
+        }
         if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
             fireTimer += delta;
         } else if (Controls.fire() && state != PlayerState.BLINKING) {
-            laserWeapon.fire(mousePosition);
+            primaryWeapon.fire(mousePosition);
             fireTimer = 0;
         }
     }
@@ -151,6 +176,29 @@ public class Player extends GameObject {
             return true;
         }
         return false;
+    }
+
+    public void applyPowerup(Powerup.PowerupType type) {
+        switch (type) {
+            case PIERCING_LASERS:
+                piercingLaserDuration = GameplayConstants.PIERCING_LASER_DURATION;
+                laserWeapon.setProjectileType(Projectile.ProjectileType.PLAYER_PIERCING_LASER);
+                tripleLaserWeapon.setProjectileType(Projectile.ProjectileType.PLAYER_PIERCING_LASER);
+                break;
+            case TRIPLE_LASERS:
+                tripleLaserDuration = GameplayConstants.TRIPLE_LASER_DURATION;
+                primaryWeapon = tripleLaserWeapon;
+                break;
+            case EXTRA_HEALTH:
+                health = GameplayConstants.PLAYER_MAX_HEALTH;
+                break;
+            case MISSILE_AMMO:
+                //TODO
+                break;
+            case POINTS:
+                ((PlayStage)getStage()).incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);
+                break;
+        }
     }
 
     public enum PlayerState {

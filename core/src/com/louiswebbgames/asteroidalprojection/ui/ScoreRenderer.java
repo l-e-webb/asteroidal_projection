@@ -19,7 +19,7 @@ public class ScoreRenderer extends Label {
 
     @Override
     public void act(float delta) {
-        setText("Score: " + (playStage).getScore());
+        setText("Score: " + playStage.getScore());
         setPosition(getStage().getViewport().getWorldWidth(), getStage().getViewport().getWorldHeight(), Align.topRight);
     }
 }

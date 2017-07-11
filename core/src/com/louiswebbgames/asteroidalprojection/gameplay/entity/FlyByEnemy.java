@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireAtTarget;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireRate;
-import com.louiswebbgames.asteroidalprojection.gameplay.weapon.LaserWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 
@@ -23,7 +23,7 @@ public class FlyByEnemy extends Enemy {
         setMaxAngularSpeed(GameplayConstants.FLY_BY_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.FLY_BY_MAX_ANGULAR_ACCEL);
         this.target = target;
-        Weapon weapon = new LaserWeapon(this, false);
+        Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
         firePattern = new FireAtTarget(target, FireRate.FAST_DOUBLE_SHOT, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE);
         setBehavior(new Pursue<>(this, target));
         pointValue = GameplayConstants.FLY_BY_POINT_VALUE;

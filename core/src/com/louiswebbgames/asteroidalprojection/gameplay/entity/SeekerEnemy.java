@@ -7,7 +7,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireAtTarget;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireRate;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.MaintainDistance;
-import com.louiswebbgames.asteroidalprojection.gameplay.weapon.LaserWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 
@@ -19,7 +19,7 @@ public class SeekerEnemy extends Enemy {
         super(x, y, GameplayConstants.SEEKER_RADIUS);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SEEKER_MAINTAIN_DISTANCE));
-        Weapon weapon = new LaserWeapon(this, false);
+        Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
         firePattern = new FireAtTarget(target, FireRate.FAST, weapon, GameplayConstants.SEEKER_WEAPON_RANGE);
         setMaxLinearSpeed(GameplayConstants.SEEKER_MAX_SPEED);
         setMinLinearSpeed(GameplayConstants.SEEKER_MIN_SPEED);

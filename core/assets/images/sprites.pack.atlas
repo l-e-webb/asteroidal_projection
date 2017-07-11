@@ -6,21 +6,21 @@ filter: Nearest,Nearest
 repeat: none
 star
   rotate: false
-  xy: 306, 96
+  xy: 332, 96
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 1
 star
   rotate: false
-  xy: 356, 170
+  xy: 356, 118
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 2
 star
   rotate: false
-  xy: 382, 196
+  xy: 406, 220
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -74,6 +74,41 @@ triangle
   orig: 200, 250
   offset: 0, 0
   index: -1
+extralife
+  rotate: false
+  xy: 356, 154
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+missileammo
+  rotate: false
+  xy: 356, 128
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+piercinglaser
+  rotate: false
+  xy: 458, 230
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+points
+  rotate: false
+  xy: 306, 28
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+triplelaser
+  rotate: false
+  xy: 382, 154
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
 bluelaser
   rotate: false
   xy: 356, 180
@@ -81,9 +116,51 @@ bluelaser
   orig: 24, 24
   offset: 0, 0
   index: -1
-redlaser
+blueround
   rotate: false
   xy: 406, 230
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+bluesharp
+  rotate: false
+  xy: 306, 80
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+missile
+  rotate: false
+  xy: 432, 230
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: 1
+missile
+  rotate: false
+  xy: 306, 54
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: 2
+redlaser
+  rotate: false
+  xy: 306, 2
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+redround
+  rotate: false
+  xy: 484, 230
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+redsharp
+  rotate: false
+  xy: 382, 180
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
