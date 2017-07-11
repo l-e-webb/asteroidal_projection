@@ -20,7 +20,7 @@ public class SeekerEnemy extends Enemy {
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SEEKER_MAINTAIN_DISTANCE));
         Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
-        firePattern = new FireAtTarget(target, FireRate.FAST, weapon, GameplayConstants.SEEKER_WEAPON_RANGE);
+        addActor(new FireAtTarget(0, 0, target, FireRate.FAST, weapon, GameplayConstants.SEEKER_WEAPON_RANGE));
         setMaxLinearSpeed(GameplayConstants.SEEKER_MAX_SPEED);
         setMinLinearSpeed(GameplayConstants.SEEKER_MIN_SPEED);
         setMaxLinearAcceleration(GameplayConstants.SEEKER_ACCEL);

@@ -24,7 +24,7 @@ public class FlyByEnemy extends Enemy {
         setMaxAngularAcceleration(GameplayConstants.FLY_BY_MAX_ANGULAR_ACCEL);
         this.target = target;
         Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
-        firePattern = new FireAtTarget(target, FireRate.FAST_DOUBLE_SHOT, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE);
+        addActor(new FireAtTarget(0, 0, target, FireRate.FAST_DOUBLE_SHOT, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE));
         setBehavior(new Pursue<>(this, target));
         pointValue = GameplayConstants.FLY_BY_POINT_VALUE;
     }

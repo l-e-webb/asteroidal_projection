@@ -18,6 +18,8 @@ public class GameplayConstants {
     public static final float PLAYER_BLINKING_DURATION = 2f;
     public static final float PLAYER_BLINDING_PERIOD = 0.2f;
     public static final int PLAYER_MAX_HEALTH = 5;
+    public static final float PLAYER_TRIPLE_LASER_SPREAD = 45f;
+    public static final float PLAYER_LASER_COOLDOWN = 0.5f;
 
     //Enemy
     public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
@@ -48,6 +50,25 @@ public class GameplayConstants {
     public static final float FLY_BY_WEAPON_RANGE = 5f;
     public static final int FLY_BY_POINT_VALUE = 70;
 
+    //Cruisers
+    public static final float CRUISER_WIDTH = 0.55f;
+    public static final float CRUISER_HEIGHT = 0.9f;
+    public static final float CRUISER_MIN_SPEED = 0.75f;
+    public static final float CRUISER_MAX_SPEED = 1.5f;
+    public static final float CRUISER_ACCEL = 2f;
+    public static final float CRUISER_MAX_ANGULAR_SPEED = MathUtils.PI / 4;
+    public static final float CRUISER_MAX_ANGULAR_ACCEL = MathUtils.PI / 2;
+    public static final float CRUISER_MAIN_GUN_RANGE = 8f;
+    public static final float CRUISER_MAIN_GUN_SPREAD = 25f;
+    public static final float CRUISER_SECONDARY_GUN_RANGE = 4.5f;
+    public static final float CRUISER_SPREAD_GUN_RANGE = 4.5f;
+    public static final float CRUISER_SPREAD_GUN_SPREAD = 30f;
+    public static final int CRUISER_SPREAD_GUN_NUM_SHOTS = 10;
+    public static final float CRUISER_POINT_DEFENSE_RANGE = 2f;
+    public static final int CRUISER_HEALTH = 50;
+    public static final float ASTEROID_RADIUS_DAMAGE_CUTOFF = 0.25f;
+    public static final int CRUISER_POINT_VALUE = 1000;
+
     //Projectiles
     public static final float LASER_WIDTH = 0.15f;
     public static final float LASER_HEIGHT = 0.15f;
@@ -65,9 +86,7 @@ public class GameplayConstants {
     public static final float PLAYER_MISSILE_ACCEL = 5f;
     public static final float ENEMY_MISSILE_INITIAL_SPEED = 5f;
     public static final float ENEMY_MISSILE_ACCEL = 5f;
-    public static final float PLAYER_LASER_COOLDOWN = 0.5f;
     public static final float PIERCING_LASER_COLLISION_COOLDOWN = 0.15f;
-    public static final float PLAYER_TRIPLE_LASER_SPREAD = 45f;
 
 
     //Powerups
@@ -78,7 +97,7 @@ public class GameplayConstants {
     public static final float PIERCING_LASER_DURATION = 20f;
     public static final float TRIPLE_LASER_DURATION = 15f;
     public static final int POINTS_POWERUP_VALUE = 500;
-    public static final float POWERUP_SPAWN_CHANCE = 0.2f;
+    public static final float POWERUP_SPAWN_CHANCE = 0.125f;
 
 
     //Asteroids

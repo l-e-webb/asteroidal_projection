@@ -29,6 +29,7 @@ public class Assets implements Disposable, AssetErrorListener  {
     public TextureRegion seekerEnemy;
     public TextureRegion sniperEnemy;
     public TextureRegion flyByEnemy;
+    public TextureRegion cruiserEnemy;
     public TextureRegion extraHealthPowerup;
     public TextureRegion missileAmmoPowerup;
     public TextureRegion piercingLaserPowerup;
@@ -74,6 +75,7 @@ public class Assets implements Disposable, AssetErrorListener  {
         seekerEnemy = atlas.findRegion(Constants.ENEMY_REGION);
         sniperEnemy = seekerEnemy;
         flyByEnemy = seekerEnemy;
+        cruiserEnemy = seekerEnemy;
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {

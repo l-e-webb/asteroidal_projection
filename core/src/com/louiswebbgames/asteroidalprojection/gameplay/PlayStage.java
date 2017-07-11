@@ -1,6 +1,7 @@
 package com.louiswebbgames.asteroidalprojection.gameplay;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -42,6 +43,7 @@ public class PlayStage extends Stage {
     Group enemyGroup;
     Group powerupGroup;
     Group explosionGroup;
+    int numCruisers;
 
     ShapeRenderer shapeRenderer;
     Queue<ShapeRenderRequest> renderRequestQueue;
@@ -88,7 +90,7 @@ public class PlayStage extends Stage {
                 renderer.circle(0, 0, radius, 50);
         };
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
-        addEnemy(new SeekerEnemy(17, 0, player));
+
     }
 
     protected void initPlayer() {
@@ -99,6 +101,7 @@ public class PlayStage extends Stage {
     @Override
     public void act(float delta) {
         super.act(delta);
+        GdxAI.getTimepiece().update(delta);
         asteroidSpawner.update(delta);
         enemySpawner.update(delta);
     }
@@ -136,6 +139,10 @@ public class PlayStage extends Stage {
         enemy.moveBy(-worldOffset.x, -worldOffset.y);
         enemies.add(enemy);
         enemyGroup.addActor(enemy);
+        if (enemy instanceof  EnemyCruiser) {
+            ((EnemyCruiser)enemy).initPointDefense();
+            incrementNumCruisers(1);
+        }
     }
 
     public void addAsteroid(Asteroid asteroid) {
@@ -176,6 +183,9 @@ public class PlayStage extends Stage {
                 break;
             case ENEMY:
                 enemies.remove(object);
+                if (object instanceof EnemyCruiser) {
+                    numCruisers--;
+                }
         }
     }
 
@@ -197,6 +207,10 @@ public class PlayStage extends Stage {
 
     public void incrementScore(int addition) {
         score += addition;
+    }
+
+    public void incrementNumCruisers(int addition) {
+        numCruisers += addition;
     }
 
     public int getScore() {
@@ -271,16 +285,21 @@ public class PlayStage extends Stage {
                 pos.setAngle(MathUtils.random(360f));
                 pos.setLength(GameplayConstants.HORIZON * 0.95f);
                 Enemy enemy;
-                switch (MathUtils.random(2)) {
-                    case 0:default:
-                        enemy = new SeekerEnemy(pos.x, pos.y, player);
-                        break;
-                    case 1:
-                        enemy = new SniperEnemy(pos.x, pos.y, player);
-                        break;
-                    case 2:
-                        enemy = new FlyByEnemy(pos.x, pos.y, player);
-                        break;
+                if (numCruisers == 0) {
+                    enemy = new EnemyCruiser(pos.x, pos.y, player);
+                } else {
+                    switch (MathUtils.random(2)) {
+                        case 0:
+                        default:
+                            enemy = new SeekerEnemy(pos.x, pos.y, player);
+                            break;
+                        case 1:
+                            enemy = new SniperEnemy(pos.x, pos.y, player);
+                            break;
+                        case 2:
+                            enemy = new FlyByEnemy(pos.x, pos.y, player);
+                            break;
+                    }
                 }
                 addEnemy(enemy);
                 setNext();

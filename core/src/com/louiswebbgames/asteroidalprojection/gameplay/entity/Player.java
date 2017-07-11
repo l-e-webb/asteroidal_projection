@@ -13,6 +13,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.Controls;
+import com.louiswebbgames.asteroidalprojection.utility.Log;
 
 public class Player extends GameObject {
 

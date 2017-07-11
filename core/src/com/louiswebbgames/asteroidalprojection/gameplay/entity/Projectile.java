@@ -40,14 +40,13 @@ public class Projectile extends GameObject {
             Asteroid asteroid = iterator.next();
             if (collidesWith(asteroid)) {
                 Log.log(LOG_TAG, "Projectile colliding with asteroid at " + getPosition().toString());
-                if (asteroid.reportHit(linearVelocity)) {
-                    if (isPiercing()) {
-                        timeSinceCollision = 0;
-                    } else {
-                        destroy();
-                    }
-                    return;
+                asteroid.reportHit(linearVelocity);
+                if (isPiercing()) {
+                    timeSinceCollision = 0;
+                } else {
+                    destroy();
                 }
+                return;
             }
         }
 
@@ -57,30 +56,31 @@ public class Projectile extends GameObject {
                 if (collidesWith(enemy)) {
                     Log.log(LOG_TAG, "Player projectile colliding with enemy at " + getPosition().toString());
                     if (enemy.reportHit(linearVelocity)) {
-                        if (isPiercing()) {
-                            timeSinceCollision = 0;
-                        } else {
-                            destroy();
-                        }
                         iterator.remove();
-                        return;
                     }
+                    if (isPiercing()) {
+                        timeSinceCollision = 0;
+                    } else {
+                        destroy();
+                    }
+                    return;
                 }
             }
         } else {
             Player player = ((PlayStage)getStage()).getPlayer();
             if (collidesWith(player)) {
                 Log.log(LOG_TAG, "Enemy projectile colliding with player at " + getPosition().toString());
-                if (player.reportHit(linearVelocity)) {
-                    if (isPiercing()) {
-                        timeSinceCollision = 0;
-                    } else {
-                        destroy();
-                    }
+                player.reportHit(linearVelocity);
+                if (isPiercing()) {
+                    timeSinceCollision = 0;
+                } else {
+                    destroy();
                 }
             }
         }
     }
+
+
 
     public boolean isPiercing() {
         return (projectileType == ProjectileType.ENEMY_PIERCING_LASER || projectileType == ProjectileType.PLAYER_PIERCING_LASER);

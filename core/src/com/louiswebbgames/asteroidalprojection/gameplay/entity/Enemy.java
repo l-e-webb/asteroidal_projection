@@ -1,7 +1,6 @@
 package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
-import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
 import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,13 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AvoidAsteroids;
-import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.EnemyFirePattern;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
 import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
 public abstract class Enemy extends GameObject {
 
-    EnemyFirePattern firePattern;
     private AvoidAsteroidDebugRenderer debugRenderer = new AvoidAsteroidDebugRenderer();
 
     protected int pointValue;
@@ -28,12 +25,6 @@ public abstract class Enemy extends GameObject {
 
     public Enemy(float x, float y, float radius) {
         this(x, y, radius * 2, radius * 2);
-    }
-
-    @Override
-    public void update(float delta) {
-        super.update(delta);
-        firePattern.update(delta);
     }
 
     @Override

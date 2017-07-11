@@ -49,6 +49,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     boolean independentFacing = false;
     boolean independentScaling = true;
+    boolean independentExistence = true;
 
     public GameObject(float x, float y, float width, float height, EntityType type, CollisionType colType) {
         linearVelocity = new Vector2(1, 0);
@@ -73,11 +74,14 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
         updatePositionVector();
 
-        if (distanceFromOrigin() > GameplayConstants.HORIZON) {
+        if (independentExistence && distanceFromOrigin() > GameplayConstants.HORIZON) {
             destroy();
             return;
         }
         update(delta);
+
+        if (!independentExistence) return;
+
         calculateVelocity(delta);
         moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
         if (independentFacing) {
@@ -169,6 +173,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        if (getTexture() == null) return;
         Vector2 projectedPosition = getProjectedPosition();
         float xOffset = getWidth() * getScaleX() / 2;
         float yOffset = getHeight() * getScaleY() / 2;
@@ -358,6 +363,10 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     public float distance(GameObject object) {
         return position.dst(object.position);
+    }
+
+    public float distance2(GameObject object) {
+        return position.dst2(object.position);
     }
 
     public float distanceFromOrigin() {

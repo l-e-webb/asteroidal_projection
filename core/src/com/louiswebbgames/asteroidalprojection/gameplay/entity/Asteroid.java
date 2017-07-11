@@ -38,12 +38,15 @@ public class Asteroid extends GameObject {
                 if (enemy.reportHit(new Vector2(enemy.getPosition()).sub(getPosition()))) {
                     iterator.remove();
                 }
+                reportHit(new Vector2(getPosition()).sub(enemy.getPosition()));
+                return;
             }
         }
         Player player = stage.getPlayer();
         if (collidesWith(player)) {
             Log.log(LOG_TAG, "Asteroid colliding with player at " + getPosition().toString());
             player.reportHit(new Vector2(player.getPosition()).sub(getPosition()));
+            reportHit(new Vector2(getPosition()).sub(player.getPosition()));
         }
     }
 
@@ -70,7 +73,6 @@ public class Asteroid extends GameObject {
 
     @Override
     public boolean reportHit(Vector2 hitDirection) {
-        Log.log(LOG_TAG, "Reporting hit on asteroid.");
         float radius = getWidth() / 2;
         if (radius < GameplayConstants.ASTEROID_MIN_RADIUS) {
             destroy();

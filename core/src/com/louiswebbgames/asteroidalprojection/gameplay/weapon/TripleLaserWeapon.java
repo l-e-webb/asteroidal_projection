@@ -3,6 +3,7 @@ package com.louiswebbgames.asteroidalprojection.gameplay.weapon;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.GameObject;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.Projectile;
+import com.louiswebbgames.asteroidalprojection.utility.Log;
 
 public class TripleLaserWeapon extends BaseWeapon {
 
@@ -18,10 +19,10 @@ public class TripleLaserWeapon extends BaseWeapon {
     }
 
     @Override
-    public void fire(Vector2 target) {
-        super.fire(target);
-        super.fire(target.rotate(spread));
-        super.fire(target.rotate(-2 * spread));
+    protected void launchProjectile(Vector2 heading) {
+        super.launchProjectile(heading);
+        super.launchProjectile(new Vector2(heading).rotate(spread));
+        super.launchProjectile(new Vector2(heading).rotate(-spread));
     }
 
     public void setSpread(float spread) {

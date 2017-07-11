@@ -25,4 +25,8 @@ public abstract class Weapon {
     public void setProjectileType(Projectile.ProjectileType projectileType) {
         this.projectileType = projectileType;
     }
+
+    public void setMount(GameObject mount) {
+        this.mount = mount;
+    }
 }

@@ -5,6 +5,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.GameObject;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.Projectile;
+import com.louiswebbgames.asteroidalprojection.utility.Log;
 
 public class BaseWeapon extends Weapon {
 
@@ -14,7 +15,7 @@ public class BaseWeapon extends Weapon {
 
     @Override
     public void fire(GameObject target) {
-        this.fire(target.getPosition());
+        this.fire(new Vector2(target.getPosition()));
     }
 
     @Override
@@ -22,6 +23,11 @@ public class BaseWeapon extends Weapon {
         Vector2 sourcePosition = mount.getPosition();
         Vector2 heading = new Vector2(target)
                 .sub(sourcePosition);
+        launchProjectile(heading);
+    }
+
+    protected void launchProjectile(Vector2 heading) {
+        Vector2 sourcePosition = mount.getPosition();
         ((PlayStage) mount.getStage()).addProjectile(new Projectile(sourcePosition.x, sourcePosition.y, heading, projectileType));
     }
 
