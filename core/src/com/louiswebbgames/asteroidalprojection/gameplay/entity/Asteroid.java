@@ -52,7 +52,7 @@ public class Asteroid extends GameObject {
 
     @Override
     public void destroy(boolean removeFromCollection) {
-        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RDAIUS);
+        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RADIUS);
         super.destroy(removeFromCollection);
     }
 

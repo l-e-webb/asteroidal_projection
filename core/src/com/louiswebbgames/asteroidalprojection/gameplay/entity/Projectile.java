@@ -21,6 +21,8 @@ public class Projectile extends GameObject {
         super(x, y, getProjectileWidth(type), getProjectileHeight(type), EntityType.PROJECTILE, CollisionType.POINT);
         this.projectileType = type;
         texture = getProjectileTexture(type);
+        setMaxLinearSpeed(Projectile.getProjectileSpeed(type));
+        setMinLinearSpeed(Projectile.getProjectileSpeed(type));
         this.linearVelocity = heading.setLength(Projectile.getProjectileSpeed(type));
         setOrientation(heading.angleRad());
         timeSinceCollision = Float.MAX_VALUE;
@@ -60,6 +62,7 @@ public class Projectile extends GameObject {
                     }
                     if (isPiercing()) {
                         timeSinceCollision = 0;
+                        ((PlayStage)getStage()).addExplosion(getX(), getY(), GameplayConstants.EXPLOSION_TINY_RADIUS);
                     } else {
                         destroy();
                     }
@@ -139,10 +142,8 @@ public class Projectile extends GameObject {
                 return GameplayConstants.PLAYER_ROUND_SPEED;
             case ENEMY_ROUND_LASER:
                 return GameplayConstants.ENEMY_ROUND_SPEED;
-            case PLAYER_MISSILE:
-                return GameplayConstants.PLAYER_MISSILE_INITIAL_SPEED;
-            case ENEMY_MISSILE:
-                return GameplayConstants.ENEMY_MISSILE_INITIAL_SPEED;
+            case PLAYER_MISSILE:case ENEMY_MISSILE:
+                return GameplayConstants.MISSILE_MIN_SPEED;
         }
     }
 

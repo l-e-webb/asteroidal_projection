@@ -10,7 +10,7 @@ This is a free game made in libGDX, licensed under a [Creative Commons Attributi
 
 ##Version history
 
-Note that this game is still under development.  Features such as a life total, score counter, and powerups will be added.
+Note that this game is still under development.  Additional features are still being added.
 
 v1.0 Playable game completed
 

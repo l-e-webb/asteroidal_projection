@@ -22,13 +22,13 @@ public class GridRenderer implements ShapeRenderRequest {
     public void draw(ShapeRenderer renderer) {
         renderer.setColor(Color.WHITE);
         renderer.set(ShapeRenderer.ShapeType.Point);
-        int dotsPerRow = (int) (GameplayConstants.HORIZON * 2 / gridWidth);
+        int dotsPerRow = (int) (GameplayConstants.GRID_HORIZON * 2 / gridWidth);
         for (int i = 0; i < dotsPerRow; i++) {
             for (int j = 0; j < dotsPerRow; j++) {
                 Vector2 position = Projection.project(
                         new Vector2(
-                                i * gridWidth - GameplayConstants.HORIZON,
-                                j * gridWidth - GameplayConstants.HORIZON
+                                i * gridWidth - GameplayConstants.GRID_HORIZON,
+                                j * gridWidth - GameplayConstants.GRID_HORIZON
                         ).add(offset)
                 );
                 renderer.point(position.x, position.y, 0);

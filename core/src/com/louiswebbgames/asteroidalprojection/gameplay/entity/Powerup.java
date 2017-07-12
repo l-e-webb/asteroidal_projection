@@ -83,7 +83,7 @@ public class Powerup extends GameObject {
         } else if (seed < 0.8f) {
             type = PowerupType.POINTS;
         } else {
-            type = PowerupType.TRIPLE_LASERS;
+            type = PowerupType.MISSILE_AMMO;
         }
         return new Powerup(x, y, heading, type);
     }

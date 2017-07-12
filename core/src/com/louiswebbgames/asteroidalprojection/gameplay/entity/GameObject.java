@@ -32,6 +32,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     protected static SteeringAcceleration<Vector2> accel =
             new SteeringAcceleration<Vector2>(new Vector2(0,0));
 
+    float timeSinceSpawn;
     SteeringBehavior<Vector2> behavior;
     Vector2 position;
     Vector2 linearVelocity;
@@ -62,6 +63,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         updateFrame = 0;
         updateScale();
         this.collisionType = colType;
+        timeSinceSpawn = 0;
     }
 
     public GameObject(float x, float y, float radius, EntityType type, CollisionType colType) {
@@ -71,6 +73,8 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        timeSinceSpawn += delta;
 
         updatePositionVector();
 

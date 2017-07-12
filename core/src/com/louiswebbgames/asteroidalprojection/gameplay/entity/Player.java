@@ -9,6 +9,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
+import com.louiswebbgames.asteroidalprojection.gameplay.weapon.MissileLauncher;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
@@ -22,15 +23,18 @@ public class Player extends GameObject {
     protected PlayerState state;
 
     protected int health;
+    protected int missileAmmo;
 
     protected float dampening;
     protected float fireTimer;
+    protected float missileFireTimer;
     protected float blinkingTimer;
 
     protected Weapon primaryWeapon;
     protected Weapon secondaryWeapon;
     protected Weapon laserWeapon;
     protected Weapon tripleLaserWeapon;
+    protected Weapon missileLauncher;
 
     protected float tripleLaserDuration;
     protected float piercingLaserDuration;
@@ -43,6 +47,9 @@ public class Player extends GameObject {
         setMinLinearSpeed(0);
         setMaxLinearAcceleration(GameplayConstants.PLAYER_ACCEL);
         dampening = GameplayConstants.PLAYER_DAMPENING;
+    }
+
+    public void init() {
         laserWeapon = new BaseWeapon(this, Projectile.ProjectileType.PLAYER_LASER);
         tripleLaserWeapon = new TripleLaserWeapon(
                 this,
@@ -50,8 +57,11 @@ public class Player extends GameObject {
                 GameplayConstants.PLAYER_TRIPLE_LASER_SPREAD
         );
         primaryWeapon = laserWeapon;
+        missileLauncher = new MissileLauncher(this, ((PlayStage)getStage()).getEnemies(), true);
+        secondaryWeapon = missileLauncher;
         setState(PlayerState.BLINKING);
         health = GameplayConstants.PLAYER_MAX_HEALTH;
+        missileAmmo = 999;
     }
 
     @Override
@@ -93,9 +103,17 @@ public class Player extends GameObject {
         }
         if (fireTimer < GameplayConstants.PLAYER_LASER_COOLDOWN) {
             fireTimer += delta;
-        } else if (Controls.fire() && state != PlayerState.BLINKING) {
+        } else if (Controls.fire() && state == PlayerState.NORMAL) {
             primaryWeapon.fire(mousePosition);
             fireTimer = 0;
+        }
+        if (missileFireTimer < GameplayConstants.PLAYER_MISSILE_COOLDOWN) {
+            missileFireTimer += delta;
+        } else if (missileAmmo > 0 && Controls.secondaryFire() && state == PlayerState.NORMAL) {
+            Vector2 targetLoc = Projection.unproject(mousePosition);
+            secondaryWeapon.fire(targetLoc);
+            missileFireTimer = 0;
+            missileAmmo--;
         }
     }
 
@@ -194,7 +212,7 @@ public class Player extends GameObject {
                 health = GameplayConstants.PLAYER_MAX_HEALTH;
                 break;
             case MISSILE_AMMO:
-                //TODO
+                missileAmmo += GameplayConstants.MISSILE_AMMO_AMOUNT;
                 break;
             case POINTS:
                 ((PlayStage)getStage()).incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);

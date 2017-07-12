@@ -28,8 +28,14 @@ public class EnemyCruiser extends Enemy {
         setMaxLinearAcceleration(GameplayConstants.CRUISER_ACCEL);
         setMaxAngularSpeed(GameplayConstants.CRUISER_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.CRUISER_MAX_ANGULAR_ACCEL);
-        health = GameplayConstants.CRUISER_HEALTH;
         pointValue = GameplayConstants.CRUISER_POINT_VALUE;
+    }
+
+    @Override
+    public void init() {
+        PlayStage stage = (PlayStage) getStage();
+        stage.incrementNumCruisers(1);
+        health = GameplayConstants.CRUISER_HEALTH;
         addActor(new FireAtTarget(
                 0,
                 0,
@@ -60,13 +66,18 @@ public class EnemyCruiser extends Enemy {
                 ),
                 GameplayConstants.CRUISER_SPREAD_GUN_RANGE
         ));
-    }
-
-    public void initPointDefense() {
-        Iterable<Asteroid> asteroids = ((PlayStage)getStage()).getAsteroids();
+        Iterable<Asteroid> asteroids = stage.getAsteroids();
         addActor(new PointDefense(0, getHeight() / 2, asteroids));
         addActor(new PointDefense(getWidth() / 2, -getHeight() / 2, asteroids));
         addActor(new PointDefense(-getWidth() / 2, -getHeight() / 2, asteroids));
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+    }
+
+    public int getHealth() {
+        return health;
     }
 
     @Override
@@ -76,8 +87,13 @@ public class EnemyCruiser extends Enemy {
     }
 
     @Override
+    public float getExplosionRadius() {
+        return GameplayConstants.CRUISER_EXPLOSION_RADIUS;
+    }
+
+    @Override
     public boolean reportHit(Vector2 direction) {
-        health--;
+        takeDamage(1);
         if (health <= 0) {
             destroy(false);
             return true;

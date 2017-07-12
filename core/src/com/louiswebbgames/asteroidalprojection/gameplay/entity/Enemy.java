@@ -28,6 +28,8 @@ public abstract class Enemy extends GameObject {
         this(x, y, radius * 2, radius * 2);
     }
 
+    public void init() {}
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -46,7 +48,7 @@ public abstract class Enemy extends GameObject {
     @Override
     public void destroy(boolean removeFromCollection) {
         PlayStage stage = (PlayStage) getStage();
-        stage.addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_LARGE_RADIUS);
+        stage.addExplosion(position.x, position.y, getExplosionRadius());
         stage.incrementScore(pointValue);
         super.destroy(removeFromCollection);
     }
@@ -59,6 +61,10 @@ public abstract class Enemy extends GameObject {
     @Override
     public float getBoundingRadius() {
         return super.getBoundingRadius() * GameplayConstants.ENEMY_COLLISION_RADIUS_MOD;
+    }
+
+    public float getExplosionRadius() {
+        return GameplayConstants.EXPLOSION_LARGE_RADIUS;
     }
 
     private class AvoidAsteroidDebugRenderer implements ShapeRenderRequest {

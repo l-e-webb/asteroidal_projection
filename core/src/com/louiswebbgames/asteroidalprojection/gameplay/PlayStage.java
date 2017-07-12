@@ -3,20 +3,15 @@ package com.louiswebbgames.asteroidalprojection.gameplay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AsteroidCollisionDetector;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.*;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.GridRenderer;
-import com.louiswebbgames.asteroidalprojection.ui.HealthRenderer;
-import com.louiswebbgames.asteroidalprojection.ui.ScoreRenderer;
-import com.louiswebbgames.asteroidalprojection.ui.UiConstants;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
@@ -55,10 +50,10 @@ public class PlayStage extends Stage {
 
     public PlayStage(Viewport viewport) {
         super(viewport);
-        initPlayer();
         projectiles = new HashSet<>();
         asteroids = new HashSet<>();
         enemies = new HashSet<>();
+        initPlayer();
         asteroidGroup = new Group();
         AsteroidCollisionDetector.setAsteroids(asteroids);
         projectileGroup = new Group();
@@ -96,6 +91,7 @@ public class PlayStage extends Stage {
     protected void initPlayer() {
         player = new Player();
         addActor(player);
+        player.init();
     }
 
     @Override
@@ -140,10 +136,7 @@ public class PlayStage extends Stage {
         enemy.moveBy(-worldOffset.x, -worldOffset.y);
         enemies.add(enemy);
         enemyGroup.addActor(enemy);
-        if (enemy instanceof  EnemyCruiser) {
-            ((EnemyCruiser)enemy).initPointDefense();
-            incrementNumCruisers(1);
-        }
+        enemy.init();
     }
 
     public void addAsteroid(Asteroid asteroid) {
@@ -170,6 +163,11 @@ public class PlayStage extends Stage {
         explosionGroup.addActor(new Explosion(x, y, radius));
     }
 
+    public void addExplosion(Explosion explosion) {
+        explosion.moveBy(-worldOffset.x, -worldOffset.y);
+        explosionGroup.addActor(explosion);
+    }
+
     public void addShapeRenderRequest(ShapeRenderRequest request) {
         renderRequestQueue.add(request);
     }
@@ -184,9 +182,6 @@ public class PlayStage extends Stage {
                 break;
             case ENEMY:
                 enemies.remove(object);
-                if (object instanceof EnemyCruiser) {
-                    numCruisers--;
-                }
         }
     }
 
@@ -242,7 +237,7 @@ public class PlayStage extends Stage {
                     || asteroids.size() < GameplayConstants.MIN_ASTEROIDS_PRESENT) {
                 Vector2 pos = new Vector2(1, 0);
                 pos.setAngle(MathUtils.random(360f));
-                pos.setLength(GameplayConstants.HORIZON * 0.95f);
+                pos.setLength(GameplayConstants.HORIZON * GameplayConstants.HORIZON_SPAWN_POINT_RATIO);
                 Vector2 velocity = new Vector2(1, 0);
                 velocity.setAngle(
                         pos.angle() + 180 +

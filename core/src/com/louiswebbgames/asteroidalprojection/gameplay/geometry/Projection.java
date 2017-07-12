@@ -37,6 +37,19 @@ public class Projection {
     }
 
     public static Vector2 project(float x, float y) {
-        return Projection.project(new Vector2(x, y));
+        return project(new Vector2(x, y));
+    }
+
+    public static Vector2 unproject(Vector2 point) {
+        Vector2 unprojection = new Vector2(1, 0);
+        unprojection.setAngle(point.angle());
+        unprojection.setLength(
+                (1 / projectionScale) * -point.len() / (1 - point.len())
+        );
+        return unprojection;
+    }
+
+    public static Vector2 unproject(float x, float y) {
+        return unproject(new Vector2(x, y));
     }
 }
