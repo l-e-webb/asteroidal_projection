@@ -28,6 +28,7 @@ import java.util.Set;
 public class PlayStage extends Stage {
 
     int score;
+    float time;
 
     Player player;
     AsteroidSpawner asteroidSpawner;
@@ -90,7 +91,6 @@ public class PlayStage extends Stage {
                 renderer.circle(0, 0, radius, 50);
         };
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
-
     }
 
     protected void initPlayer() {
@@ -101,6 +101,7 @@ public class PlayStage extends Stage {
     @Override
     public void act(float delta) {
         super.act(delta);
+        time += delta;
         GdxAI.getTimepiece().update(delta);
         asteroidSpawner.update(delta);
         enemySpawner.update(delta);
@@ -267,11 +268,13 @@ public class PlayStage extends Stage {
 
     private class EnemySpawner {
 
+        int epoch;
         float timer;
         float nextEnemy;
 
         EnemySpawner() {
             timer = 0;
+            epoch = 0;
             setNext();
         }
 
@@ -279,27 +282,23 @@ public class PlayStage extends Stage {
             if (timer < nextEnemy) {
                 timer += delta;
             }
-            if (timer > nextEnemy && enemies.size() < GameplayConstants.MAX_ENEMIES_PRESENT
-                    || enemies.size() < GameplayConstants.MIN_ENEMIES_PRESENT) {
+
+            if (time > GameplayConstants.DIFFICULTY_EPOCHS[epoch]) {
+                epoch++;
+            }
+
+            int maxEnemies = GameplayConstants.MAX_ENEMIES_BY_EPOCH[epoch];
+            int minEnemies = GameplayConstants.MIN_ENEMIES_BY_EPOCH[epoch];
+            if (timer > nextEnemy && enemies.size() < maxEnemies
+                    || enemies.size() < minEnemies) {
                 Vector2 pos = new Vector2(1, 0);
                 pos.setAngle(MathUtils.random(360f));
                 pos.setLength(GameplayConstants.HORIZON * 0.95f);
                 Enemy enemy;
-                if (numCruisers == 0) {
+                if (numCruisers < GameplayConstants.MAX_CRUISERS_BY_EPOCH[epoch]) {
                     enemy = new EnemyCruiser(pos.x, pos.y, player);
                 } else {
-                    switch (MathUtils.random(2)) {
-                        case 0:
-                        default:
-                            enemy = new SeekerEnemy(pos.x, pos.y, player);
-                            break;
-                        case 1:
-                            enemy = new SniperEnemy(pos.x, pos.y, player);
-                            break;
-                        case 2:
-                            enemy = new FlyByEnemy(pos.x, pos.y, player);
-                            break;
-                    }
+                    enemy = Enemy.getRandomEnemy(pos.x, pos.y, player, epoch);
                 }
                 addEnemy(enemy);
                 setNext();
@@ -307,7 +306,7 @@ public class PlayStage extends Stage {
         }
 
         void setNext() {
-            nextEnemy = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ENEMY_SPAWN_AVERAGE;
+            nextEnemy = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ENEMY_SPAWN_AVERAGE_BY_EPOCH[epoch];
             timer = 0;
         }
     }

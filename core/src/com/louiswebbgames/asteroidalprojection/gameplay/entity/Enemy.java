@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
@@ -84,6 +85,18 @@ public abstract class Enemy extends GameObject {
                 Vector2 vertex2 = Projection.project(whiskerVertex);
                 renderer.line(vertex1, vertex2);
             }
+        }
+    }
+
+    public static Enemy getRandomEnemy(float x, float y, GameObject player, int epoch) {
+        switch (MathUtils.random(2)) {
+            case 0:
+            default:
+                return SeekerEnemy.getRandomSeeker(x, y, player, epoch);
+            case 1:
+                return SniperEnemy.getRandomSniper(x, y, player, epoch);
+            case 2:
+                return FlyByEnemy.getRandomFlyBy(x, y, player, epoch);
         }
     }
 

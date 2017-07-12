@@ -26,13 +26,6 @@ public class SniperEnemy extends Enemy {
         setMaxLinearAcceleration(GameplayConstants.SNIPER_MAX_ANGULAR_ACCEL);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SNIPER_MAINTAIN_DISTANCE));
-        if (MathUtils.randomBoolean()) {
-            Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_PIERCING_LASER);
-            addActor(new FireAtTarget(0, 0, target, FireRate.SLOW_DOUBLE_SHOT, weapon, GameplayConstants.SNIPER_WEAPON_RANGE));
-        } else {
-            Weapon weapon = new WaveWeapon(this, Projectile.ProjectileType.ENEMY_ROUND_LASER, 30f, 10);
-            addActor(new FireAtTarget(0, 0, target, FireRate.LONG_BURST, weapon, GameplayConstants.SNIPER_WEAPON_RANGE));
-        }
         pointValue = GameplayConstants.SNIPER_POINT_VALUE;
     }
 
@@ -44,5 +37,50 @@ public class SniperEnemy extends Enemy {
     @Override
     public Location<Vector2> newLocation() {
         return new SniperEnemy(getX(), getY(), target);
+    }
+
+    public static Enemy getRandomSniper(float x, float y, GameObject target, int epoch) {
+        Enemy enemy = new SeekerEnemy(x, y, target);
+        Projectile.ProjectileType type;
+        FireRate fireRate;
+        Weapon weapon;
+        switch (epoch) {
+            case 0:
+                if (MathUtils.random() < 0.75) {
+                    fireRate = MathUtils.randomBoolean() ? FireRate.SLOW : FireRate.SLOW_DOUBLE_SHOT;
+                    type = Projectile.ProjectileType.ENEMY_LASER;
+                    weapon = new BaseWeapon(enemy, type);
+                } else {
+                    fireRate = FireRate.LONG_BURST;
+                    type = Projectile.ProjectileType.ENEMY_ROUND_LASER;
+                    weapon = new WaveWeapon(enemy, type, GameplayConstants.ENEMY_SPREAD_ATTACK_SPREAD, GameplayConstants.ENEMY_SPREAD_ATTACK_NUMSHOTS);
+                }
+                break;
+            case 1:case 2:default:
+                if (MathUtils.randomBoolean()) {
+                    fireRate = MathUtils.randomBoolean() ? FireRate.SLOW_BURST : FireRate.SLOW_DOUBLE_SHOT;
+                    type = MathUtils.randomBoolean() ? Projectile.ProjectileType.ENEMY_LASER : Projectile.ProjectileType.ENEMY_PIERCING_LASER;
+                    weapon = new BaseWeapon(enemy, type);
+                } else {
+                    fireRate = FireRate.LONG_BURST;
+                    type = Projectile.ProjectileType.ENEMY_ROUND_LASER;
+                    weapon = new WaveWeapon(enemy, type, GameplayConstants.ENEMY_SPREAD_ATTACK_SPREAD, GameplayConstants.ENEMY_SPREAD_ATTACK_NUMSHOTS);
+                }
+                break;
+            case 3:
+                if (MathUtils.randomBoolean()) {
+                    fireRate = MathUtils.randomBoolean() ? FireRate.FAST_DOUBLE_SHOT : FireRate.SLOW_BURST;
+                    type = Projectile.ProjectileType.ENEMY_PIERCING_LASER;
+                    weapon = new BaseWeapon(enemy, type);
+                } else {
+                    fireRate = MathUtils.randomBoolean() ? FireRate.LONG_BURST : FireRate.EXTRA_LONG_BURST;
+                    type = Projectile.ProjectileType.ENEMY_ROUND_LASER;
+                    weapon = new WaveWeapon(enemy, type, GameplayConstants.ENEMY_SPREAD_ATTACK_SPREAD, GameplayConstants.ENEMY_SPREAD_ATTACK_NUMSHOTS);
+                }
+                break;
+
+        }
+        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.SNIPER_WEAPON_RANGE));
+        return enemy;
     }
 }

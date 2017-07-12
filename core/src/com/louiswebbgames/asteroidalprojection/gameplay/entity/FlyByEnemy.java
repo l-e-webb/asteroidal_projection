@@ -3,6 +3,7 @@ package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireAtTarget;
@@ -23,8 +24,6 @@ public class FlyByEnemy extends Enemy {
         setMaxAngularSpeed(GameplayConstants.FLY_BY_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.FLY_BY_MAX_ANGULAR_ACCEL);
         this.target = target;
-        Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
-        addActor(new FireAtTarget(0, 0, target, FireRate.FAST_DOUBLE_SHOT, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE));
         setBehavior(new Pursue<>(this, target));
         pointValue = GameplayConstants.FLY_BY_POINT_VALUE;
     }
@@ -37,5 +36,25 @@ public class FlyByEnemy extends Enemy {
     @Override
     public Location<Vector2> newLocation() {
         return new FlyByEnemy(getX(), getY(), target);
+    }
+
+    public static Enemy getRandomFlyBy(float x, float y, GameObject target, int epoch) {
+        Enemy enemy = new FlyByEnemy(x, y, target);
+        Weapon weapon = new BaseWeapon(enemy, Projectile.ProjectileType.ENEMY_LASER);
+        FireRate fireRate;
+        switch (epoch) {
+            case 0:
+                fireRate = MathUtils.randomBoolean() ? FireRate.SLOW_BURST : FireRate.SLOW_DOUBLE_SHOT;
+                break;
+            case 1:case 2:default:
+                fireRate = MathUtils.randomBoolean() ? FireRate.SLOW_BURST : FireRate.FAST_DOUBLE_SHOT;
+                break;
+            case 3:
+                fireRate = MathUtils.randomBoolean() ? FireRate.FAST_DOUBLE_SHOT : FireRate.FAST_BURST;
+                break;
+
+        }
+        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE));
+        return enemy;
     }
 }

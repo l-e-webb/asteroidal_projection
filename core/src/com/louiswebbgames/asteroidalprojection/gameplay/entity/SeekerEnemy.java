@@ -2,6 +2,7 @@ package com.louiswebbgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireAtTarget;
@@ -19,8 +20,6 @@ public class SeekerEnemy extends Enemy {
         super(x, y, GameplayConstants.SEEKER_RADIUS);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SEEKER_MAINTAIN_DISTANCE));
-        Weapon weapon = new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER);
-        addActor(new FireAtTarget(0, 0, target, FireRate.FAST, weapon, GameplayConstants.SEEKER_WEAPON_RANGE));
         setMaxLinearSpeed(GameplayConstants.SEEKER_MAX_SPEED);
         setMinLinearSpeed(GameplayConstants.SEEKER_MIN_SPEED);
         setMaxLinearAcceleration(GameplayConstants.SEEKER_ACCEL);
@@ -37,5 +36,25 @@ public class SeekerEnemy extends Enemy {
     @Override
     public Location<Vector2> newLocation() {
         return new SeekerEnemy(getX(), getY(), target);
+    }
+
+    public static Enemy getRandomSeeker(float x, float y, GameObject target, int epoch) {
+        Enemy enemy = new FlyByEnemy(x, y, target);
+        Weapon weapon = new BaseWeapon(enemy, Projectile.ProjectileType.ENEMY_LASER);
+        FireRate fireRate;
+        switch (epoch) {
+            case 0:
+                fireRate = MathUtils.randomBoolean() ? FireRate.SLOW : FireRate.SLOW_DOUBLE_SHOT;
+                break;
+            case 1:case 2:default:
+                fireRate = MathUtils.randomBoolean() ? FireRate.SLOW_BURST : FireRate.FAST_DOUBLE_SHOT;
+                break;
+            case 3:
+                fireRate = MathUtils.randomBoolean() ? FireRate.FAST_DOUBLE_SHOT : FireRate.RAPID;
+                break;
+
+        }
+        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.SEEKER_WEAPON_RANGE));
+        return enemy;
     }
 }

@@ -49,6 +49,8 @@ public class GameplayConstants {
     public static final float FLY_BY_MAX_ANGULAR_ACCEL = 2 * MathUtils.PI / 3;
     public static final float FLY_BY_WEAPON_RANGE = 5f;
     public static final int FLY_BY_POINT_VALUE = 70;
+    public static final float ENEMY_SPREAD_ATTACK_SPREAD = 30f;
+    public static final int ENEMY_SPREAD_ATTACK_NUMSHOTS = 10;
 
     //Cruisers
     public static final float CRUISER_WIDTH = 0.55f;
@@ -115,9 +117,11 @@ public class GameplayConstants {
     public static final int MAX_ASTEROIDS_PRESENT = 17;
 
     //Enemy spawning
-    public static final float ENEMY_SPAWN_AVERAGE = 3f;
-    public static final float MIN_ENEMIES_PRESENT = 1;
-    public static final float MAX_ENEMIES_PRESENT = 5;
+    public static final float[] DIFFICULTY_EPOCHS = new float[]{30, 90, 240, Float.MAX_VALUE};
+    public static final int[] MIN_ENEMIES_BY_EPOCH = new int[]{1, 2, 3, 3};
+    public static final int[] MAX_ENEMIES_BY_EPOCH = new int[]{3, 5, 7, 8};
+    public static final int[] MAX_CRUISERS_BY_EPOCH = new int[]{0, 0, 1, 2};
+    public static final float[] ENEMY_SPAWN_AVERAGE_BY_EPOCH = new float[]{4f, 4f, 3f, 3f};
 
     //Steering behaviors
     public static final float ASTEROID_AVOIDANCE_CENTRAL_RAY_LENGTH = 2f;
