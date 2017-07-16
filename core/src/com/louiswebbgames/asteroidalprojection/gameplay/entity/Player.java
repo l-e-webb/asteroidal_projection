@@ -61,7 +61,7 @@ public class Player extends GameObject {
         secondaryWeapon = missileLauncher;
         setState(PlayerState.BLINKING);
         health = GameplayConstants.PLAYER_MAX_HEALTH;
-        missileAmmo = 999;
+        missileAmmo = GameplayConstants.STARTING_MISSILE_AMMO;
     }
 
     @Override
@@ -168,8 +168,24 @@ public class Player extends GameObject {
         return state != PlayerState.DEAD;
     }
 
+    public PlayerState getState() {
+        return state;
+    }
+
     public int currentHealth() {
         return health;
+    }
+
+    public float getTripleLaserDuration() {
+        return tripleLaserDuration;
+    }
+
+    public float getPiercingLaserDuration() {
+        return piercingLaserDuration;
+    }
+
+    public int getMissileAmmo() {
+        return missileAmmo;
     }
 
     @Override

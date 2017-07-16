@@ -6,49 +6,49 @@ filter: Nearest,Nearest
 repeat: none
 star
   rotate: false
-  xy: 332, 96
+  xy: 306, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 1
 star
   rotate: false
-  xy: 356, 118
+  xy: 490, 246
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 2
 star
   rotate: false
-  xy: 406, 220
+  xy: 356, 116
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: 3
 explosion
   rotate: false
-  xy: 306, 206
+  xy: 306, 154
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 explosion
   rotate: false
-  xy: 306, 156
+  xy: 358, 206
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 explosion
   rotate: false
-  xy: 356, 206
+  xy: 306, 104
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 explosion
   rotate: false
-  xy: 306, 106
+  xy: 408, 206
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -76,92 +76,120 @@ triangle
   index: -1
 extralife
   rotate: false
-  xy: 356, 154
+  xy: 458, 198
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 missileammo
   rotate: false
-  xy: 356, 128
+  xy: 356, 178
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 piercinglaser
   rotate: false
-  xy: 458, 230
+  xy: 356, 152
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 points
   rotate: false
-  xy: 306, 28
+  xy: 356, 126
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 triplelaser
   rotate: false
-  xy: 382, 154
+  xy: 382, 128
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 bluelaser
   rotate: false
-  xy: 356, 180
+  xy: 306, 14
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 blueround
   rotate: false
-  xy: 406, 230
+  xy: 338, 78
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 bluesharp
   rotate: false
-  xy: 306, 80
+  xy: 338, 52
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 missile
   rotate: false
-  xy: 432, 230
+  xy: 338, 26
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: 1
 missile
   rotate: false
-  xy: 306, 54
+  xy: 484, 198
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: 2
 redlaser
   rotate: false
-  xy: 306, 2
+  xy: 382, 180
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 redround
   rotate: false
-  xy: 484, 230
+  xy: 382, 154
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 redsharp
   rotate: false
-  xy: 382, 180
+  xy: 408, 180
   size: 24, 24
   orig: 24, 24
+  offset: 0, 0
+  index: -1
+base_label_9patch
+  rotate: false
+  xy: 306, 72
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+base_label_9patch_filled
+  rotate: false
+  xy: 458, 224
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+slider
+  rotate: false
+  xy: 306, 40
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+slider_knob
+  rotate: false
+  xy: 306, 204
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1

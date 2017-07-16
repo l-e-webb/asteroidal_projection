@@ -17,12 +17,13 @@ public class GameplayConstants {
     public static final float PLAYER_MAX_SPEED = 2.5f;
     public static final float PLAYER_ACCEL = 5f;
     public static final float PLAYER_DAMPENING = 7f;
-    public static final float PLAYER_BLINKING_DURATION = 2f;
+    public static final float PLAYER_BLINKING_DURATION = 1.25f;
     public static final float PLAYER_BLINDING_PERIOD = 0.2f;
     public static final int PLAYER_MAX_HEALTH = 5;
     public static final float PLAYER_TRIPLE_LASER_SPREAD = 45f;
     public static final float PLAYER_LASER_COOLDOWN = 0.5f;
     public static final float PLAYER_MISSILE_COOLDOWN = 1f;
+    public static final int STARTING_MISSILE_AMMO = 5;
 
     //Enemy
     public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
@@ -124,8 +125,8 @@ public class GameplayConstants {
     //Asteroid spawning
     public static final float ASTEROID_SPAWN_AVERAGE = 1.5f;
     public static final float ASTEROID_ANGLE_VAR = 7.5f;
-    public static final int MIN_ASTEROIDS_PRESENT = 7;
-    public static final int MAX_ASTEROIDS_PRESENT = 17;
+    public static final int MIN_ASTEROIDS_PRESENT = 11;
+    public static final int MAX_ASTEROIDS_PRESENT = 28;
 
     //Enemy spawning
     public static final float[] DIFFICULTY_EPOCHS = new float[]{30, 90, 240, Float.MAX_VALUE};

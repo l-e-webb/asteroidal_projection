@@ -2,6 +2,10 @@ package com.louiswebbgames.asteroidalprojection.utility;
 
 public class Constants {
 
+    //Display constants.
+    public static final float UI_VIEWPORT_WIDTH = 800f;
+    public static final float UI_VIEWPORT_HEIGHT = 800f;
+
     //Asset constants.
     public static final String ATLAS_PATH = "images/sprites.pack.atlas";
     public static final String PLAYER_REGION = "triangle";
@@ -20,5 +24,9 @@ public class Constants {
     public static final String PIERCING_LASER_REGION = "piercinglaser";
     public static final String EXPLOSION_REGIONS = "explosion";
     public static final String ENEMY_REGION = "red_triangle";
+    public static final String SQUARE_BUTTON_DARK_REGION = "base_label_9patch";
+    public static final String SQUARE_BUTTON_LIGHT_REGION = "base_label_9patch_filled";
+    public static final String SLIDER_KNOB_REGION = "slider_knob";
+    public static final String SLIDER_REGION = "slider";
 
 }

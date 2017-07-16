@@ -15,24 +15,12 @@ public abstract class GameScreen implements Screen {
     @Override
     public void show() {
         init();
-        Gdx.input.setInputProcessor(stage);
     }
 
     public abstract void init();
 
     @Override
     public void render(float delta) {
-        if ((Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)
-                || Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT))
-                && Gdx.input.isKeyPressed(Input.Keys.ENTER)
-            ) {
-            if (Gdx.graphics.isFullscreen()) {
-                Gdx.graphics.setWindowedMode(800, 800);
-            } else {
-                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-            }
-        }
-
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -43,6 +31,16 @@ public abstract class GameScreen implements Screen {
     }
 
     protected void update(float delta) {
+        if ((Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)
+                || Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT))
+                && Gdx.input.isKeyPressed(Input.Keys.ENTER)
+                ) {
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(800, 800);
+            } else {
+                Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            }
+        }
         stage.act(delta);
     }
 

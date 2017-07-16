@@ -8,6 +8,8 @@ import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
 
 public class GridRenderer implements ShapeRenderRequest {
 
+    public static boolean gridOn = true;
+
     float gridWidth;
     float dotRadius;
     Vector2 offset;

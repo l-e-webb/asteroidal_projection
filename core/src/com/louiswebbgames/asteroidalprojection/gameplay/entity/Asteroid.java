@@ -43,10 +43,11 @@ public class Asteroid extends GameObject {
             }
         }
         Player player = stage.getPlayer();
-        if (collidesWith(player)) {
+        if (player.getState() != Player.PlayerState.BLINKING && collidesWith(player)) {
             Log.log(LOG_TAG, "Asteroid colliding with player at " + getPosition().toString());
             player.reportHit(new Vector2(player.getPosition()).sub(getPosition()));
-            reportHit(new Vector2(getPosition()).sub(player.getPosition()));
+            //Uncomment to report hits on asteroid when player hits asteroid.
+            //reportHit(new Vector2(getPosition()).sub(player.getPosition()));
         }
     }
 

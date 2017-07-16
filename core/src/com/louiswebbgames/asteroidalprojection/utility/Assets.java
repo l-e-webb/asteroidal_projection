@@ -1,14 +1,16 @@
 package com.louiswebbgames.asteroidalprojection.utility;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
+import com.louiswebbgames.asteroidalprojection.ui.UiConstants;
 
 /**
  * Singleton for loading and managing assets.
@@ -37,6 +39,13 @@ public class Assets implements Disposable, AssetErrorListener  {
     public TextureRegion tripleLaserPowerup;
     public Animation<TextureRegion> explosion;
     public Animation<TextureRegion> missile;
+    public Drawable missileAmmoDrawable;
+    public Drawable tripleLaserDrawable;
+    public Drawable piercingLaserDrawable;
+    public Drawable squareButtonDark;
+    public Drawable squareButtonLight;
+    public Drawable sliderKnob;
+    public Drawable slider;
 
     private AssetManager assetManager;
 
@@ -59,9 +68,12 @@ public class Assets implements Disposable, AssetErrorListener  {
         enemyRoundLaser = atlas.findRegion(Constants.ENEMY_ROUND_LASER_REGION);
         extraHealthPowerup = atlas.findRegion(Constants.EXTRA_HEALTH_REGION);
         missileAmmoPowerup = atlas.findRegion(Constants.MISSILE_AMMO_REGION);
+        missileAmmoDrawable = new TextureRegionDrawable(missileAmmoPowerup);
         piercingLaserPowerup = atlas.findRegion(Constants.PIERCING_LASER_REGION);
+        piercingLaserDrawable = new TextureRegionDrawable(piercingLaserPowerup);
         pointsPowerup = atlas.findRegion(Constants.POINTS_REGION);
         tripleLaserPowerup = atlas.findRegion(Constants.TRIPLE_LASER_REGION);
+        tripleLaserDrawable = new TextureRegionDrawable(tripleLaserPowerup);
         explosion = new Animation<>(
                 GameplayConstants.EXPLOSION_FRAME_DURATION,
                 atlas.findRegions(Constants.EXPLOSION_REGIONS),
@@ -76,6 +88,29 @@ public class Assets implements Disposable, AssetErrorListener  {
         sniperEnemy = seekerEnemy;
         flyByEnemy = seekerEnemy;
         cruiserEnemy = seekerEnemy;
+
+        TextureRegion squareButtonDarkRegion = atlas.findRegion(Constants.SQUARE_BUTTON_DARK_REGION);
+        squareButtonDark = new NinePatchDrawable(new NinePatch(
+                squareButtonDarkRegion,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET
+        ));
+        TextureRegion squareButtonLightRegion = atlas.findRegion(Constants.SQUARE_BUTTON_LIGHT_REGION);
+        squareButtonLight = new NinePatchDrawable(new NinePatch(
+                squareButtonLightRegion,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET
+        ));
+        Sprite sliderKnobSprite = new Sprite(atlas.findRegion(Constants.SLIDER_KNOB_REGION));
+        sliderKnobSprite.setSize(UiConstants.SLIDER_KNOB_SIZE, UiConstants.SLIDER_KNOB_SIZE);
+        sliderKnob = new SpriteDrawable(sliderKnobSprite);
+        Sprite sliderSprite = new Sprite(atlas.findRegion(Constants.SLIDER_REGION));
+        //sliderSprite.setSize(sliderSprite.getWidth(), UiConstants.SLIDER_HEIGHT);
+        slider = new SpriteDrawable(sliderSprite);
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {

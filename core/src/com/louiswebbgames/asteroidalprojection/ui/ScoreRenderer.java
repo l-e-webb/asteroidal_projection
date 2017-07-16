@@ -11,7 +11,7 @@ public class ScoreRenderer extends Label {
 
     public ScoreRenderer(PlayStage playStage) {
         super("", UiConstants.basicLabelStyle);
-        setSize(175, 100);
+        setSize(150, 100);
         this.playStage = playStage;
         setAlignment(Align.center);
         setDebug(false);
@@ -19,7 +19,11 @@ public class ScoreRenderer extends Label {
 
     @Override
     public void act(float delta) {
-        setText("Score:\n" + playStage.getScore());
-        setPosition(getStage().getViewport().getWorldWidth(), getStage().getViewport().getWorldHeight(), Align.topRight);
+        setText(UiText.SCORE + "\n" + playStage.getScore());
+        setPosition(
+                getStage().getViewport().getWorldWidth(),
+                getStage().getViewport().getWorldHeight(),
+                Align.topRight
+        );
     }
 }

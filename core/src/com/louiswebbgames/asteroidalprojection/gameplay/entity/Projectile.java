@@ -62,8 +62,11 @@ public class Projectile extends GameObject {
                     }
                     if (isPiercing()) {
                         timeSinceCollision = 0;
-                        ((PlayStage)getStage()).addExplosion(getX(), getY(), GameplayConstants.EXPLOSION_TINY_RADIUS);
+                        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
                     } else {
+                        if (enemy instanceof EnemyCruiser) {
+                            ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
+                        }
                         destroy();
                     }
                     return;

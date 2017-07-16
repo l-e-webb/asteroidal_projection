@@ -24,6 +24,7 @@ public class PlayStage extends Stage {
 
     int score;
     float time;
+    boolean paused;
 
     Player player;
     AsteroidSpawner asteroidSpawner;
@@ -53,13 +54,14 @@ public class PlayStage extends Stage {
         projectiles = new HashSet<>();
         asteroids = new HashSet<>();
         enemies = new HashSet<>();
-        initPlayer();
         asteroidGroup = new Group();
         AsteroidCollisionDetector.setAsteroids(asteroids);
         projectileGroup = new Group();
         enemyGroup = new Group();
         powerupGroup = new Group();
         explosionGroup = new Group();
+        player = new Player();
+        addActor(player);
         addActor(enemyGroup);
         addActor(asteroidGroup);
         addActor(projectileGroup);
@@ -88,14 +90,23 @@ public class PlayStage extends Stage {
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
     }
 
-    protected void initPlayer() {
-        player = new Player();
-        addActor(player);
+    public void initGame() {
+        projectiles.clear();
+        enemies.clear();
+        asteroids.clear();
+        projectileGroup.clear();
+        enemyGroup.clear();
+        asteroidGroup.clear();
         player.init();
+        worldOffset.setZero();
+        time = 0;
+        score = 0;
     }
 
     @Override
     public void act(float delta) {
+        if (gameOver() || isPaused()) return;
+
         super.act(delta);
         time += delta;
         GdxAI.getTimepiece().update(delta);
@@ -109,8 +120,10 @@ public class PlayStage extends Stage {
 
         addShapeRenderRequest(squareBorder);
         addShapeRenderRequest(circleBorder);
-        addShapeRenderRequest(gridRenderer);
-        gridRenderer.setOffset(worldOffset);
+        if (GridRenderer.gridOn) {
+            addShapeRenderRequest(gridRenderer);
+            gridRenderer.setOffset(worldOffset);
+        }
         shapeRenderer.setProjectionMatrix(getViewport().getCamera().combined);
         shapeRenderer.setAutoShapeType(true);
         shapeRenderer.begin();
@@ -213,6 +226,22 @@ public class PlayStage extends Stage {
         return score;
     }
 
+    public boolean gameOver() {
+        return player.currentHealth() <= 0;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void togglePaused() {
+        setPaused(!isPaused());
+    }
+
     @Override
     public void dispose() {
         super.dispose();
@@ -225,8 +254,7 @@ public class PlayStage extends Stage {
         float nextAsteroid;
 
         AsteroidSpawner() {
-            timer = 0;
-            setNext();
+            init();
         }
 
         void update(float delta) {
@@ -259,6 +287,11 @@ public class PlayStage extends Stage {
         void setNext() {
             nextAsteroid = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ASTEROID_SPAWN_AVERAGE;
         }
+
+        void init() {
+            timer = 0;
+            setNext();
+        }
     }
 
     private class EnemySpawner {
@@ -268,9 +301,7 @@ public class PlayStage extends Stage {
         float nextEnemy;
 
         EnemySpawner() {
-            timer = 0;
-            epoch = 0;
-            setNext();
+            init();
         }
 
         void update(float delta) {
@@ -303,6 +334,12 @@ public class PlayStage extends Stage {
         void setNext() {
             nextEnemy = MathUtils.random(0.5f, 1.5f) * GameplayConstants.ENEMY_SPAWN_AVERAGE_BY_EPOCH[epoch];
             timer = 0;
+        }
+
+        void init() {
+            timer = 0;
+            epoch = 0;
+            setNext();
         }
     }
 
