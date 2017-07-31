@@ -187,7 +187,7 @@ slider_knob
   offset: 0, 0
   index: -1
 
-sprites.pack2.png
+sprites.pack3.png
 size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
