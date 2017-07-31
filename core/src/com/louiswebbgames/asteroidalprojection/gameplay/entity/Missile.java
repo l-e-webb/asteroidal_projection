@@ -37,6 +37,7 @@ public class Missile extends Projectile {
         setMaxLinearAcceleration(GameplayConstants.MISSILE_ACCEL);
         setMaxAngularSpeed(GameplayConstants.MISSILE_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.MISSILE_MAX_ANGULAR_ACCEL);
+        setAnimation(Assets.instance.missile);
     }
 
     public void setBehavior(SteeringBehavior<Vector2> behavior) {
@@ -61,8 +62,4 @@ public class Missile extends Projectile {
         super.destroy(removeFromCollection);
     }
 
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.missile.getKeyFrame(timeSinceSpawn);
-    }
 }

@@ -11,6 +11,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.FireRate;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 
 public class FlyByEnemy extends Enemy {
 
@@ -26,11 +27,7 @@ public class FlyByEnemy extends Enemy {
         this.target = target;
         setBehavior(new Pursue<>(this, target));
         pointValue = GameplayConstants.FLY_BY_POINT_VALUE;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.flyByEnemy;
+        setAnimation(Assets.instance.flyByEnemy);
     }
 
     @Override
@@ -54,7 +51,18 @@ public class FlyByEnemy extends Enemy {
                 break;
 
         }
-        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.FLY_BY_WEAPON_RANGE));
+        enemy.addActor(new FireAtTarget(
+                Constants.FLY_BY_CANNON_OFFSET_X,
+                Constants.FLY_BY_CANNON_OFFSET_Y,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                target,
+                fireRate,
+                weapon,
+                GameplayConstants.FLY_BY_WEAPON_RANGE,
+                Assets.instance.simpleCannon,
+                true
+        ));
         return enemy;
     }
 }

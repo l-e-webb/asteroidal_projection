@@ -12,6 +12,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.WaveWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 
 public class SniperEnemy extends Enemy {
 
@@ -23,15 +24,11 @@ public class SniperEnemy extends Enemy {
         setMaxLinearAcceleration(GameplayConstants.SNIPER_ACCEL);
         setMaxAngularSpeed(GameplayConstants.SNIPER_MAX_ANGULAR_SPEED);
         setMinLinearSpeed(GameplayConstants.SNIPER_MIN_SPEED);
-        setMaxLinearAcceleration(GameplayConstants.SNIPER_MAX_ANGULAR_ACCEL);
+        setMaxAngularAcceleration(GameplayConstants.SNIPER_MAX_ANGULAR_ACCEL);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SNIPER_MAINTAIN_DISTANCE));
         pointValue = GameplayConstants.SNIPER_POINT_VALUE;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.sniperEnemy;
+        setAnimation(Assets.instance.sniperEnemy);
     }
 
     @Override
@@ -40,7 +37,7 @@ public class SniperEnemy extends Enemy {
     }
 
     public static Enemy getRandomSniper(float x, float y, GameObject target, int epoch) {
-        Enemy enemy = new SeekerEnemy(x, y, target);
+        Enemy enemy = new SniperEnemy(x, y, target);
         Projectile.ProjectileType type;
         FireRate fireRate;
         Weapon weapon;
@@ -80,7 +77,33 @@ public class SniperEnemy extends Enemy {
                 break;
 
         }
-        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.SNIPER_WEAPON_RANGE));
+        float cannonWidth;
+        float cannonHeight;
+        TextureRegion cannonTexture;
+        boolean rotateWithShot;
+        if (type == Projectile.ProjectileType.ENEMY_ROUND_LASER) {
+            cannonWidth = Constants.ENEMY_HOLE_CANNON_RADIUS * 2;
+            cannonHeight = cannonWidth;
+            cannonTexture = Assets.instance.holeCannon;
+            rotateWithShot = false;
+        } else {
+            cannonWidth = Constants.ENEMY_CANNON_RADIUS * 2;
+            cannonHeight = cannonWidth;
+            cannonTexture = Assets.instance.simpleCannon;
+            rotateWithShot = true;
+        }
+        enemy.addActor(new FireAtTarget(
+                Constants.SNIPER_CANNON_OFFSET_X,
+                Constants.SNIPER_CANNON_OFFSET_Y,
+                cannonWidth,
+                cannonHeight,
+                target,
+                fireRate,
+                weapon,
+                GameplayConstants.SNIPER_WEAPON_RANGE,
+                cannonTexture,
+                rotateWithShot
+        ));
         return enemy;
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,7 +12,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
@@ -48,6 +51,11 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     CollisionType collisionType;
     int updateFrame;
 
+    boolean animated;
+
+    TextureRegion texture;
+    Animation<TextureRegion> animation;
+
     boolean independentFacing = false;
     boolean independentScaling = true;
     boolean independentExistence = true;
@@ -64,6 +72,8 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         updateScale();
         this.collisionType = colType;
         timeSinceSpawn = 0;
+        animated = false;
+        setTransform(false);
     }
 
     public GameObject(float x, float y, float radius, EntityType type, CollisionType colType) {
@@ -84,16 +94,15 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         }
         update(delta);
 
-        if (!independentExistence) return;
+        if (independentExistence) {
+            calculateVelocity(delta);
+            moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
+            if (independentFacing) {
+                adjustOrientation(angularVelocity * delta);
+            }
+        }
 
-        calculateVelocity(delta);
-        moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
-        if (independentFacing) {
-            adjustOrientation(angularVelocity * delta);
-        }
-        if (independentScaling) {
-            updateScale();
-        }
+        updateScale();
     }
 
     public void calculateVelocity(float delta) {
@@ -148,9 +157,13 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     }
 
     public void updateScale() {
-        setScale(
-                (1 / (distanceFromOrigin() + 1))
-        );
+        if (independentScaling) {
+            setScale(
+                    (1 / (distanceFromOrigin() + 1))
+            );
+        } else {
+            setScale(getParent().getScaleX(), getParent().getScaleY());
+        }
     }
 
     public void accelerate(float accel) {
@@ -176,9 +189,10 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
         if (getTexture() == null) return;
+
         Vector2 projectedPosition = getProjectedPosition();
+        if (projectedPosition == null) return;
         float xOffset = getWidth() * getScaleX() / 2;
         float yOffset = getHeight() * getScaleY() / 2;
         batch.draw(
@@ -193,6 +207,9 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
                 1,
                 getRotation()
         );
+
+        super.draw(batch, parentAlpha);
+
         if (debug) {
             ((PlayStage) getStage()).addShapeRenderRequest(
                     new ShapeRenderRequest() {
@@ -213,11 +230,54 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         }
     }
 
-    public Vector2 getProjectedPosition() {
-        return Projection.project(position);
+    @Override
+    protected void drawChildren(Batch batch, float parentAlpha) {
+        //Custom implementation to avoid conflicts with projection.
+        //Removes culling transform, and translation (all not used).
+        parentAlpha *= getColor().a;
+        SnapshotArray<Actor> children = getChildren();
+        Actor[] actors = children.begin();
+        for (int i = 0, n = children.size; i < n; i++) {
+            Actor child = actors[i];
+            if (!child.isVisible()) continue;
+            child.draw(batch, parentAlpha);
+        }
+        children.end();
     }
 
-    public abstract TextureRegion getTexture();
+    public Vector2 getProjectedPosition() {
+        if (independentExistence) {
+            return Projection.project(position);
+        }
+        GameObject parent;
+        try {
+            parent = (GameObject) getParent();
+        } catch (ClassCastException e) {
+            Log.log(LOG_TAG, "Non-independent existence has no GameObject parent.", Log.LogLevel.DEBUG);
+            return null;
+        }
+        return new Vector2(parent.getProjectedPosition()).add(
+                new Vector2(getX() * getScaleX(), getY() * getScaleY()).rotate(parent.getRotation())
+        );
+    }
+
+    public TextureRegion getTexture() {
+        if (animated && animation != null) {
+            return animation.getKeyFrame(timeSinceSpawn);
+        } else {
+            return texture;
+        }
+    }
+
+    public void setTexture(TextureRegion texture) {
+        this.texture = texture;
+        animated = false;
+    }
+
+    public void setAnimation(Animation<TextureRegion> animation) {
+        this.animation = animation;
+        animated = true;
+    }
 
     @Override
     public void moveBy(float x, float y) {

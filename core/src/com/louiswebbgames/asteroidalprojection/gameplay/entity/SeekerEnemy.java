@@ -11,6 +11,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.MaintainDi
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 
 public class SeekerEnemy extends Enemy {
 
@@ -26,11 +27,7 @@ public class SeekerEnemy extends Enemy {
         setMaxAngularSpeed(GameplayConstants.SEEKER_MAX_ANGULAR_SPEED);
         setMaxAngularAcceleration(GameplayConstants.SEEKER_MAX_ANGULAR_ACCEL);
         pointValue = GameplayConstants.SEEKER_POINT_VALUE;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.seekerEnemy;
+        setAnimation(Assets.instance.seekerEnemy);
     }
 
     @Override
@@ -39,7 +36,7 @@ public class SeekerEnemy extends Enemy {
     }
 
     public static Enemy getRandomSeeker(float x, float y, GameObject target, int epoch) {
-        Enemy enemy = new FlyByEnemy(x, y, target);
+        Enemy enemy = new SeekerEnemy(x, y, target);
         Weapon weapon = new BaseWeapon(enemy, Projectile.ProjectileType.ENEMY_LASER);
         FireRate fireRate;
         switch (epoch) {
@@ -54,7 +51,18 @@ public class SeekerEnemy extends Enemy {
                 break;
 
         }
-        enemy.addActor(new FireAtTarget(0, 0, target, fireRate, weapon, GameplayConstants.SEEKER_WEAPON_RANGE));
+        enemy.addActor(new FireAtTarget(
+                Constants.SEEKER_CANNON_OFFSET_X,
+                Constants.SEEKER_CANNON_OFFSET_Y,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                target,
+                fireRate,
+                weapon,
+                GameplayConstants.SEEKER_WEAPON_RANGE,
+                Assets.instance.simpleCannon,
+                true
+        ));
         return enemy;
     }
 }

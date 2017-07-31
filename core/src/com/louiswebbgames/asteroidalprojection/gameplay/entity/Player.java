@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
@@ -13,6 +14,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.weapon.MissileLauncher;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 import com.louiswebbgames.asteroidalprojection.utility.Controls;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
 
@@ -36,6 +38,8 @@ public class Player extends GameObject {
     protected Weapon tripleLaserWeapon;
     protected Weapon missileLauncher;
 
+    protected GameObject cannon;
+
     protected float tripleLaserDuration;
     protected float piercingLaserDuration;
 
@@ -47,9 +51,11 @@ public class Player extends GameObject {
         setMinLinearSpeed(0);
         setMaxLinearAcceleration(GameplayConstants.PLAYER_ACCEL);
         dampening = GameplayConstants.PLAYER_DAMPENING;
+        setAnimation(Assets.instance.player);
     }
 
     public void init() {
+        clearChildren();
         laserWeapon = new BaseWeapon(this, Projectile.ProjectileType.PLAYER_LASER);
         tripleLaserWeapon = new TripleLaserWeapon(
                 this,
@@ -62,6 +68,27 @@ public class Player extends GameObject {
         setState(PlayerState.BLINKING);
         health = GameplayConstants.PLAYER_MAX_HEALTH;
         missileAmmo = GameplayConstants.STARTING_MISSILE_AMMO;
+        cannon = new GameObject(
+                Constants.PLAYER_CANNON_OFFSET_X,
+                Constants.PLAYER_CANNON_OFFSET_Y,
+                Constants.PLAYER_CANNON_RADIUS,
+                EntityType.TURRET,
+                CollisionType.NONE
+        ) {
+            @Override
+            public Location<Vector2> newLocation() {
+                return null;
+            }
+
+            @Override
+            public void updatePositionVector() {
+                position = localToStageCoordinates(new Vector2());
+            }
+
+        };
+        cannon.independentExistence = false;
+        cannon.setTexture(Assets.instance.simpleCannon);
+        addActor(cannon);
     }
 
     @Override
@@ -87,6 +114,7 @@ public class Player extends GameObject {
         Vector2 mousePosition = getStage().screenToStageCoordinates(
                 new Vector2(Gdx.input.getX(), Gdx.input.getY())
         );
+        cannon.setOrientation(mousePosition.angleRad());
         //setOrientation(mouseDirection.angleRad());
         if (tripleLaserDuration > 0) {
             tripleLaserDuration -= delta;
@@ -191,11 +219,6 @@ public class Player extends GameObject {
     @Override
     public void moveBy(float x, float y) {
         ((PlayStage) getStage()).moveWorld(-x, -y);
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.player;
     }
 
     @Override

@@ -12,7 +12,6 @@ public class Powerup extends GameObject {
 
     public final PowerupType powerupType;
 
-    TextureRegion texture;
     Player player;
 
     public Powerup(float x, float y, Vector2 heading, PowerupType type) {
@@ -28,7 +27,7 @@ public class Powerup extends GameObject {
                 MathUtils.random(GameplayConstants.POWERUP_MIN_SPEED, GameplayConstants.POWERUP_MAX_SPEED)
         );
         powerupType = type;
-        texture = getPowerupTexture(type);
+        setTexture(getPowerupTexture(type));
     }
 
     @Override
@@ -44,11 +43,6 @@ public class Powerup extends GameObject {
 
     public void setPlayer(Player player) {
         this.player = player;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return texture;
     }
 
     @Override

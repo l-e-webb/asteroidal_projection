@@ -21,7 +21,8 @@ public class UiConstants {
     public static final float PADDING = 12f;
     public static final float ICON_SIZE = 48f;
     public static final float CHECKBOX_RIGHT_PADDING = 10f;
-    public static final int SLIDER_KNOB_SIZE = 25;
+    public static final int SLIDER_KNOB_WIDTH = 15;
+    public static final int SLIDER_KNOB_HEIGHT = 20;
     public static final float ROW_PADDING = 15f;
 
     public static final int SQUARE_BUTTON_9PATCH_OFFSET = 5;
@@ -41,8 +42,8 @@ public class UiConstants {
         buttonStyle.overFontColor = TEXT_COLOR_INVERTED;
         buttonStyle.font = font;
         checkBoxStyle = new CheckBox.CheckBoxStyle(
-                Assets.instance.squareButtonDark,
-                Assets.instance.squareButtonLight,
+                Assets.instance.checkboxUnchecked,
+                Assets.instance.checkboxChecked,
                 font,
                 TEXT_COLOR
         );

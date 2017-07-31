@@ -20,7 +20,7 @@ public class Assets implements Disposable, AssetErrorListener  {
     public static final String LOG_TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
 
-    public TextureRegion player;
+    public Animation<TextureRegion> player;
     public TextureRegion asteroid;
     public TextureRegion playerLaser;
     public TextureRegion playerPiercingLaser;
@@ -28,10 +28,12 @@ public class Assets implements Disposable, AssetErrorListener  {
     public TextureRegion enemyLaser;
     public TextureRegion enemyPiercingLaser;
     public TextureRegion enemyRoundLaser;
-    public TextureRegion seekerEnemy;
-    public TextureRegion sniperEnemy;
-    public TextureRegion flyByEnemy;
-    public TextureRegion cruiserEnemy;
+    public Animation<TextureRegion> seekerEnemy;
+    public Animation<TextureRegion> sniperEnemy;
+    public Animation<TextureRegion> flyByEnemy;
+    public Animation<TextureRegion> cruiserEnemy;
+    public TextureRegion simpleCannon;
+    public TextureRegion holeCannon;
     public TextureRegion extraHealthPowerup;
     public TextureRegion missileAmmoPowerup;
     public TextureRegion piercingLaserPowerup;
@@ -44,6 +46,8 @@ public class Assets implements Disposable, AssetErrorListener  {
     public Drawable piercingLaserDrawable;
     public Drawable squareButtonDark;
     public Drawable squareButtonLight;
+    public Drawable checkboxUnchecked;
+    public Drawable checkboxChecked;
     public Drawable sliderKnob;
     public Drawable slider;
 
@@ -58,7 +62,11 @@ public class Assets implements Disposable, AssetErrorListener  {
         assetManager.finishLoading();
 
         TextureAtlas atlas = assetManager.get(Constants.ATLAS_PATH);
-        player = atlas.findRegion(Constants.PLAYER_REGION);
+        player = new Animation<>(
+                Constants.PLAYER_FRAME_DURATION,
+                atlas.findRegions(Constants.PLAYER_REGION),
+                Animation.PlayMode.LOOP_PINGPONG
+        );
         asteroid = atlas.findRegion(Constants.ASTEROID_REGION);
         playerLaser = atlas.findRegion(Constants.PLAYER_LASER_REGION);
         playerPiercingLaser = atlas.findRegion(Constants.PLAYER_PIERCING_LASER_REGION);
@@ -80,14 +88,32 @@ public class Assets implements Disposable, AssetErrorListener  {
                 Animation.PlayMode.NORMAL
         );
         missile = new Animation<>(
-                GameplayConstants.MISSILE_FRAME_DURATION,
+                Constants.MISSILE_FRAME_DURATION,
                 atlas.findRegions(Constants.MISSILE_REGIONS),
-                Animation.PlayMode.LOOP
+                Animation.PlayMode.LOOP_PINGPONG
         );
-        seekerEnemy = atlas.findRegion(Constants.ENEMY_REGION);
-        sniperEnemy = seekerEnemy;
-        flyByEnemy = seekerEnemy;
-        cruiserEnemy = seekerEnemy;
+        seekerEnemy = new Animation<>(
+            Constants.ENEMY_FRAME_DURATION,
+            atlas.findRegions(Constants.SEEKER_REGION),
+            Animation.PlayMode.LOOP_PINGPONG
+        );
+        sniperEnemy = new Animation<>(
+                Constants.ENEMY_FRAME_DURATION,
+                atlas.findRegions(Constants.SNIPER_REGION),
+                Animation.PlayMode.LOOP_PINGPONG
+        );
+        flyByEnemy = new Animation<>(
+                Constants.ENEMY_FRAME_DURATION,
+                atlas.findRegions(Constants.FLY_BY_REGION),
+                Animation.PlayMode.LOOP_PINGPONG
+        );
+        cruiserEnemy = new Animation<>(
+                Constants.ENEMY_FRAME_DURATION,
+                atlas.findRegions(Constants.CRUISER_REGION),
+                Animation.PlayMode.LOOP_PINGPONG
+        );
+        simpleCannon = atlas.findRegion(Constants.SIMPLE_CANON_REGION);
+        holeCannon = atlas.findRegion(Constants.HOLE_CANON_REGION);
 
         TextureRegion squareButtonDarkRegion = atlas.findRegion(Constants.SQUARE_BUTTON_DARK_REGION);
         squareButtonDark = new NinePatchDrawable(new NinePatch(
@@ -105,8 +131,17 @@ public class Assets implements Disposable, AssetErrorListener  {
                 UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
                 UiConstants.SQUARE_BUTTON_9PATCH_OFFSET
         ));
+        checkboxUnchecked = squareButtonDark;
+        TextureRegion checkboxCheckedRegion = atlas.findRegion(Constants.CHECKBOX_CHECKED);
+        checkboxChecked = new NinePatchDrawable(new NinePatch(
+                checkboxCheckedRegion,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET,
+                UiConstants.SQUARE_BUTTON_9PATCH_OFFSET
+        ));
         Sprite sliderKnobSprite = new Sprite(atlas.findRegion(Constants.SLIDER_KNOB_REGION));
-        sliderKnobSprite.setSize(UiConstants.SLIDER_KNOB_SIZE, UiConstants.SLIDER_KNOB_SIZE);
+        sliderKnobSprite.setSize(UiConstants.SLIDER_KNOB_WIDTH, UiConstants.SLIDER_KNOB_HEIGHT);
         sliderKnob = new SpriteDrawable(sliderKnobSprite);
         Sprite sliderSprite = new Sprite(atlas.findRegion(Constants.SLIDER_REGION));
         //sliderSprite.setSize(sliderSprite.getWidth(), UiConstants.SLIDER_HEIGHT);

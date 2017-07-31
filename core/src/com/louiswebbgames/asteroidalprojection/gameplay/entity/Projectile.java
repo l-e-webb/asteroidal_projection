@@ -15,12 +15,11 @@ public class Projectile extends GameObject {
     public final ProjectileType projectileType;
 
     float timeSinceCollision;
-    TextureRegion texture;
     
     public Projectile(float x, float y, Vector2 heading, ProjectileType type) {
         super(x, y, getProjectileWidth(type), getProjectileHeight(type), EntityType.PROJECTILE, CollisionType.POINT);
         this.projectileType = type;
-        texture = getProjectileTexture(type);
+        setTexture(getProjectileTexture(type));
         setMaxLinearSpeed(Projectile.getProjectileSpeed(type));
         setMinLinearSpeed(Projectile.getProjectileSpeed(type));
         this.linearVelocity = heading.setLength(Projectile.getProjectileSpeed(type));
@@ -97,11 +96,6 @@ public class Projectile extends GameObject {
                 projectileType == ProjectileType.PLAYER_PIERCING_LASER ||
                 projectileType == ProjectileType.PLAYER_ROUND_LASER ||
                 projectileType == ProjectileType.PLAYER_MISSILE);
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return texture;
     }
 
     @Override

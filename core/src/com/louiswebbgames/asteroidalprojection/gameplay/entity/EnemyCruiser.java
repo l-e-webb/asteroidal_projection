@@ -13,6 +13,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.WaveWeapon;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 
 public class EnemyCruiser extends Enemy {
 
@@ -37,25 +38,35 @@ public class EnemyCruiser extends Enemy {
         stage.incrementNumCruisers(1);
         health = GameplayConstants.CRUISER_HEALTH;
         addActor(new FireAtTarget(
-                0,
-                0,
+                getWidth() * Constants.CRUISER_MAIN_CANNON_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_MAIN_CANNON_HEIGHT_RATIO,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                Constants.ENEMY_CANNON_RADIUS * 2,
                 target,
                 FireRate.SLOW_DOUBLE_SHOT,
                 new TripleLaserWeapon(this, Projectile.ProjectileType.ENEMY_PIERCING_LASER,
                         GameplayConstants.CRUISER_MAIN_GUN_SPREAD),
-                GameplayConstants.CRUISER_MAIN_GUN_RANGE
+                GameplayConstants.CRUISER_MAIN_GUN_RANGE,
+                Assets.instance.simpleCannon,
+                true
         ));
         addActor(new FireAtTarget(
-                0,
-                getHeight() / 2,
+                getWidth() * Constants.CRUISER_SECONDARY_CANNON_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_SECONDARY_CANNON_HEIGHT_RATIO,
+                Constants.ENEMY_CANNON_RADIUS * 2,
+                Constants.ENEMY_CANNON_RADIUS * 2,
                 target,
                 FireRate.FAST_DOUBLE_SHOT,
                 new BaseWeapon(this, Projectile.ProjectileType.ENEMY_LASER),
-                GameplayConstants.CRUISER_SECONDARY_GUN_RANGE
+                GameplayConstants.CRUISER_SECONDARY_GUN_RANGE,
+                Assets.instance.simpleCannon,
+                true
         ));
         addActor(new FireAtTarget(
-                0,
-                getHeight() / 4,
+                getWidth() * Constants.CRUISER_SPREAD_CANNON_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_SPREAD_CANNON_HEIGHT_RATIO,
+                Constants.ENEMY_HOLE_CANNON_RADIUS * 2,
+                Constants.ENEMY_HOLE_CANNON_RADIUS * 2,
                 target,
                 FireRate.EXTRA_LONG_BURST,
                 new WaveWeapon(
@@ -64,12 +75,39 @@ public class EnemyCruiser extends Enemy {
                         GameplayConstants.CRUISER_SPREAD_GUN_SPREAD,
                         GameplayConstants.CRUISER_SPREAD_GUN_NUM_SHOTS
                 ),
-                GameplayConstants.CRUISER_SPREAD_GUN_RANGE
+                GameplayConstants.CRUISER_SPREAD_GUN_RANGE,
+                Assets.instance.holeCannon,
+                false
         ));
         Iterable<Asteroid> asteroids = stage.getAsteroids();
-        addActor(new PointDefense(0, getHeight() / 2, asteroids));
-        addActor(new PointDefense(getWidth() / 2, -getHeight() / 2, asteroids));
-        addActor(new PointDefense(-getWidth() / 2, -getHeight() / 2, asteroids));
+        addActor(new PointDefense(
+                getWidth() * Constants.CRUISER_POINT_DEF_1_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_POINT_DEF_1_HEIGHT_RATIO,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Assets.instance.holeCannon,
+                true,
+                asteroids
+        ));
+        addActor(new PointDefense(
+                getWidth() * Constants.CRUISER_POINT_DEF_2_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_POINT_DEF_2_HEIGHT_RATIO,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Assets.instance.holeCannon,
+                true,
+                asteroids
+        ));
+        addActor(new PointDefense(
+                getWidth() * Constants.CRUISER_POINT_DEF_3_WIDTH_RATIO,
+                getHeight() * Constants.CRUISER_POINT_DEF_3_HEIGHT_RATIO,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Constants.POINT_DEFENSE_CANNON_RADIUS * 2,
+                Assets.instance.holeCannon,
+                true,
+                asteroids
+        ));
+        setAnimation(Assets.instance.cruiserEnemy);
     }
 
     public void takeDamage(int damage) {
@@ -99,11 +137,6 @@ public class EnemyCruiser extends Enemy {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.cruiserEnemy;
     }
 
     @Override

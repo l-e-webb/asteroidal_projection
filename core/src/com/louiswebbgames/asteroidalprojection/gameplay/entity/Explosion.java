@@ -9,11 +9,9 @@ import com.louiswebbgames.asteroidalprojection.utility.Assets;
 
 public class Explosion extends GameObject {
 
-    private Animation<TextureRegion> animation;
-
     public Explosion(float x, float y, float radius) {
         super(x, y, radius, EntityType.EXPLOSION, CollisionType.NONE);
-        animation = Assets.instance.explosion;
+        setAnimation(Assets.instance.explosion);
         linearVelocity = new Vector2();
     }
 
@@ -21,11 +19,6 @@ public class Explosion extends GameObject {
     public void update(float delta) {
         super.update(delta);
         if (animation.isAnimationFinished(timeSinceSpawn)) destroy();
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return animation.getKeyFrame(timeSinceSpawn);
     }
 
     @Override

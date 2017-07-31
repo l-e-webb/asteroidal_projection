@@ -1,6 +1,7 @@
 package com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior;
 
 import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
@@ -14,8 +15,8 @@ public class PointDefense extends EnemyGun {
 
     protected AsteroidProximity proximity;
 
-    public PointDefense(float x, float y, Iterable<Asteroid> asteroids) {
-        super(x, y, FireRate.SLOW, new BaseWeapon(null, Projectile.ProjectileType.ENEMY_LASER));
+    public PointDefense(float x, float y, float width, float height, TextureRegion texture, boolean rotateWithShot, Iterable<Asteroid> asteroids) {
+        super(x, y, width, height, FireRate.SLOW, new BaseWeapon(null, Projectile.ProjectileType.ENEMY_LASER), texture, rotateWithShot);
         proximity = new AsteroidProximity(
                 this,
                 asteroids,
@@ -23,14 +24,19 @@ public class PointDefense extends EnemyGun {
         );
     }
 
+    public PointDefense(float x, float y, Iterable<Asteroid> asteroids) {
+        this(x, y, 0, 0, null, false, asteroids);
+    }
+
     @Override
-    public void fire() {
+    public Vector2 fire() {
         proximity.update();
         GameObject targetAsteroid = proximity.getNearestAsteroid();
         if (targetAsteroid == null ||
                 targetAsteroid.distance2(this) > GameplayConstants.CRUISER_POINT_DEFENSE_RANGE * GameplayConstants.CRUISER_POINT_DEFENSE_RANGE)
-            return;
+            return null;
         weapon.fire(targetAsteroid);
+        return new Vector2(targetAsteroid.getPosition()).sub(getPosition());
     }
 
     @Override

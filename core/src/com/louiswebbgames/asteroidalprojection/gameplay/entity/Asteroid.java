@@ -25,6 +25,7 @@ public class Asteroid extends GameObject {
                 GameplayConstants.ASTEROID_MIN_ANGULAR_VEL,
                 GameplayConstants.ASTEROID_MAX_ANGULAR_VEL
         );
+        setTexture(Assets.instance.asteroid);
     }
 
     @Override
@@ -55,11 +56,6 @@ public class Asteroid extends GameObject {
     public void destroy(boolean removeFromCollection) {
         ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RADIUS);
         super.destroy(removeFromCollection);
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.instance.asteroid;
     }
 
     @Override
