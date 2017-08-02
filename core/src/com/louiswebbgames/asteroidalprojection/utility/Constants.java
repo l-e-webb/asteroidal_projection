@@ -3,8 +3,10 @@ package com.louiswebbgames.asteroidalprojection.utility;
 public class Constants {
 
     //Display constants.
-    public static final float UI_VIEWPORT_WIDTH = 800f;
-    public static final float UI_VIEWPORT_HEIGHT = 800f;
+    public static final float UI_VIEWPORT_WIDTH = 960;
+    public static final float UI_VIEWPORT_HEIGHT = 960;
+    public static final int HTML_EMBED_WIDTH = 800;
+    public static final int HTML_EMBED_HEIGHT = 800;
 
     //Asset constants.
     public static final String ATLAS_PATH = "images/sprites.pack.atlas";

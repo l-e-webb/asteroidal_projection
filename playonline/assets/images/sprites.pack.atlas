@@ -20,7 +20,7 @@ star
   index: 2
 star
   rotate: false
-  xy: 787, 153
+  xy: 991, 15
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
@@ -62,272 +62,272 @@ fly_by
   index: 1
 fly_by
   rotate: false
-  xy: 606, 567
+  xy: 606, 819
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 2
 fly_by
   rotate: false
-  xy: 808, 819
+  xy: 204, 15
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 3
 hole_canon
   rotate: false
-  xy: 710, 34
+  xy: 887, 57
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 player_ship
   rotate: false
-  xy: 204, 15
+  xy: 606, 617
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 1
 player_ship
   rotate: false
-  xy: 606, 365
+  xy: 808, 819
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 2
 player_ship
   rotate: false
-  xy: 808, 617
+  xy: 606, 415
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 3
+seeker
+  rotate: false
+  xy: 808, 617
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 1
 seeker
   rotate: false
   xy: 808, 415
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
-  index: 1
+  index: 2
 seeker
   rotate: false
   xy: 406, 15
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
-  index: 2
-seeker
-  rotate: false
-  xy: 608, 163
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
   index: 3
 simple_canon
   rotate: false
-  xy: 710, 86
+  xy: 810, 34
   size: 75, 75
   orig: 75, 75
   offset: 0, 0
   index: -1
 sniper
   rotate: false
+  xy: 608, 213
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: 1
+sniper
+  rotate: false
   xy: 810, 213
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
-  index: 1
-sniper
-  rotate: false
-  xy: 810, 11
-  size: 200, 200
-  orig: 200, 200
-  offset: 0, 0
   index: 2
-red_triangle
+sniper
   rotate: false
   xy: 608, 11
-  size: 100, 150
-  orig: 100, 150
-  offset: 0, 0
-  index: -1
-triangle
-  rotate: false
-  xy: 606, 769
-  size: 200, 250
-  orig: 200, 250
-  offset: 0, 0
-  index: -1
-base_label_9patch
-  rotate: false
-  xy: 710, 2
-  size: 30, 30
-  orig: 30, 30
-  offset: 0, 0
-  index: -1
-base_label_9patch_filled
-  rotate: false
-  xy: 742, 2
-  size: 30, 30
-  orig: 30, 30
-  offset: 0, 0
-  index: -1
-checkbox_checked
-  rotate: false
-  xy: 774, 2
-  size: 30, 30
-  orig: 30, 30
-  offset: 0, 0
-  index: -1
-slider_knob
-  rotate: false
-  xy: 762, 34
-  size: 30, 50
-  orig: 30, 50
-  offset: 0, 0
-  index: -1
-
-sprites.pack3.png
-size: 512,256
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-sniper
-  rotate: false
-  xy: 2, 54
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: 3
-explosion
-  rotate: false
-  xy: 2, 4
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 1
-explosion
-  rotate: false
-  xy: 204, 104
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 2
-explosion
-  rotate: false
-  xy: 306, 206
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 3
-explosion
-  rotate: false
-  xy: 52, 4
-  size: 48, 48
-  orig: 48, 48
-  offset: 0, 0
-  index: 4
 septagon
   rotate: false
-  xy: 204, 154
+  xy: 810, 111
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 extralife
   rotate: false
-  xy: 102, 28
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-missileammo
-  rotate: false
-  xy: 306, 154
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-piercinglaser
-  rotate: false
-  xy: 382, 230
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-points
-  rotate: false
-  xy: 128, 28
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-triplelaser
-  rotate: false
-  xy: 154, 28
-  size: 24, 24
-  orig: 24, 24
+  xy: 964, 109
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 bluelaser
   rotate: false
-  xy: 254, 128
-  size: 24, 24
-  orig: 24, 24
+  xy: 912, 161
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 blueround
   rotate: false
-  xy: 306, 180
-  size: 24, 24
-  orig: 24, 24
+  xy: 912, 109
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 bluesharp
   rotate: false
-  xy: 356, 230
-  size: 24, 24
-  orig: 24, 24
+  xy: 964, 161
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 missile
   rotate: false
-  xy: 102, 2
-  size: 24, 24
-  orig: 24, 24
+  xy: 939, 57
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: 1
 missile
   rotate: false
-  xy: 280, 128
-  size: 24, 24
-  orig: 24, 24
+  xy: 887, 5
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: 2
+missile
+  rotate: false
+  xy: 939, 5
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 3
+base_label_9patch
+  rotate: false
+  xy: 991, 25
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+base_label_9patch_filled
+  rotate: false
+  xy: 810, 2
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+checkbox_checked
+  rotate: false
+  xy: 842, 2
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+slider_knob
+  rotate: false
+  xy: 991, 57
+  size: 30, 50
+  orig: 30, 50
+  offset: 0, 0
+  index: -1
+
+sprites.pack2.png
+size: 1024,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+explosion
+  rotate: false
+  xy: 418, 4
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 1
+explosion
+  rotate: false
+  xy: 468, 4
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 2
+explosion
+  rotate: false
+  xy: 518, 4
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 3
+explosion
+  rotate: false
+  xy: 568, 4
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: 4
+missileammo
+  rotate: false
+  xy: 54, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+piercinglaser
+  rotate: false
+  xy: 106, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+points
+  rotate: false
+  xy: 158, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+triplelaser
+  rotate: false
+  xy: 366, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+missile
+  rotate: false
+  xy: 2, 2
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 4
 redlaser
   rotate: false
-  xy: 128, 2
-  size: 24, 24
-  orig: 24, 24
+  xy: 210, 2
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 redround
   rotate: false
-  xy: 306, 128
-  size: 24, 24
-  orig: 24, 24
+  xy: 262, 2
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 redsharp
   rotate: false
-  xy: 408, 230
-  size: 24, 24
-  orig: 24, 24
+  xy: 314, 2
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 slider
   rotate: false
-  xy: 204, 72
+  xy: 618, 22
   size: 30, 30
   orig: 30, 30
   offset: 0, 0

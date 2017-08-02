@@ -3,11 +3,9 @@ t:font.fnt:11028:application/unknown
 i:font1.png:62870:image/png
 i:font2.png:17852:image/png
 d:images:0:application/unknown
-t:images/pack.atlas:3035:application/unknown
-t:images/sprites.pack.atlas:4670:application/unknown
-i:images/sprites.pack.png:96523:image/png
-i:images/sprites.pack2.png:15325:image/png
-i:images/sprites.pack3.png:15325:image/png
+t:images/sprites.pack.atlas:4640:application/unknown
+i:images/sprites.pack.png:93935:image/png
+i:images/sprites.pack2.png:14974:image/png
 t:com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl:770:application/unknown
 t:com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl:2886:application/unknown
 t:com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl:5162:application/unknown

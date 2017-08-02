@@ -71,6 +71,8 @@ project(":core") {
     task packTextures << {
         def pack = new File("core/assets/images/sprites.pack.png")
         pack.delete()
+        def pack2 = new File("core/assets/images/sprites.pack2.png")
+        pack2.delete()
         def atlas = new File("core/assets/images/sprites.pack.atlas")
         atlas.delete()
         TexturePacker.process("core/rawAssets", "core/assets/images", "sprites.pack")
