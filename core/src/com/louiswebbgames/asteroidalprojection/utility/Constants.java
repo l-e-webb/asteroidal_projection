@@ -11,7 +11,7 @@ public class Constants {
     //Asset constants.
     public static final String ATLAS_PATH = "images/sprites.pack.atlas";
     public static final String PLAYER_REGION = "player_ship";
-    public static final String ASTEROID_REGION = "septagon";
+    public static final String ASTEROID_REGION = "asteroid";
     public static final String PLAYER_LASER_REGION = "bluelaser";
     public static final String PLAYER_PIERCING_LASER_REGION = "bluesharp";
     public static final String PLAYER_ROUND_LASER_REGION = "blueround";
@@ -37,6 +37,7 @@ public class Constants {
     public static final String CHECKBOX_CHECKED = "checkbox_checked";
     public static final String SLIDER_KNOB_REGION = "slider_knob";
     public static final String SLIDER_REGION = "slider";
+    public static final String GRAY_SQUARE_REGION = "gray_square";
 
     //Animation constants
     public static final float MISSILE_FRAME_DURATION = 0.4f;

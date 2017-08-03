@@ -25,7 +25,7 @@ public class Asteroid extends GameObject {
                 GameplayConstants.ASTEROID_MIN_ANGULAR_VEL,
                 GameplayConstants.ASTEROID_MAX_ANGULAR_VEL
         );
-        setTexture(Assets.instance.asteroid);
+        setTexture(getRandomAsteroidTexture());
     }
 
     @Override
@@ -99,5 +99,10 @@ public class Asteroid extends GameObject {
         }
         destroy();
         return true;
+    }
+
+    public static TextureRegion getRandomAsteroidTexture() {
+        TextureRegion[] asteroids = Assets.instance.asteroids;
+        return asteroids[MathUtils.random(asteroids.length - 1)];
     }
 }

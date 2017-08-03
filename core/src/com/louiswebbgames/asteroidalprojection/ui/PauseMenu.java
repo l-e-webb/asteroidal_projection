@@ -1,19 +1,20 @@
 package com.louiswebbgames.asteroidalprojection.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.louiswebbgames.asteroidalprojection.PlayScreen;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.GridRenderer;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
 import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
+import com.louiswebbgames.asteroidalprojection.utility.UtilityMethods;
 
 public class PauseMenu extends Table {
-
-    PlayStage playStage;
 
     CheckBox gridOn;
     CheckBox musicOn;
@@ -21,10 +22,9 @@ public class PauseMenu extends Table {
     Slider musicVolumeSlider;
     Slider sfxVolumeSlider;
 
-    public PauseMenu(PlayStage playStage) {
+    public PauseMenu(PlayScreen playScreen, boolean settings) {
         super();
         pad(UiConstants.PADDING);
-        this.playStage = playStage;
         setBackground(Assets.instance.squareButtonDark);
         gridOn = new CheckBox(UiText.SHOW_GRID, UiConstants.checkBoxStyle);
         gridOn.getImageCell().spaceRight(UiConstants.CHECKBOX_RIGHT_PADDING);
@@ -73,7 +73,25 @@ public class PauseMenu extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SoundManager.buttonSound();
-                unpause();
+                playScreen.togglePause();
+            }
+        });
+        TextButton returnToTitleButton = new TextButton(UiText.RETURN_TO_TITLE, UiConstants.buttonStyle);
+        returnToTitleButton.pad(UiConstants.PADDING);
+        returnToTitleButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                SoundManager.buttonSound();
+                PauseMenu.this.deactivate();
+                playScreen.init();
+            }
+        });
+        TextButton quitButton = new TextButton(UiText.QUIT, UiConstants.buttonStyle);
+        quitButton.pad(UiConstants.PADDING);
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
         
@@ -91,19 +109,28 @@ public class PauseMenu extends Table {
         add(new Label(UiText.SFX_LEVEL, UiConstants.basicLabelStyle)).left();
         add(sfxVolumeSlider).growX();
         row();
-        add(resumeButton).colspan(2).spaceTop(UiConstants.ROW_PADDING);
+        add(resumeButton).colspan(2).spaceTop(UiConstants.ROW_PADDING).minWidth(UiConstants.BUTTON_WIDTH);
+        if (!settings) {
+            row();
+            add(returnToTitleButton).colspan(2).spaceTop(UiConstants.ROW_PADDING).minWidth(UiConstants.BUTTON_WIDTH);
+            if (!UtilityMethods.isWeb()) {
+                row();
+                add(quitButton).colspan(2).spaceTop(UiConstants.ROW_PADDING).minWidth(UiConstants.BUTTON_WIDTH);
+            }
+        }
+
+        setVisible(false);
     }
 
     public void setPaused(boolean paused) {
         if (paused) {
-            pause();
+            activate();
         } else {
-            unpause();
+            deactivate();
         }
     }
 
-    public void pause() {
-        playStage.setPaused(true);
+    public void activate() {
         setSize(UiConstants.PAUSE_MENU_WIDTH, getPrefHeight());
         setPosition(
                 getStage().getViewport().getWorldWidth() / 2,
@@ -118,8 +145,7 @@ public class PauseMenu extends Table {
         setVisible(true);
     }
 
-    public void unpause() {
-        playStage.setPaused(false);
+    public void deactivate() {
         setVisible(false);
     }
 

@@ -90,7 +90,7 @@ public class PlayStage extends Stage {
         gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
     }
 
-    public void initGame() {
+    public void initGame(boolean demoScreen) {
         projectiles.clear();
         enemies.clear();
         asteroids.clear();
@@ -101,6 +101,17 @@ public class PlayStage extends Stage {
         worldOffset.setZero();
         time = 0;
         score = 0;
+        numCruisers = 0;
+        if (demoScreen) {
+            player.setActive(false);
+            enemySpawner.active = false;
+        } else {
+            enemySpawner.active = true;
+        }
+    }
+
+    public void initGame() {
+        this.initGame(false);
     }
 
     @Override
@@ -252,12 +263,15 @@ public class PlayStage extends Stage {
 
         float timer;
         float nextAsteroid;
+        boolean active;
 
         AsteroidSpawner() {
             init();
         }
 
         void update(float delta) {
+            if (!active) return;
+
             if (timer < nextAsteroid) {
                 timer += delta;
             }
@@ -290,6 +304,7 @@ public class PlayStage extends Stage {
 
         void init() {
             timer = 0;
+            active = true;
             setNext();
         }
     }
@@ -299,12 +314,15 @@ public class PlayStage extends Stage {
         int epoch;
         float timer;
         float nextEnemy;
+        boolean active;
 
         EnemySpawner() {
             init();
         }
 
         void update(float delta) {
+            if (!active) return;
+
             if (timer < nextEnemy) {
                 timer += delta;
             }
@@ -337,6 +355,7 @@ public class PlayStage extends Stage {
         }
 
         void init() {
+            active = true;
             timer = 0;
             epoch = 0;
             setNext();

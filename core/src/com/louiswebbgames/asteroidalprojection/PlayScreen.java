@@ -17,6 +17,9 @@ public class PlayScreen extends GameScreen {
     Stage uiStage;
     PauseMenu pauseMenu;
     GameOverMenu gameOverMenu;
+    MainMenu mainMenu;
+
+    public ScreenState state;
 
     @Override
     public void init() {
@@ -25,24 +28,34 @@ public class PlayScreen extends GameScreen {
         uiViewport = new FitViewport(Constants.UI_VIEWPORT_WIDTH, Constants.UI_VIEWPORT_HEIGHT);
         playStage = new PlayStage(viewport);
         stage = playStage;
-        initUi();
+        initCoreUi();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(playStage);
         inputMultiplexer.addProcessor(uiStage);
         Gdx.input.setInputProcessor(inputMultiplexer);
-        playStage.initGame();
+        playStage.initGame(true);
+        state = ScreenState.TITLE;
+        mainMenu.activate();
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
+
+    public void initGame() {
+        initGameUi();
+        playStage.initGame(false);
+        state = ScreenState.PLAY;
+        mainMenu.deactivate();
     }
 
     @Override
     protected void update(float delta) {
-        if (!playStage.gameOver() &&
+        if (state == ScreenState.PLAY &&
                 (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
                 || Gdx.input.isKeyJustPressed(Input.Keys.P))) {
-            playStage.togglePaused();
-            pauseMenu.setPaused(playStage.isPaused());
+            togglePause();
         }
-        if (playStage.gameOver() && !gameOverMenu.isVisible()) {
+        if (playStage.gameOver() && state != ScreenState.GAME_OVER) {
             gameOverMenu.activate();
+            state = ScreenState.GAME_OVER;
         }
         super.update(delta);
         uiStage.act(delta);
@@ -62,16 +75,38 @@ public class PlayScreen extends GameScreen {
         uiViewport.update(width, height);
     }
 
-    public void initUi() {
+    public void initCoreUi() {
         uiStage = new Stage(uiViewport);
+        pauseMenu = new PauseMenu(this, true);
+        uiStage.addActor(pauseMenu);
+        gameOverMenu = new GameOverMenu(this);
+        uiStage.addActor(gameOverMenu);
+        mainMenu = new MainMenu(this);
+        uiStage.addActor(mainMenu);
+    }
+
+    public void initGameUi() {
         uiStage.addActor(new ScoreRenderer(playStage));
         uiStage.addActor(new HealthRenderer(playStage.getPlayer()));
         uiStage.addActor(new MissileAmmoRenderer(playStage.getPlayer()));
         uiStage.addActor(new PowerupDurationRenderer(playStage.getPlayer()));
-        pauseMenu = new PauseMenu(playStage);
-        pauseMenu.setVisible(false);
+        pauseMenu.remove();
+        pauseMenu = new PauseMenu(this, false);
         uiStage.addActor(pauseMenu);
-        gameOverMenu = new GameOverMenu(playStage);
-        uiStage.addActor(gameOverMenu);
+    }
+
+    public void togglePause() {
+        playStage.togglePaused();
+        boolean paused = playStage.isPaused();
+        pauseMenu.setPaused(paused);
+        if (!paused && state == ScreenState.TITLE) {
+            mainMenu.activate();
+        }
+    }
+
+    public enum ScreenState {
+        TITLE,
+        PLAY,
+        GAME_OVER
     }
 }

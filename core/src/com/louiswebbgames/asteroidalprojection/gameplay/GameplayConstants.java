@@ -111,6 +111,7 @@ public class GameplayConstants {
     public static final int POINTS_POWERUP_VALUE = 500;
     public static final float POWERUP_SPAWN_CHANCE = 0.125f;
     public static final int MISSILE_AMMO_AMOUNT = 5;
+    public static final int HEALTH_POWERUP_ADD = 3;
 
 
     //Asteroids

@@ -43,6 +43,8 @@ public class Player extends GameObject {
     protected float tripleLaserDuration;
     protected float piercingLaserDuration;
 
+    boolean active;
+
     public Player() {
         super(0, 0, GameplayConstants.PLAYER_RADIUS, EntityType.PLAYER, CollisionType.CIRCLE);
         independentFacing = true;
@@ -89,6 +91,7 @@ public class Player extends GameObject {
         cannon.independentExistence = false;
         cannon.setTexture(Assets.instance.simpleCannon);
         addActor(cannon);
+        setActive(true);
     }
 
     @Override
@@ -100,8 +103,13 @@ public class Player extends GameObject {
     }
 
     @Override
+    public void act(float delta) {
+        if (!active || !alive()) return;
+        super.act(delta);
+    }
+
+    @Override
     public void update(float delta) {
-        if (!alive()) return;
         if (state == PlayerState.BLINKING) {
             blinkingTimer -= delta;
             if (blinkingTimer < 0) {
@@ -248,7 +256,7 @@ public class Player extends GameObject {
                 primaryWeapon = tripleLaserWeapon;
                 break;
             case EXTRA_HEALTH:
-                health = GameplayConstants.PLAYER_MAX_HEALTH;
+                health = Math.min(health + GameplayConstants.HEALTH_POWERUP_ADD, GameplayConstants.PLAYER_MAX_HEALTH);
                 break;
             case MISSILE_AMMO:
                 missileAmmo += GameplayConstants.MISSILE_AMMO_AMOUNT;
@@ -257,6 +265,11 @@ public class Player extends GameObject {
                 ((PlayStage)getStage()).incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);
                 break;
         }
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+        this.setVisible(active);
     }
 
     public enum PlayerState {

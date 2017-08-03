@@ -4,10 +4,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.ui.UiConstants;
@@ -21,7 +18,7 @@ public class Assets implements Disposable, AssetErrorListener  {
     public static final Assets instance = new Assets();
 
     public Animation<TextureRegion> player;
-    public TextureRegion asteroid;
+    public TextureRegion[] asteroids;
     public TextureRegion playerLaser;
     public TextureRegion playerPiercingLaser;
     public TextureRegion playerRoundLaser;
@@ -50,6 +47,7 @@ public class Assets implements Disposable, AssetErrorListener  {
     public Drawable checkboxChecked;
     public Drawable sliderKnob;
     public Drawable slider;
+    public Drawable healthBar;
 
     private AssetManager assetManager;
 
@@ -67,7 +65,7 @@ public class Assets implements Disposable, AssetErrorListener  {
                 atlas.findRegions(Constants.PLAYER_REGION),
                 Animation.PlayMode.LOOP_PINGPONG
         );
-        asteroid = atlas.findRegion(Constants.ASTEROID_REGION);
+        asteroids = atlas.findRegions(Constants.ASTEROID_REGION).toArray(TextureRegion.class);
         playerLaser = atlas.findRegion(Constants.PLAYER_LASER_REGION);
         playerPiercingLaser = atlas.findRegion(Constants.PLAYER_PIERCING_LASER_REGION);
         playerRoundLaser = atlas.findRegion(Constants.PLAYER_ROUND_LASER_REGION);
@@ -146,6 +144,8 @@ public class Assets implements Disposable, AssetErrorListener  {
         Sprite sliderSprite = new Sprite(atlas.findRegion(Constants.SLIDER_REGION));
         //sliderSprite.setSize(sliderSprite.getWidth(), UiConstants.SLIDER_HEIGHT);
         slider = new SpriteDrawable(sliderSprite);
+        healthBar = new TextureRegionDrawable(atlas.findRegion(Constants.GRAY_SQUARE_REGION))
+                .tint(UiConstants.HEALTH_BAR_TINT);
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {
