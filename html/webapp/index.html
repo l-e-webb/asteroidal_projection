@@ -17,23 +17,44 @@
        <div class="container">
               <div align="center" id="embed-html" oncontextmenu="return false;"></div>
               <div id="instructions">
-                     <h2 align="center">Asteroidal Projection</h2>
-                     <h4>Controls:</h4>
+                     <h2 align="center" style="margin-bottom: 0px">Asteroidal Projection</h2>
+                     <div align="center">a game by Louis Webb</div>
+                     <h3>Controls</h3>
                      <p>
                             <b>Move:</b> WASD<br>
                             <b>Fire Lasers:</b> left-click<br>
                             <b>Fire Missiles:</b> right-click<br>
                             <b>Aim:</b> mouse location
                      </p>
-                     <h4>About</h4>
+                     <h3>About</h3>
                      <p>
-                            Asteroidal Projection is inspired by the classic arcade game Asteroids, but comes with a twist.  The game occurs in the normal Euclidean plane projected radially into the unit disc.  An entire infinite 2D space is inside the disc-shaped play area.  Sizes and distances are distorted the farther you get from the center.  Objects will appear to shrink and go slower as they near the edges of the disc.
+                         Asteroidal Projection is inspired by the classic arcade game Asteroids, but comes with a twist.  The game occurs in the normal Euclidean plane projected radially into the unit disc.  An entire infinite 2D space is inside the disc-shaped play area.  Sizes and distances are distorted the farther you get from the center, so objects will appear to shrink and go slower as they near the edges of the disc.  The grid of white points you see is actually a square grid, which you can use to judge distances.
                      </p>
                      <p>
-                            <b>Note:</b> this game is still under development.  Check back later for more gameplay features!
+                            For the topology nerds out there, play in Asteroidal Projection occurs in the image of the plane through this homeomorphism:
+                     </p>
+                     <img src="equation.png" style="margin: 0px auto; display: block;" />
+                     <h3>Gameplay Tips</h3>
+                     <ul>
+                         <li>There are several enemy types which moves at different speeds and have different ranges.  The fast ones are hard to hit at a distance, but short ranged.  Wait until they're near you to take them out.</li>
+                         <li>You're more maneuverable than your enemies, so fighting among many asteroids gives you an advantage.  <em>"You're not actually going <b>into</b> an asteroid field...?"</em></li>
+                         <li>Powerups (piercing lasers, triple lasers, health recovery, missile ammo, and bonus points) are sometimes hidden in asteroids.  Blow those bad boys up to release the goodies.</li>
+                         <li>You can fire homing-missiles by right clicking.  They're not effective on fast targets, but can be useful for picking off slow enemies that are far away.  They also deal heavy damage to the large cruisers which start to spawn a few minutes in.  Keep an eye on your ammo, though.</li>
+                         <li>Cruisers are powerful, but they're slow and their attacks have limited range.  Keep your distance and whittle them down from afar.  <em>"But don't <b>look</b> like you're trying to keep your distance."</em></li>
+                     </ul>
+                     <h3>Credits</h3>
+                     <p>Concept, design, programming, art: Louis Webb</p>
+                     <p>
+                         Music: <em>Rocket</em> by Kevin Macleod (incompetech.com)<br>
+                         Licensed under Creative Commons: By Attribution 3.0 License<br>
+                         http://creativecommons.org/licenses/by/3.0/
                      </p>
                      <p>
-                            A game by Louis Webb.
+                         Coin Sound: ProjectsU012 (unchanged)<br>
+                         https://freesound.org/s/341695/
+                     </p>
+                     <p>
+                         Made in libGDX
                      </p>
               </div>
               <script type="text/javascript" src="html/html.nocache.js"></script>

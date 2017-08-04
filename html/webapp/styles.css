@@ -21,6 +21,7 @@ h4 {
 #embed-html {
     width: 800px;
     height: 800px;
+    background: #222
 }
 
 #instructions {
@@ -56,5 +57,9 @@ h4 {
 
 #license > a > img {
     float: right;
+}
+
+li {
+    padding-bottom: 5px;
 }
 
