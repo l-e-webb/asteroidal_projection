@@ -111,14 +111,14 @@ public class GameplayConstants {
     public static final int POINTS_POWERUP_VALUE = 500;
     public static final float POWERUP_SPAWN_CHANCE = 0.125f;
     public static final int MISSILE_AMMO_AMOUNT = 5;
-    public static final int HEALTH_POWERUP_ADD = 3;
+    public static final int HEALTH_POWERUP_ADD = 2;
 
 
     //Asteroids
     public static final float ASTEROID_SPEED_AVERAGE = 1.8f;
     public static final float ASTEROID_MIN_RADIUS = 0.13f;
     public static final float ASTEROID_MAX_RADIUS = 0.7f;
-    public static final float ASTEROID_COLLISION_RADIUS_MOD = 0.75f;
+    public static final float ASTEROID_COLLISION_RADIUS_MOD = 0.9f;
     public static final float ASTEROID_MAX_ANGULAR_VEL = (float) Math.PI / 3;
     public static final float ASTEROID_MIN_ANGULAR_VEL = (float) Math.PI / 8;
 
@@ -126,7 +126,9 @@ public class GameplayConstants {
     public static final float ASTEROID_SPAWN_AVERAGE = 1.5f;
     public static final float ASTEROID_ANGLE_VAR = 7.5f;
     public static final int MIN_ASTEROIDS_PRESENT = 11;
-    public static final int MAX_ASTEROIDS_PRESENT = 28;
+    public static final int MAX_ASTEROIDS_PRESENT = 50;
+    public static final float ASTEROID_CENTER_OF_MASS_CUTOFF = 10f;
+    public static final float ASTEROID_CENTER_OF_MASS_CUTOFF2 = ASTEROID_CENTER_OF_MASS_CUTOFF * ASTEROID_CENTER_OF_MASS_CUTOFF;
 
     //Enemy spawning
     public static final float[] DIFFICULTY_EPOCHS = new float[]{30, 90, 240, Float.MAX_VALUE};

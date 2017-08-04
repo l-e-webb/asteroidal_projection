@@ -50,6 +50,7 @@ public class PauseMenu extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 SoundManager.setMusicOn(musicOn.isChecked());
+                if (!settings) SoundManager.playMusic();
                 SoundManager.buttonSound();
             }
         });

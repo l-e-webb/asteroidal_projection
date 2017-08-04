@@ -11,7 +11,9 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AvoidAsteroids;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 import com.louiswebbgames.asteroidalprojection.utility.ShapeRenderRequest;
+import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
 
 public abstract class Enemy extends GameObject {
 
@@ -50,6 +52,15 @@ public abstract class Enemy extends GameObject {
         PlayStage stage = (PlayStage) getStage();
         stage.addExplosion(position.x, position.y, getExplosionRadius());
         stage.incrementScore(pointValue);
+        float distanceFromOrigin = distanceFromOrigin();
+        if (distanceFromOrigin < Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF) {
+            boolean isCruiser = this instanceof EnemyCruiser;
+            SoundManager.SoundEffect effect = isCruiser ? SoundManager.SoundEffect.LARGE_EXPLOSION : SoundManager.SoundEffect.EXPLOSION;
+            float soundMod = (Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF - distanceFromOrigin)
+                    / Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF;
+            if (isCruiser) soundMod *= Constants.LARGE_EXPLOSION_SOUND_MOD;
+            SoundManager.playSoundEffect(effect, soundMod);
+        }
         super.destroy(removeFromCollection);
     }
 

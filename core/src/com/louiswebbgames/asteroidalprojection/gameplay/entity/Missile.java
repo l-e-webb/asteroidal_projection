@@ -10,7 +10,9 @@ import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.enemybehavior.AvoidAsteroids;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
+import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
 
 public class Missile extends Projectile {
 
@@ -59,6 +61,13 @@ public class Missile extends Projectile {
     @Override
     public void destroy(boolean removeFromCollection) {
         ((PlayStage)getStage()).addExplosion(new MissileExplosion(position.x, position.y));
+        float distanceFromOrigin = distanceFromOrigin();
+        if (distanceFromOrigin < Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF) {
+            float soundMod = (Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF - distanceFromOrigin)
+                    / Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF;
+            soundMod *= Constants.LARGE_EXPLOSION_SOUND_MOD;
+            SoundManager.playSoundEffect(SoundManager.SoundEffect.LARGE_EXPLOSION, soundMod);
+        }
         super.destroy(removeFromCollection);
     }
 

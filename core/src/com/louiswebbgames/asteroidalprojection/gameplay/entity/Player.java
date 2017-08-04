@@ -13,10 +13,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.MissileLauncher;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapon;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
-import com.louiswebbgames.asteroidalprojection.utility.Assets;
-import com.louiswebbgames.asteroidalprojection.utility.Constants;
-import com.louiswebbgames.asteroidalprojection.utility.Controls;
-import com.louiswebbgames.asteroidalprojection.utility.Log;
+import com.louiswebbgames.asteroidalprojection.utility.*;
 
 public class Player extends GameObject {
 
@@ -142,6 +139,14 @@ public class Player extends GameObject {
         } else if (Controls.fire() && state == PlayerState.NORMAL) {
             primaryWeapon.fire(mousePosition);
             fireTimer = 0;
+            SoundManager.SoundEffect effect;
+            if (piercingLaserDuration > 0) {
+                effect = SoundManager.SoundEffect.PLAYER_PIERCING_LASER;
+            } else {
+                effect = SoundManager.SoundEffect.PLAYER_LASER;
+            }
+            float soundMod = tripleLaserDuration > 0 ? Constants.TRIPLE_LASER_SOUND_AMP : 1f;
+            SoundManager.playSoundEffect(effect, soundMod);
         }
         if (missileFireTimer < GameplayConstants.PLAYER_MISSILE_COOLDOWN) {
             missileFireTimer += delta;
@@ -150,6 +155,7 @@ public class Player extends GameObject {
             secondaryWeapon.fire(targetLoc);
             missileFireTimer = 0;
             missileAmmo--;
+            SoundManager.playSoundEffect(SoundManager.SoundEffect.PLAYER_MISSILE);
         }
     }
 
@@ -236,15 +242,23 @@ public class Player extends GameObject {
 
     @Override
     public boolean reportHit(Vector2 hitDirection) {
-        if (state != PlayerState.BLINKING) {
-            health -= 1;
-            setState(health > 0 ? PlayerState.BLINKING : PlayerState.DEAD);
-            return true;
+        if (state != PlayerState.NORMAL) {
+            return false;
         }
-        return false;
-    }
+        health -= 1;
+        setState(health > 0 ? PlayerState.BLINKING : PlayerState.DEAD);
+        SoundManager.SoundEffect effect = alive() ? SoundManager.SoundEffect.IMPACT : SoundManager.SoundEffect.LARGE_EXPLOSION;
+        SoundManager.playSoundEffect(effect);
+        if (!alive()) {
+            setActive(false);
+            ((PlayStage)getStage()).addExplosion(new PlayerExplosion(0, 0, GameplayConstants.EXPLOSION_LARGE_RADIUS));
+
+        }
+        return true;
+}
 
     public void applyPowerup(Powerup.PowerupType type) {
+        SoundManager.SoundEffect effect = SoundManager.SoundEffect.POWERUP;
         switch (type) {
             case PIERCING_LASERS:
                 piercingLaserDuration = GameplayConstants.PIERCING_LASER_DURATION;
@@ -261,10 +275,12 @@ public class Player extends GameObject {
             case MISSILE_AMMO:
                 missileAmmo += GameplayConstants.MISSILE_AMMO_AMOUNT;
                 break;
-            case POINTS:
+            case POINTS:default:
                 ((PlayStage)getStage()).incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);
+                effect = SoundManager.SoundEffect.COIN;
                 break;
         }
+        SoundManager.playSoundEffect(effect);
     }
 
     public void setActive(boolean active) {

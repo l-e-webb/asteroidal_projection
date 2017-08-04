@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.Align;
 import com.louiswebbgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.utility.Assets;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
 import com.louiswebbgames.asteroidalprojection.utility.Log;
+import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
 
 import java.util.Iterator;
 
@@ -55,6 +57,13 @@ public class Asteroid extends GameObject {
     @Override
     public void destroy(boolean removeFromCollection) {
         ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RADIUS);
+        float distanceFromOrigin = distanceFromOrigin();
+        if (distanceFromOrigin < Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF) {
+            float soundMod = (Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF - distanceFromOrigin)
+                    / Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF;
+            soundMod *= Constants.ASTEROID_EXPLOSION_SOUND_MOD;
+            SoundManager.playSoundEffect(SoundManager.SoundEffect.EXPLOSION, soundMod);
+        }
         super.destroy(removeFromCollection);
     }
 

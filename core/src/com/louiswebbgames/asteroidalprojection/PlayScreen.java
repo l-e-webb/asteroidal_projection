@@ -9,6 +9,7 @@ import com.louiswebbgames.asteroidalprojection.gameplay.PlayStage;
 import com.louiswebbgames.asteroidalprojection.gameplay.geometry.Projection;
 import com.louiswebbgames.asteroidalprojection.ui.*;
 import com.louiswebbgames.asteroidalprojection.utility.Constants;
+import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
 
 public class PlayScreen extends GameScreen {
 
@@ -37,6 +38,7 @@ public class PlayScreen extends GameScreen {
         state = ScreenState.TITLE;
         mainMenu.activate();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        SoundManager.stopMusic();
     }
 
     public void initGame() {
@@ -44,6 +46,7 @@ public class PlayScreen extends GameScreen {
         playStage.initGame(false);
         state = ScreenState.PLAY;
         mainMenu.deactivate();
+        SoundManager.playMusic();
     }
 
     @Override
@@ -53,7 +56,7 @@ public class PlayScreen extends GameScreen {
                 || Gdx.input.isKeyJustPressed(Input.Keys.P))) {
             togglePause();
         }
-        if (playStage.gameOver() && state != ScreenState.GAME_OVER) {
+        if (playStage.isGameOver() && state != ScreenState.GAME_OVER) {
             gameOverMenu.activate();
             state = ScreenState.GAME_OVER;
         }

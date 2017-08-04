@@ -25,6 +25,7 @@ public class PlayStage extends Stage {
     int score;
     float time;
     boolean paused;
+    boolean gameOver;
 
     Player player;
     AsteroidSpawner asteroidSpawner;
@@ -116,7 +117,7 @@ public class PlayStage extends Stage {
 
     @Override
     public void act(float delta) {
-        if (gameOver() || isPaused()) return;
+        if (isGameOver() || isPaused()) return;
 
         super.act(delta);
         time += delta;
@@ -237,8 +238,12 @@ public class PlayStage extends Stage {
         return score;
     }
 
-    public boolean gameOver() {
-        return player.currentHealth() <= 0;
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void gameOver() {
+        gameOver = true;
     }
 
     public boolean isPaused() {
@@ -278,7 +283,12 @@ public class PlayStage extends Stage {
             if (timer > nextAsteroid && asteroids.size() < GameplayConstants.MAX_ASTEROIDS_PRESENT
                     || asteroids.size() < GameplayConstants.MIN_ASTEROIDS_PRESENT) {
                 Vector2 pos = new Vector2(1, 0);
-                pos.setAngle(MathUtils.random(360f));
+                Vector2 centerOfMass = getAsteroidCenterOfMass();
+                if (centerOfMass.len2() > GameplayConstants.ASTEROID_CENTER_OF_MASS_CUTOFF2) {
+                    pos.setAngle(centerOfMass.angle() - 180 + MathUtils.random(-45, 45));
+                } else {
+                    pos.setAngle(MathUtils.random(360));
+                }
                 pos.setLength(GameplayConstants.HORIZON * GameplayConstants.HORIZON_SPAWN_POINT_RATIO);
                 Vector2 velocity = new Vector2(1, 0);
                 velocity.setAngle(
@@ -306,6 +316,17 @@ public class PlayStage extends Stage {
             timer = 0;
             active = true;
             setNext();
+        }
+
+        Vector2 getAsteroidCenterOfMass() {
+            Vector2 center = new Vector2();
+            for (Asteroid asteroid : asteroids) {
+                center.x += asteroid.getPosition().x;
+                center.y += asteroid.getPosition().y;
+            }
+            center.x = center.x / asteroids.size();
+            center.y = center.y / asteroids.size();
+            return center;
         }
     }
 

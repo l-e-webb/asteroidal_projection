@@ -7,11 +7,15 @@ import com.louiswebbgames.asteroidalprojection.gameplay.entity.CollisionType;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.EntityType;
 import com.louiswebbgames.asteroidalprojection.gameplay.entity.GameObject;
 import com.louiswebbgames.asteroidalprojection.gameplay.weapon.Weapon;
+import com.louiswebbgames.asteroidalprojection.utility.Constants;
+import com.louiswebbgames.asteroidalprojection.utility.SoundManager;
 
 public abstract class EnemyGun extends GameObject {
 
     public FireRate rate;
     public Weapon weapon;
+    public boolean makesSound;
+
     protected int delayIndex;
     protected float fireTimer;
     protected boolean rotateWithShot;
@@ -27,6 +31,7 @@ public abstract class EnemyGun extends GameObject {
         independentScaling = false;
         setTexture(texture);
         this.rotateWithShot = rotateWithShot;
+        makesSound = true;
     }
 
     public EnemyGun(float x, float y, FireRate rate, Weapon weapon) {
@@ -39,6 +44,23 @@ public abstract class EnemyGun extends GameObject {
             Vector2 fireDirection = fire();
             if (rotateWithShot && fireDirection != null) {
                 setOrientation(fireDirection.angleRad());
+            }
+            if (makesSound) {
+                float distanceFromOrigin = distanceFromOrigin();
+                if (distanceFromOrigin < Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF) {
+                    float soundMod = (Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF - distanceFromOrigin)
+                            / Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF;
+                    switch (weapon.getProjectileType()) {
+                        case ENEMY_LASER:
+                            SoundManager.playSoundEffect(SoundManager.SoundEffect.ENEMY_LASER, soundMod);
+                            break;
+                        case ENEMY_PIERCING_LASER:
+                            SoundManager.playSoundEffect(SoundManager.SoundEffect.ENEMY_PIERCING_LASER, soundMod);
+                            break;
+                        case ENEMY_ROUND_LASER:
+                            SoundManager.playSoundEffect(SoundManager.SoundEffect.ENEMY_ROUND_LASER, soundMod);
+                    }
+                }
             }
             resetFireTimer();
         } else {

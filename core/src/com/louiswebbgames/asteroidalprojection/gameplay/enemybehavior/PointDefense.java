@@ -22,6 +22,7 @@ public class PointDefense extends EnemyGun {
                 asteroids,
                 GameplayConstants.CRUISER_POINT_DEFENSE_RANGE
         );
+        makesSound = false;
     }
 
     public PointDefense(float x, float y, Iterable<Asteroid> asteroids) {
