@@ -46,6 +46,8 @@ task dist(dependsOn: [clean, compileGwt]) {
             from "war"
             into "build/dist"
         }
+        delete "../playonline"
+        file("../playonline").mkdirs()
         copy {
             from "build/dist"
             into "../playonline"
