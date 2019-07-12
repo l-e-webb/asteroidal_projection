@@ -44,11 +44,13 @@ public class MainMenu extends Table {
             }
         });
         add(settingsButton).center().spaceTop(UiConstants.ROW_PADDING).minWidth(UiConstants.BUTTON_WIDTH);
+        /*
         row();
         TextButton aboutButton = new TextButton(UiText.ABOUT, UiConstants.buttonStyle);
         aboutButton.pad(UiConstants.PADDING);
         //TODO: add listener.
         add(aboutButton).center().spaceTop(UiConstants.ROW_PADDING).minWidth(UiConstants.BUTTON_WIDTH);
+        */
         if (!UtilityMethods.isWeb()) {
             row();
             TextButton quitButton = new TextButton(UiText.QUIT, UiConstants.buttonStyle);

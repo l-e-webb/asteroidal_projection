@@ -19,8 +19,8 @@ public class UiConstants {
 
     public static final float PAUSE_MENU_WIDTH = 400f;
 
-    public static final float FONT_SCALE = 0.25f;
-    public static final float TITLE_FONT_SCALE = 0.75f;
+    public static final float FONT_SCALE = 1;
+    public static final float TITLE_FONT_SCALE = 1;
 
     public static final float PADDING = 12f;
     public static final float ICON_SIZE = 48f;
@@ -44,7 +44,7 @@ public class UiConstants {
         BitmapFont font = new BitmapFont(Gdx.files.internal("font.fnt"), false);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         font.getData().setScale(FONT_SCALE);
-        BitmapFont titleFont = new BitmapFont(Gdx.files.internal("font.fnt"), false);
+        BitmapFont titleFont = new BitmapFont(Gdx.files.internal("titleFont.fnt"), false);
         titleFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         titleFont.getData().setScale(TITLE_FONT_SCALE);
         basicLabelStyle = new Label.LabelStyle(font, TEXT_COLOR);
