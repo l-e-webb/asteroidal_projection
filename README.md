@@ -6,11 +6,11 @@ You can play online [here](https://l-e-webb.github.io/asteroidal_projection).
 
 ## License
 
-This is a free game made in libGDX, licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives license](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).  You are free to redistribute for non-commercial purposes provided you attribute the source and make no changes.  See  the link for details.
+This is a free game licensed under a [Creative Commons Attribution-NonCommercial-NoDerivatives license](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).  You are free to redistribute for non-commercial purposes provided you attribute the source and make no changes.  See  the link for details.
 
 ## Credits
 
-Concept, design, programming, visual design: Louis Webb
+Concept, design, programming, visuals: Ashlen ([Tangled Web Games](https://tangledwebgames.itch.io))
 
 Music: _Rocket_ by Kevin Macleod (incompetech.com)<br>
 Licensed under Creative Commons: By Attribution 3.0 License<br>
@@ -19,4 +19,4 @@ http://creativecommons.org/licenses/by/3.0/
 Coin Sound: ProjectsU012 (unchanged)<br>
 https://freesound.org/s/341695/
 
-Made in libGDX
+This game was made with [libGDX](https://libgdx.badlogicgames.com), which is licensed under Apache 2.0, see [here](https://github.com/libgdx/libgdx/blob/master/LICENSE) for details.
