@@ -1,52 +1,51 @@
-import com.badlogic.gdx.tools.texturepacker.TexturePacker
-
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         jcenter()
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.9'
         classpath 'com.badlogicgames.gdx:gdx-tools:1.9.9'
     }
 }
 
 allprojects {
-    apply plugin: "eclipse"
-    apply plugin: "idea"
 
     version = '1.0'
     ext {
         appName = "asteroidalprojection"
-        gdxVersion = '1.9.9'
+        gdxVersion = '1.9.10'
         aiVersion = '1.8.1'
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
+        jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
 
 project(":desktop") {
-    apply plugin: "java"
-
+    apply plugin: "java-library"
 
     dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 
 project(":html") {
+    apply plugin: "java-library"
     apply plugin: "gwt"
     apply plugin: "war"
-
 
     dependencies {
         compile project(":core")
@@ -59,8 +58,9 @@ project(":html") {
     }
 }
 
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
 project(":core") {
-    apply plugin: "java"
+    apply plugin: "java-library"
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
@@ -68,19 +68,17 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
     }
 
-    task packTextures << {
-        def pack = new File("core/assets/images/sprites.pack.png")
-        pack.delete()
-        def pack2 = new File("core/assets/images/sprites.pack2.png")
-        pack2.delete()
-        def atlas = new File("core/assets/images/sprites.pack.atlas")
-        atlas.delete()
-        TexturePacker.process("core/rawAssets", "core/assets/images", "sprites.pack")
+    task packTextures {
+        doLast {
+            def pack = new File("core/assets/images/sprites.pack.png")
+            pack.delete()
+            def pack2 = new File("core/assets/images/sprites.pack2.png")
+            pack2.delete()
+            def atlas = new File("core/assets/images/sprites.pack.atlas")
+            atlas.delete()
+            TexturePacker.process("core/rawAssets", "core/assets/images", "sprites.pack")
+        }
     }
 
     project.tasks.compileJava.dependsOn packTextures
-}
-
-tasks.eclipse.doLast {
-    delete ".project"
 }
