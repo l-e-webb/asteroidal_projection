@@ -81,9 +81,9 @@ public class Player extends GameObject {
             public void updatePositionVector() {
                 position = localToStageCoordinates(new Vector2());
             }
-
         };
         cannon.independentExistence = false;
+        cannon.independentScaling = false;
         cannon.setTexture(Assets.instance.simpleCannon);
         addActor(cannon);
         setActive(true);

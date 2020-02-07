@@ -35,7 +35,6 @@ public class Powerup extends GameObject {
 
         if (collidesWith(player)) {
             player.applyPowerup(powerupType);
-            //TODO: play sound?
             destroy();
         }
     }

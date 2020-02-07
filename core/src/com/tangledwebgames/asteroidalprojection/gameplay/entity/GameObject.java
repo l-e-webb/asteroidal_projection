@@ -158,9 +158,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     public void updateScale() {
         if (independentScaling) {
-            setScale(
-                    (1 / (distanceFromOrigin() + 1))
-            );
+            setScale(Projection.getProjectedScale(distanceFromOrigin(), getBoundingRadius()));
         } else {
             setScale(getParent().getScaleX(), getParent().getScaleY());
         }
@@ -212,20 +210,17 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
         if (debug) {
             ((PlayStage) getStage()).addShapeRenderRequest(
-                    new ShapeRenderRequest() {
-                        @Override
-                        public void draw(ShapeRenderer renderer) {
-                            Vector2 projectedPos = getProjectedPosition();
-                            renderer.set(ShapeRenderer.ShapeType.Line);
-                            renderer.setColor(Color.WHITE);
-                            renderer.circle(
-                                    projectedPos.x,
-                                    projectedPos.y,
-                                    getBoundingRadius() * getScaleX(),
-                                    7
-                            );
-                        }
-                    }
+                renderer -> {
+                    Vector2 projectedPos = getProjectedPosition();
+                    renderer.set(ShapeRenderer.ShapeType.Line);
+                    renderer.setColor(Color.WHITE);
+                    renderer.circle(
+                            projectedPos.x,
+                            projectedPos.y,
+                            getBoundingRadius() * getScaleX(),
+                            7
+                    );
+                }
             );
         }
     }
@@ -303,7 +298,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     @Override
     public float getBoundingRadius() {
-        return getWidth() / 2;
+        return Math.max(getWidth(), getHeight()) / 2;
     }
 
     @Override
