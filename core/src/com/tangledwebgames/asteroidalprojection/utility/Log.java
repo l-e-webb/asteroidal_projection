@@ -6,6 +6,22 @@ public class Log {
 
     public static LogLevel level = LogLevel.DEBUG;
 
+    public static void log(Object object) {
+        log(object.toString());
+    }
+
+    public static void log(Object object, LogLevel level) {
+        log(object.toString(), level);
+    }
+
+    public static void log(String tag, Object object) {
+        log(tag, object.toString());
+    }
+
+    public static void log(String tag, Object object, LogLevel level) {
+        log(tag, object.toString(), level);
+    }
+
     public static void log(String message) {
         log(message, LogLevel.INFO);
     }

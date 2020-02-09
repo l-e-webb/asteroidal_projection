@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class GameplayConstants {
 
     //Projection
-    public static final float LENGTH_MAPPED_TO_HALF_RADIUS = 2;
+    public static final float LENGTH_MAPPED_TO_HALF_RADIUS = 2.5f;
 
     public static final float HORIZON = 30f;
     public static final float HORIZON_SPAWN_POINT_RATIO = 0.84f;
@@ -16,7 +16,7 @@ public class GameplayConstants {
     public static final float ZERO_SPEED_THRESHOLD = 0.1f;
 
     //Player
-    public static final float PLAYER_RADIUS = 0.2f;
+    public static final float PLAYER_RADIUS = 0.5f;
     public static final float PLAYER_MAX_SPEED = 2.5f;
     public static final float PLAYER_ACCEL = 5f;
     public static final float PLAYER_DAMPENING = 7f;
@@ -30,7 +30,7 @@ public class GameplayConstants {
 
     //Enemy
     public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
-    public static final float SEEKER_RADIUS = 0.15f;
+    public static final float SEEKER_RADIUS = 0.6f;
     public static final float SEEKER_MIN_SPEED = 0.6f;
     public static final float SEEKER_MAX_SPEED = 2f;
     public static final float SEEKER_ACCEL = 3.5f;
@@ -39,7 +39,7 @@ public class GameplayConstants {
     public static final float SEEKER_MAINTAIN_DISTANCE = 3.2f;
     public static final float SEEKER_WEAPON_RANGE = 4.5f;
     public static final int SEEKER_POINT_VALUE = 50;
-    public static final float SNIPER_RADIUS = 0.15f;
+    public static final float SNIPER_RADIUS = 0.6f;
     public static final float SNIPER_MIN_SPEED = 0.3f;
     public static final float SNIPER_MAX_SPEED = 1.1f;
     public static final float SNIPER_ACCEL = 3f;
@@ -48,7 +48,7 @@ public class GameplayConstants {
     public static final float SNIPER_MAINTAIN_DISTANCE = 10f;
     public static final float SNIPER_WEAPON_RANGE = 14f;
     public static final int SNIPER_POINT_VALUE = 60;
-    public static final float FLY_BY_RADIUS = 0.15f;
+    public static final float FLY_BY_RADIUS = 0.6f;
     public static final float FLY_BY_MIN_SPEED = 2.5f;
     public static final float FLY_BY_MAX_SPEED = 4.75f;
     public static final float FLY_BY_ACCEL = 7.5f;
@@ -60,8 +60,8 @@ public class GameplayConstants {
     public static final int ENEMY_SPREAD_ATTACK_NUMSHOTS = 10;
 
     //Cruisers
-    public static final float CRUISER_WIDTH = 0.75f;
-    public static final float CRUISER_HEIGHT = 1f;
+    public static final float CRUISER_WIDTH = 1f;
+    public static final float CRUISER_HEIGHT = 1.33f;
     public static final float CRUISER_MIN_SPEED = 0.7f;
     public static final float CRUISER_MAX_SPEED = 1.25f;
     public static final float CRUISER_ACCEL = 2f;
@@ -80,13 +80,13 @@ public class GameplayConstants {
     public static final float CRUISER_EXPLOSION_RADIUS = 0.6f;
 
     //Projectiles
-    public static final float LASER_WIDTH = 0.15f;
-    public static final float LASER_HEIGHT = 0.15f;
-    public static final float PIERCING_LASER_WIDTH = 0.15f;
-    public static final float PIERCING_LASER_HEIGHT = 0.15f;
-    public static final float ROUND_PROJECTILE_WIDTH = 0.25f;
-    public static final float MISSILE_WIDTH = 0.25f;
-    public static final float MISSILE_HEIGHT = 0.25f;
+    public static final float LASER_WIDTH = 0.3f;
+    public static final float LASER_HEIGHT = 0.4f;
+    public static final float PIERCING_LASER_WIDTH = 0.3f;
+    public static final float PIERCING_LASER_HEIGHT = 0.4f;
+    public static final float ROUND_PROJECTILE_WIDTH = 0.4f;
+    public static final float MISSILE_WIDTH = 0.5f;
+    public static final float MISSILE_HEIGHT = 0.5f;
     public static final float PLAYER_LASER_SPEED = 9f;
     public static final float ENEMY_LASER_SPEED = 7.5f;
     public static final float PLAYER_ROUND_SPEED = 6f;
@@ -105,8 +105,8 @@ public class GameplayConstants {
 
 
     //Powerups
-    public static final float POWERUP_WIDTH = 0.4f;
-    public static final float POWERUP_HEIGHT = 0.4f;
+    public static final float POWERUP_WIDTH = 0.7f;
+    public static final float POWERUP_HEIGHT = 0.7f;
     public static final float POWERUP_MIN_SPEED = 0;
     public static final float POWERUP_MAX_SPEED = 0.2f;
     public static final float PIERCING_LASER_DURATION = 20f;
@@ -119,8 +119,8 @@ public class GameplayConstants {
 
     //Asteroids
     public static final float ASTEROID_SPEED_AVERAGE = 1.8f;
-    public static final float ASTEROID_MIN_RADIUS = 0.13f;
-    public static final float ASTEROID_MAX_RADIUS = 0.7f;
+    public static final float ASTEROID_MIN_RADIUS = 0.25f;
+    public static final float ASTEROID_MAX_RADIUS = 1.5f;
     public static final float ASTEROID_COLLISION_RADIUS_MOD = 0.9f;
     public static final float ASTEROID_MAX_ANGULAR_VEL = (float) Math.PI / 3;
     public static final float ASTEROID_MIN_ANGULAR_VEL = (float) Math.PI / 8;
@@ -146,9 +146,9 @@ public class GameplayConstants {
     public static final float ASTEROID_AVOIDANCE_WHISKER_ANGLE = MathUtils.PI / 12;
 
     //Explosion
-    public static final float EXPLOSION_LARGE_RADIUS = 0.4f;
-    public static final float EXPLOSION_SMALL_RADIUS = 0.2f;
-    public static final float EXPLOSION_TINY_RADIUS = 0.1f;
+    public static final float EXPLOSION_LARGE_RADIUS = 1f;
+    public static final float EXPLOSION_SMALL_RADIUS = 0.6f;
+    public static final float EXPLOSION_TINY_RADIUS = 0.25f;
     public static final float EXPLOSION_FRAME_DURATION = 0.12f;
 
 }

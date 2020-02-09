@@ -10,12 +10,14 @@ import com.tangledwebgames.asteroidalprojection.gameplay.weapon.Weapon;
 public class FireAtTarget extends EnemyGun {
 
     protected float range;
+    protected float range2;
     protected GameObject target;
 
     public FireAtTarget(float x, float y, float width, float height, GameObject target, FireRate rate, Weapon weapon, float range, TextureRegion texture, boolean rotateWithShot) {
         super(x, y, width, height, rate, weapon, texture, rotateWithShot);
         this.target = target;
         this.range = range;
+        this.range2 = range * range;
     }
 
     public FireAtTarget(float x, float y, GameObject target, FireRate rate, Weapon weapon, float range) {
@@ -30,7 +32,7 @@ public class FireAtTarget extends EnemyGun {
 
     @Override
     public boolean ready() {
-        return super.ready() && weapon.mount.distance2(target) < range * range;
+        return super.ready() && weapon.mount.distance2(target) < range2;
     }
 
     @Override

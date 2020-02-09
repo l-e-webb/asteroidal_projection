@@ -20,6 +20,6 @@ public class Explosion extends GameObject {
 
     @Override
     public Location<Vector2> newLocation() {
-        return new Explosion(getX(), getY(), getBoundingRadius());
+        return new Explosion(getX(), getY(), getRadius());
     }
 }

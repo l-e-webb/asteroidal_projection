@@ -26,9 +26,9 @@ public class PlayScreen extends GameScreen {
     public void init() {
         viewport = new FitViewport( 2, 2);
         uiViewport = new FitViewport(Constants.UI_VIEWPORT_WIDTH, Constants.UI_VIEWPORT_HEIGHT);
+        Projection.init();
         playStage = new PlayStage(viewport);
         stage = playStage;
-        Projection.init();
         initCoreUi();
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(playStage);

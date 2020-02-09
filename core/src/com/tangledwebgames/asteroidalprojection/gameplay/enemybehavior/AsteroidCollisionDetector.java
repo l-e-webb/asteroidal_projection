@@ -22,7 +22,7 @@ public class AsteroidCollisionDetector implements RaycastCollisionDetector<Vecto
                     ray.start,
                     ray.end,
                     asteroid.getPosition(),
-                    asteroid.getBoundingRadius() * asteroid.getBoundingRadius())
+                    asteroid.getRadius() * asteroid.getRadius())
                     ) {
                 asteroidCenter.set(asteroid.getPosition());
                 return true;

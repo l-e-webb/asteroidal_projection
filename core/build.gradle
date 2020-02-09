@@ -4,3 +4,11 @@ sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
+
+dependencies {
+    testCompile('junit:junit:4.13')
+}
+
+test {
+    useJUnit()
+}

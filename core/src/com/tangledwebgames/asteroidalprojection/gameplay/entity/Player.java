@@ -1,9 +1,11 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.gameplay.geometry.Projection;
@@ -79,7 +81,7 @@ public class Player extends GameObject {
 
             @Override
             public void updatePositionVector() {
-                position = localToStageCoordinates(new Vector2());
+                position.set(localToStageCoordinates(new Vector2()));
             }
         };
         cannon.independentExistence = false;
@@ -87,18 +89,25 @@ public class Player extends GameObject {
         cannon.setTexture(Assets.instance.simpleCannon);
         addActor(cannon);
         setActive(true);
+        setPosition(0, 0);
     }
 
     @Override
     public void updatePositionVector() {}
 
     @Override
-    public Vector2 getProjectedPosition() {
-        return Projection.project(localToStageCoordinates(new Vector2()));
+    protected void updateProjectedPosition() {
+        projectedPosition.setZero();
+        updateScale();
     }
 
     @Override
     public void act(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+            Log.log("Player report", position, Log.LogLevel.DEBUG);
+            Log.log("Player report", projectedPosition, Log.LogLevel.DEBUG);
+            Log.log("Player report", projectedScale, Log.LogLevel.DEBUG);
+        }
         if (!active || !alive()) return;
         super.act(delta);
     }
@@ -118,7 +127,6 @@ public class Player extends GameObject {
                 new Vector2(Gdx.input.getX(), Gdx.input.getY())
         );
         cannon.setOrientation(mousePosition.angleRad());
-        //setOrientation(mouseDirection.angleRad());
         if (tripleLaserDuration > 0) {
             tripleLaserDuration -= delta;
             if (tripleLaserDuration < 0) {

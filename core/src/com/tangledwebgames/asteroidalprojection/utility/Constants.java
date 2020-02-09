@@ -63,9 +63,9 @@ public class Constants {
     public static final float MISSILE_FRAME_DURATION = 0.4f;
     public static final float PLAYER_FRAME_DURATION = 0.3f;
     public static final float ENEMY_FRAME_DURATION = 0.3f;
-    public static final float PLAYER_CANNON_RADIUS = 0.05f;
+    public static final float PLAYER_CANNON_RADIUS = 0.4f;
     public static final float PLAYER_CANNON_OFFSET_X = 0f;
-    public static final float PLAYER_CANNON_OFFSET_Y = -0.03f;
+    public static final float PLAYER_CANNON_OFFSET_Y = -0.22f;
     public static final float ENEMY_CANNON_RADIUS = 0.1f;
     public static final float ENEMY_HOLE_CANNON_RADIUS = 0.05f;
     public static final float POINT_DEFENSE_CANNON_RADIUS = 0.03f;

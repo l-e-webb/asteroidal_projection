@@ -35,7 +35,7 @@ public class Projection {
     public static Vector2 project(Vector2 point) {
         Vector2 projection = new Vector2(1, 0);
         projection.setAngle(point.angle());
-        projection.setLength(getProjectedLength(point.len()));
+        projection.setLength(projectLength(point.len()));
         return projection;
     }
 
@@ -43,8 +43,12 @@ public class Projection {
         return project(new Vector2(x, y));
     }
 
-    public static float getProjectedLength(float length) {
-        return (float) Math.pow(length / (1 + length), pFactor);
+    public static float projectLength(float length) {
+        if (length == 0) return 0;
+        float proj1 = length / (1 + length);
+        double proj2 = Math.pow(proj1, pFactor);
+        return (float) proj2;
+        //return (float) Math.pow(length / (1 + length), pFactor);
     }
 
     public static Vector2 unproject(Vector2 point) {
@@ -64,8 +68,10 @@ public class Projection {
     }
 
     public static float getProjectedScale(float distance, float radius) {
-        float projD = getProjectedLength(distance);
-        float projR = getProjectedLength(radius);
-        return (1 - projD) * (projR / radius + (1 - projR / radius) * (float)Math.sqrt(2 * projD - projD * projD));
+        float l1 = projectLength(distance);
+        float l2 = projectLength(Math.abs(distance - radius));
+        float r1 = distance >= radius ? l1 - l2 : l1 + l2;
+        float r2 = project(distance, radius).y;
+        return (r1 + r2) * 0.5f;
     }
 }

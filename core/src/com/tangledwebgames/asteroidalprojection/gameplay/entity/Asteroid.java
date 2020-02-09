@@ -69,7 +69,7 @@ public class Asteroid extends GameObject {
 
     @Override
     public Location<Vector2> newLocation() {
-        return new Asteroid(getX(Align.center), getY(Align.center), getBoundingRadius(), linearVelocity);
+        return new Asteroid(getX(), getY(), getRadius(), linearVelocity);
     }
 
     @Override
