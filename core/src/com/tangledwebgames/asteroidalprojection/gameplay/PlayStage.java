@@ -44,7 +44,8 @@ public class PlayStage extends Stage {
     int numCruisers;
 
     ShapeRenderer shapeRenderer;
-    Queue<ShapeRenderRequest> renderRequestQueue;
+    Queue<ShapeRenderRequest> postRenderRequestQueue;
+    Queue<ShapeRenderRequest> preRenderRequestQueue;
 
     ShapeRenderRequest squareBorder;
     ShapeRenderRequest circleBorder;
@@ -72,23 +73,28 @@ public class PlayStage extends Stage {
         asteroidSpawner = new AsteroidSpawner();
         enemySpawner = new EnemySpawner();
         shapeRenderer = new ShapeRenderer();
-        renderRequestQueue = new LinkedList<>();
+        postRenderRequestQueue = new LinkedList<>();
+        preRenderRequestQueue = new LinkedList<>();
         squareBorder = renderer -> {
-                renderer.set(ShapeRenderer.ShapeType.Line);
-                renderer.setColor(Color.WHITE);
-                renderer.rect(
-                        0.01f - getViewport().getWorldWidth() / 2,
-                        0.01f - getViewport().getWorldHeight() / 2,
-                        getViewport().getWorldWidth() - 0.01f,
-                        getViewport().getWorldHeight() - 0.01f);
+            renderer.set(ShapeRenderer.ShapeType.Line);
+            renderer.setColor(Color.WHITE);
+            renderer.rect(
+                    0.01f - getViewport().getWorldWidth() / 2,
+                    0.01f - getViewport().getWorldHeight() / 2,
+                    getViewport().getWorldWidth() - 0.01f,
+                    getViewport().getWorldHeight() - 0.01f);
         };
         circleBorder = renderer -> {
-                renderer.set(ShapeRenderer.ShapeType.Line);
-                renderer.setColor(Color.WHITE);
-                float radius = 0.99f * getViewport().getWorldWidth() / 2;
-                renderer.circle(0, 0, radius, 50);
+            renderer.set(ShapeRenderer.ShapeType.Line);
+            renderer.setColor(Color.WHITE);
+            float radius = 0.99f * getViewport().getWorldWidth() / 2;
+            renderer.circle(0, 0, radius, 50);
         };
-        gridRenderer = new GridRenderer(GameplayConstants.GRID_WIDTH, GameplayConstants.GRID_DOT_RADIUS);
+        gridRenderer = new GridRenderer(
+                GameplayConstants.GRID_WIDTH,
+                GameplayConstants.GRID_DOT_RADIUS,
+                GameplayConstants.GRID_COLOR
+        );
     }
 
     public void initGame(boolean demoScreen) {
@@ -98,15 +104,18 @@ public class PlayStage extends Stage {
         projectileGroup.clear();
         enemyGroup.clear();
         asteroidGroup.clear();
+        explosionGroup.clear();
         player.init();
         worldOffset.setZero();
         time = 0;
         score = 0;
         numCruisers = 0;
+        gameOver = false;
         if (demoScreen) {
             player.setActive(false);
             enemySpawner.active = false;
         } else {
+            player.setActive(true);
             enemySpawner.active = true;
         }
     }
@@ -128,19 +137,29 @@ public class PlayStage extends Stage {
 
     @Override
     public void draw() {
-        super.draw();
-
-        addShapeRenderRequest(squareBorder);
-        addShapeRenderRequest(circleBorder);
         if (GridRenderer.gridOn) {
-            addShapeRenderRequest(gridRenderer);
+            addShapeRenderRequest(gridRenderer, false);
             gridRenderer.setOffset(worldOffset);
         }
+        addShapeRenderRequest(squareBorder, true);
+        addShapeRenderRequest(circleBorder, true);
         shapeRenderer.setProjectionMatrix(getViewport().getCamera().combined);
         shapeRenderer.setAutoShapeType(true);
+
+        //Pre-bitmap rendering shape rendering
         shapeRenderer.begin();
-        while (!renderRequestQueue.isEmpty()) {
-            renderRequestQueue.poll().draw(shapeRenderer);
+        while (!preRenderRequestQueue.isEmpty()) {
+            preRenderRequestQueue.poll().draw(shapeRenderer);
+        }
+        shapeRenderer.end();
+
+        //All bitmap rendering
+        super.draw();
+
+        //Post-bitmap rendering shape rendering
+        shapeRenderer.begin();
+        while (!postRenderRequestQueue.isEmpty()) {
+            postRenderRequestQueue.poll().draw(shapeRenderer);
         }
         shapeRenderer.end();
     }
@@ -193,7 +212,12 @@ public class PlayStage extends Stage {
     }
 
     public void addShapeRenderRequest(ShapeRenderRequest request) {
-        renderRequestQueue.add(request);
+        addShapeRenderRequest(request, true);
+    }
+
+    public void addShapeRenderRequest(ShapeRenderRequest request, boolean postRender) {
+        if (postRender) postRenderRequestQueue.add(request);
+        else preRenderRequestQueue.add(request);
     }
 
     public void removeObject(GameObject object) {

@@ -51,8 +51,8 @@ public class SeekerEnemy extends Enemy {
 
         }
         enemy.addActor(new FireAtTarget(
-                Constants.SEEKER_CANNON_OFFSET_X,
-                Constants.SEEKER_CANNON_OFFSET_Y,
+                enemy.getWidth() * (Constants.SEEKER_CANNON_WIDTH_RATIO - 0.5f),
+                enemy.getHeight() * (Constants.SEEKER_CANNON_HEIGHT_RATIO - 0.5f),
                 Constants.ENEMY_CANNON_RADIUS * 2,
                 Constants.ENEMY_CANNON_RADIUS * 2,
                 target,

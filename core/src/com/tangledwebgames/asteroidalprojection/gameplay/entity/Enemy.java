@@ -36,7 +36,7 @@ public abstract class Enemy extends GameObject {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (AvoidAsteroids.debug) {
-            ((PlayStage)getStage()).addShapeRenderRequest(debugRenderer);
+            getPlayStage().addShapeRenderRequest(debugRenderer);
         }
     }
 
@@ -70,8 +70,8 @@ public abstract class Enemy extends GameObject {
     }
 
     @Override
-    public float getBoundingRadius() {
-        return super.getBoundingRadius() * GameplayConstants.ENEMY_COLLISION_RADIUS_MOD;
+    public float getProjectedRadius() {
+        return super.getProjectedRadius() * GameplayConstants.ENEMY_COLLISION_RADIUS_MOD;
     }
 
     public float getExplosionRadius() {

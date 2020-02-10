@@ -38,7 +38,8 @@ public class Asteroid extends GameObject {
             Enemy enemy = iterator.next();
             if (collidesWith(enemy)) {
                 Log.log(LOG_TAG, "Asteroid colliding with enemy at " + getPosition().toString());
-                if (enemy.reportHit(new Vector2(enemy.getPosition()).sub(getPosition()))) {
+                if (!(enemy instanceof EnemyCruiser && getRadius() < GameplayConstants.ASTEROID_RADIUS_DAMAGE_CUTOFF)
+                        && enemy.reportHit(new Vector2(enemy.getPosition()).sub(getPosition()))) {
                     iterator.remove();
                 }
                 reportHit(new Vector2(getPosition()).sub(enemy.getPosition()));
@@ -56,7 +57,7 @@ public class Asteroid extends GameObject {
 
     @Override
     public void destroy(boolean removeFromCollection) {
-        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RADIUS);
+        getPlayStage().addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_SMALL_RADIUS);
         float distanceFromOrigin = distanceFromOrigin();
         if (distanceFromOrigin < Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF) {
             float soundMod = (Constants.DISTANCE_FROM_ORIGIN_SOUND_CUTOFF - distanceFromOrigin)
@@ -73,8 +74,8 @@ public class Asteroid extends GameObject {
     }
 
     @Override
-    public float getBoundingRadius() {
-        return super.getBoundingRadius() * GameplayConstants.ASTEROID_COLLISION_RADIUS_MOD;
+    public float getProjectedRadius() {
+        return super.getProjectedRadius() * GameplayConstants.ASTEROID_COLLISION_RADIUS_MOD;
     }
 
     @Override

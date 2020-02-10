@@ -13,7 +13,6 @@ public class ScoreRenderer extends Label {
         setSize(150, 100);
         this.playStage = playStage;
         setAlignment(Align.center);
-        setDebug(false);
     }
 
     @Override

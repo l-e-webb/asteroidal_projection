@@ -1,13 +1,10 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Align;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
-import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.gameplay.geometry.Projection;
 import com.tangledwebgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 import com.tangledwebgames.asteroidalprojection.gameplay.weapon.MissileLauncher;
@@ -62,14 +59,14 @@ public class Player extends GameObject {
                 GameplayConstants.PLAYER_TRIPLE_LASER_SPREAD
         );
         primaryWeapon = laserWeapon;
-        missileLauncher = new MissileLauncher(this, ((PlayStage)getStage()).getEnemies(), true);
+        missileLauncher = new MissileLauncher(this, getPlayStage().getEnemies(), true);
         secondaryWeapon = missileLauncher;
         setState(PlayerState.BLINKING);
         health = GameplayConstants.PLAYER_MAX_HEALTH;
         missileAmmo = GameplayConstants.STARTING_MISSILE_AMMO;
         cannon = new GameObject(
-                Constants.PLAYER_CANNON_OFFSET_X,
-                Constants.PLAYER_CANNON_OFFSET_Y,
+                getWidth() * (Constants.PLAYER_CANNON_WIDTH_RATIO - 0.5f),
+                getHeight() * (Constants.PLAYER_CANNON_HEIGHT_RATIO - 0.5f),
                 Constants.PLAYER_CANNON_RADIUS,
                 EntityType.TURRET,
                 CollisionType.NONE
@@ -103,11 +100,6 @@ public class Player extends GameObject {
 
     @Override
     public void act(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
-            Log.log("Player report", position, Log.LogLevel.DEBUG);
-            Log.log("Player report", projectedPosition, Log.LogLevel.DEBUG);
-            Log.log("Player report", projectedScale, Log.LogLevel.DEBUG);
-        }
         if (!active || !alive()) return;
         super.act(delta);
     }
@@ -238,7 +230,7 @@ public class Player extends GameObject {
 
     @Override
     public void moveBy(float x, float y) {
-        ((PlayStage) getStage()).moveWorld(-x, -y);
+        getPlayStage().moveWorld(-x, -y);
     }
 
     @Override
@@ -257,7 +249,7 @@ public class Player extends GameObject {
         SoundManager.playSoundEffect(effect);
         if (!alive()) {
             setActive(false);
-            ((PlayStage)getStage()).addExplosion(new PlayerExplosion(0, 0, GameplayConstants.EXPLOSION_LARGE_RADIUS));
+            getPlayStage().addExplosion(new PlayerExplosion(0, 0, GameplayConstants.EXPLOSION_LARGE_RADIUS));
 
         }
         return true;
@@ -282,7 +274,7 @@ public class Player extends GameObject {
                 missileAmmo += GameplayConstants.MISSILE_AMMO_AMOUNT;
                 break;
             case POINTS:default:
-                ((PlayStage)getStage()).incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);
+                getPlayStage().incrementScore(GameplayConstants.POINTS_POWERUP_VALUE);
                 effect = SoundManager.SoundEffect.COIN;
                 break;
         }

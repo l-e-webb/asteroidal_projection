@@ -1,5 +1,6 @@
 package com.tangledwebgames.asteroidalprojection.gameplay;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 
 public class GameplayConstants {
@@ -7,16 +8,20 @@ public class GameplayConstants {
     //Projection
     public static final float LENGTH_MAPPED_TO_HALF_RADIUS = 2.5f;
 
-    public static final float HORIZON = 30f;
+    //Grid
+    public static final float HORIZON = 30;
     public static final float HORIZON_SPAWN_POINT_RATIO = 0.84f;
-    public static final float GRID_HORIZON = 24f;
-    public static final float GRID_WIDTH = 1f;
+    public static final float GRID_HORIZON = 28f;
+    public static final float GRID_WIDTH = 0.8f;
     public static final float GRID_DOT_RADIUS = 0.0025f;
-
-    public static final float ZERO_SPEED_THRESHOLD = 0.1f;
+    public static final float TWO_LINE_GRID_HORIZON = GRID_HORIZON / 3;
+    public static final float TWO_LINE_GRID_HORIZON2 = TWO_LINE_GRID_HORIZON * TWO_LINE_GRID_HORIZON;
+    public static final float THREE_LINE_GRID_HORIZON = 3f;
+    public static final float THREE_LINE_GRID_HORIZON2 = THREE_LINE_GRID_HORIZON * THREE_LINE_GRID_HORIZON;
+    public static final Color GRID_COLOR = new Color(0.5f, 0.5f, 0.5f, 1);
 
     //Player
-    public static final float PLAYER_RADIUS = 0.5f;
+    public static final float PLAYER_RADIUS = 0.3f;
     public static final float PLAYER_MAX_SPEED = 2.5f;
     public static final float PLAYER_ACCEL = 5f;
     public static final float PLAYER_DAMPENING = 7f;
@@ -30,7 +35,10 @@ public class GameplayConstants {
 
     //Enemy
     public static final float ENEMY_COLLISION_RADIUS_MOD = 1.25f;
-    public static final float SEEKER_RADIUS = 0.6f;
+    public static final float ENEMY_SPREAD_ATTACK_SPREAD = 30f;
+    public static final int ENEMY_SPREAD_ATTACK_NUMSHOTS = 10;
+
+    public static final float SEEKER_RADIUS = 0.4f;
     public static final float SEEKER_MIN_SPEED = 0.6f;
     public static final float SEEKER_MAX_SPEED = 2f;
     public static final float SEEKER_ACCEL = 3.5f;
@@ -39,7 +47,8 @@ public class GameplayConstants {
     public static final float SEEKER_MAINTAIN_DISTANCE = 3.2f;
     public static final float SEEKER_WEAPON_RANGE = 4.5f;
     public static final int SEEKER_POINT_VALUE = 50;
-    public static final float SNIPER_RADIUS = 0.6f;
+
+    public static final float SNIPER_RADIUS = 0.4f;
     public static final float SNIPER_MIN_SPEED = 0.3f;
     public static final float SNIPER_MAX_SPEED = 1.1f;
     public static final float SNIPER_ACCEL = 3f;
@@ -48,16 +57,15 @@ public class GameplayConstants {
     public static final float SNIPER_MAINTAIN_DISTANCE = 10f;
     public static final float SNIPER_WEAPON_RANGE = 14f;
     public static final int SNIPER_POINT_VALUE = 60;
-    public static final float FLY_BY_RADIUS = 0.6f;
+
+    public static final float FLY_BY_RADIUS = 0.4f;
     public static final float FLY_BY_MIN_SPEED = 2.5f;
     public static final float FLY_BY_MAX_SPEED = 4.75f;
     public static final float FLY_BY_ACCEL = 7.5f;
-    public static final float FLY_BY_MAX_ANGULAR_SPEED = MathUtils.PI * 0.75f;
+    public static final float FLY_BY_MAX_ANGULAR_SPEED = MathUtils.PI;
     public static final float FLY_BY_MAX_ANGULAR_ACCEL = MathUtils.PI * 1.5f;
     public static final float FLY_BY_WEAPON_RANGE = 4f;
     public static final int FLY_BY_POINT_VALUE = 70;
-    public static final float ENEMY_SPREAD_ATTACK_SPREAD = 30f;
-    public static final int ENEMY_SPREAD_ATTACK_NUMSHOTS = 10;
 
     //Cruisers
     public static final float CRUISER_WIDTH = 1f;
@@ -74,19 +82,20 @@ public class GameplayConstants {
     public static final float CRUISER_SPREAD_GUN_SPREAD = 30f;
     public static final int CRUISER_SPREAD_GUN_NUM_SHOTS = 10;
     public static final float CRUISER_POINT_DEFENSE_RANGE = 2.5f;
+    public static final float CRUISER_POINT_DEFENSE_RANGE2 = CRUISER_POINT_DEFENSE_RANGE * CRUISER_POINT_DEFENSE_RANGE;
     public static final int CRUISER_HEALTH = 50;
-    public static final float ASTEROID_RADIUS_DAMAGE_CUTOFF = 0.25f;
+    public static final float ASTEROID_RADIUS_DAMAGE_CUTOFF = 0.5f;
     public static final int CRUISER_POINT_VALUE = 1000;
     public static final float CRUISER_EXPLOSION_RADIUS = 0.6f;
 
     //Projectiles
-    public static final float LASER_WIDTH = 0.3f;
+    public static final float LASER_WIDTH = 0.25f;
     public static final float LASER_HEIGHT = 0.4f;
-    public static final float PIERCING_LASER_WIDTH = 0.3f;
+    public static final float PIERCING_LASER_WIDTH = 0.25f;
     public static final float PIERCING_LASER_HEIGHT = 0.4f;
-    public static final float ROUND_PROJECTILE_WIDTH = 0.4f;
-    public static final float MISSILE_WIDTH = 0.5f;
-    public static final float MISSILE_HEIGHT = 0.5f;
+    public static final float ROUND_PROJECTILE_WIDTH = 0.75f;
+    public static final float MISSILE_WIDTH = 0.3f;
+    public static final float MISSILE_HEIGHT = 0.3f;
     public static final float PLAYER_LASER_SPEED = 9f;
     public static final float ENEMY_LASER_SPEED = 7.5f;
     public static final float PLAYER_ROUND_SPEED = 6f;
@@ -94,11 +103,12 @@ public class GameplayConstants {
     public static final float MISSILE_MIN_SPEED = 4.5f;
     public static final float MISSILE_MAX_SPEED = 6f;
     public static final float MISSILE_ACCEL = 6f;
-    public static final float MISSILE_MAX_ANGULAR_SPEED = MathUtils.PI * 3.5f;
+    public static final float MISSILE_MAX_ANGULAR_SPEED = MathUtils.PI * 4f;
     public static final float MISSILE_MAX_ANGULAR_ACCEL = MathUtils.PI * 5f;
     public static final float MISSILE_EXPLOSION_RADIUS = 0.75f;
-    public static final float MISSILE_LOCK_RADIUS = 6f;
-    public static final float MISSILE_PURSUE_PREDICT_TIME = 2.6f;
+    public static final float MISSILE_LOCK_RADIUS = 15f;
+    public static final float MISSILE_LOCK_RADIUS2 = MISSILE_LOCK_RADIUS * MISSILE_LOCK_RADIUS;
+    public static final float MISSILE_INITIAL_TRAJECTORY_DELTA = 60f;
     public static final int MISSILE_DAMAGE = 10;
     public static final float MISSILE_LIFE_SPAN = 10f;
     public static final float PIERCING_LASER_COLLISION_COOLDOWN = 0.15f;
@@ -141,9 +151,11 @@ public class GameplayConstants {
     public static final float[] ENEMY_SPAWN_AVERAGE_BY_EPOCH = new float[]{4f, 4f, 3f, 3f};
 
     //Steering behaviors
-    public static final float ASTEROID_AVOIDANCE_CENTRAL_RAY_LENGTH = 2.5f;
-    public static final float ASTEROID_AVOIDANCE_WHISKER_LENGTH = 1f;
-    public static final float ASTEROID_AVOIDANCE_WHISKER_ANGLE = MathUtils.PI / 12;
+    public static final float ASTEROID_AVOIDANCE_CENTRAL_RAY_LENGTH = 4f;
+    public static final float ASTEROID_AVOIDANCE_WHISKER_LENGTH = 1.5f;
+    public static final float ASTEROID_AVOIDANCE_WHISKER_ANGLE = MathUtils.PI / 8;
+    public static final float MISSILE_PURSUE_PREDICT_TIME = 0.4f;
+    public static final float ZERO_SPEED_THRESHOLD = 0.1f;
 
     //Explosion
     public static final float EXPLOSION_LARGE_RADIUS = 1f;

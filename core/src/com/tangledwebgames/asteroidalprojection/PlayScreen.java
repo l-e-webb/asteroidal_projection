@@ -42,7 +42,9 @@ public class PlayScreen extends GameScreen {
     }
 
     public void initGame() {
-        initGameUi();
+        if (state == ScreenState.TITLE) {
+            initGameUi();
+        }
         playStage.initGame(false);
         state = ScreenState.PLAY;
         mainMenu.deactivate();

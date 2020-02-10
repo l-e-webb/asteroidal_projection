@@ -93,8 +93,8 @@ public class SniperEnemy extends Enemy {
             rotateWithShot = true;
         }
         enemy.addActor(new FireAtTarget(
-                Constants.SNIPER_CANNON_OFFSET_X,
-                Constants.SNIPER_CANNON_OFFSET_Y,
+                enemy.getWidth() * (Constants.SNIPER_CANNON_WIDTH_RATIO - 0.5f),
+                enemy.getHeight() * (Constants.SNIPER_CANNON_HEIGHT_RATIO - 0.5f),
                 cannonWidth,
                 cannonHeight,
                 target,

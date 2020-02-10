@@ -1,13 +1,14 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.geometry;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
+import com.tangledwebgames.asteroidalprojection.utility.Log;
 
 public class Projection {
 
     private Projection() {}
-
 
     static float pFactor;
     static float pFactorInverse;
@@ -18,6 +19,7 @@ public class Projection {
                 0.5f
         );
         pFactorInverse = 1 / pFactor;
+        Log.log("pFactor", pFactor, Log.LogLevel.INFO);
     }
 
     /**
@@ -33,8 +35,7 @@ public class Projection {
      * @return       Image of projected point in disc.
      */
     public static Vector2 project(Vector2 point) {
-        Vector2 projection = new Vector2(1, 0);
-        projection.setAngle(point.angle());
+        Vector2 projection = new Vector2(point);
         projection.setLength(projectLength(point.len()));
         return projection;
     }
@@ -45,15 +46,12 @@ public class Projection {
 
     public static float projectLength(float length) {
         if (length == 0) return 0;
-        float proj1 = length / (1 + length);
-        double proj2 = Math.pow(proj1, pFactor);
-        return (float) proj2;
-        //return (float) Math.pow(length / (1 + length), pFactor);
+        length = Math.abs(length);
+        return (float) Math.pow(length / (1 + length), pFactor);
     }
 
     public static Vector2 unproject(Vector2 point) {
-        Vector2 unprojection = new Vector2(1, 0);
-        unprojection.setAngle(point.angle());
+        Vector2 unprojection = new Vector2(point);
         unprojection.setLength(getUnprojectedLength(point.len()));
         return unprojection;
     }
@@ -68,10 +66,11 @@ public class Projection {
     }
 
     public static float getProjectedScale(float distance, float radius) {
-        float l1 = projectLength(distance);
-        float l2 = projectLength(Math.abs(distance - radius));
-        float r1 = distance >= radius ? l1 - l2 : l1 + l2;
+        float l1 = projectLength(Math.abs(distance - radius));
+        float l2 = projectLength(distance + radius);
+        float r1 = distance >= radius ?
+                (l2 - l1) * 0.5f : (l2 + l1) * 0.5f;
         float r2 = project(distance, radius).y;
-        return (r1 + r2) * 0.5f;
+        return (r1 + r2) * 0.5f / radius;
     }
 }

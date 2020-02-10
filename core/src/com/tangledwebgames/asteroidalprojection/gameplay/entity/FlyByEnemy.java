@@ -51,8 +51,8 @@ public class FlyByEnemy extends Enemy {
 
         }
         enemy.addActor(new FireAtTarget(
-                Constants.FLY_BY_CANNON_OFFSET_X,
-                Constants.FLY_BY_CANNON_OFFSET_Y,
+                enemy.getWidth() * (Constants.FLY_BY_CANNON_WIDTH_RATIO - 0.5f),
+                enemy.getHeight() * (Constants.FLY_BY_CANNON_HEIGHT_RATIO - 0.5f),
                 Constants.ENEMY_CANNON_RADIUS * 2,
                 Constants.ENEMY_CANNON_RADIUS * 2,
                 target,

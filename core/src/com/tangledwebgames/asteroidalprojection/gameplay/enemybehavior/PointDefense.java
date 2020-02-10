@@ -34,7 +34,7 @@ public class PointDefense extends EnemyGun {
         proximity.update();
         GameObject targetAsteroid = proximity.getNearestAsteroid();
         if (targetAsteroid == null ||
-                targetAsteroid.distance2(this) > GameplayConstants.CRUISER_POINT_DEFENSE_RANGE * GameplayConstants.CRUISER_POINT_DEFENSE_RANGE)
+                targetAsteroid.distance2(this) > GameplayConstants.CRUISER_POINT_DEFENSE_RANGE2)
             return null;
         weapon.fire(targetAsteroid);
         return new Vector2(targetAsteroid.getPosition()).sub(getPosition());

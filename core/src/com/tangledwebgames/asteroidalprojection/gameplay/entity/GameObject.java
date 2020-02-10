@@ -85,19 +85,20 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         this(x, y, radius * 2, radius * 2, type, colType);
     }
 
+    public PlayStage getPlayStage() {
+        return (PlayStage)getStage();
+    }
+
     @Override
     public void act(float delta) {
         timeSinceSpawn += delta;
 
         if (independentExistence) {
             calculateVelocity(delta);
-            moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
+            applyMotion(delta);
             if (distanceFromOrigin() > GameplayConstants.HORIZON) {
                 destroy();
                 return;
-            }
-            if (independentFacing) {
-                adjustOrientation(angularVelocity * delta);
             }
         } else {
             updatePositionVector();
@@ -113,7 +114,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     protected void updatePositionVector() {
         position.set(localToStageCoordinates(new Vector2()));
-        PlayStage stage = (PlayStage) getStage();
+        PlayStage stage = getPlayStage();
         if (stage != null) position.add(stage.getWorldOffset());
     }
 
@@ -130,9 +131,10 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
             Log.log(LOG_TAG, "Non-independent existence has no GameObject parent.", Log.LogLevel.DEBUG);
             return;
         }
-        projectedPosition
-                .set(parent.projectedPosition)
-                .add(getX() * getScaleX(), getY() * getScaleY()).rotate(parent.getRotation());
+        projectedPosition.set(parent.projectedPosition);
+        Vector2 offset = new Vector2(getX() * getScaleX(), getY() * getScaleY());
+        offset.rotate(parent.getRotation());
+        projectedPosition.add(offset);
         updateScale();
     }
 
@@ -141,7 +143,16 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
             projectedScale = Projection.getProjectedScale(distanceFromOrigin(), getRadius());
             setScale(projectedScale);
         } else {
-            setScale(getParent().getScaleX(), getParent().getScaleY());
+            GameObject parent = (GameObject) getParent();
+            projectedScale = parent.projectedScale;
+            setScale(parent.getScaleX(), parent.getScaleY());
+        }
+    }
+
+    protected void applyMotion(float delta) {
+        moveBy(linearVelocity.x * delta, linearVelocity.y * delta);
+        if (independentFacing) {
+            adjustOrientation(angularVelocity * delta);
         }
     }
 
@@ -149,58 +160,64 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         if (behavior == null) return;
         updateFrame = (updateFrame + 1) % 2;
         if (updateFrame == 0) return;
+
         Vector2 accel = behavior.calculateSteering(GameObject.accel).linear;
+        accel = accel.nor();
         float desiredOrientation = accel.angleRad();
-        float desiredAngularVel = desiredOrientation - orientation;
+        float desiredOrientationChange = desiredOrientation - orientation;
         //If the desired change in angle is greater than 180 degrees or less than -180 degrees,
         //we adjust so that it is between -180 and 180.  For example, a desired rotation of 300
         //degrees will change to -60.
-        while (desiredAngularVel > MathUtils.PI) {
-            desiredAngularVel -= 2 * MathUtils.PI;
+        while (desiredOrientationChange > MathUtils.PI) {
+            desiredOrientationChange -= 2 * MathUtils.PI;
         }
-        while (desiredAngularVel < - MathUtils.PI) {
-            desiredAngularVel += 2 * MathUtils.PI;
+        while (desiredOrientationChange < - MathUtils.PI) {
+            desiredOrientationChange += 2 * MathUtils.PI;
         }
-        float desiredAngularAccel = desiredAngularVel - angularVelocity;
-        float angularAccel;
-        if (desiredAngularAccel > maxAngularAcceleration) {
-            angularAccel = maxAngularAcceleration;
-        } else if (-desiredAngularAccel < -maxAngularAcceleration) {
-            angularAccel = -maxAngularAcceleration;
-        } else {
-            angularAccel = desiredAngularAccel;
+        float angularAccel = desiredOrientationChange > 0 ?
+                maxAngularAcceleration : -maxAngularAcceleration;
+        angularVelocity = angularVelocity + angularAccel * delta;
+        angularVelocity = MathUtils.clamp(angularVelocity, -maxAngularSpeed, maxAngularSpeed);
+
+        //Check whether there is sufficient angular velocity to reach desired orientation.
+        float angleChange = angularVelocity * delta;
+        boolean sufficientAngularVel = false;
+        if (desiredOrientationChange > 0 && angleChange > desiredOrientationChange ||
+                desiredOrientationChange < 0 && angleChange < desiredOrientationChange) {
+            sufficientAngularVel = true;
         }
-        float newAngularVel = angularVelocity + angularAccel;
-        if (newAngularVel > maxAngularSpeed) {
-            newAngularVel = maxAngularSpeed;
-        } else if (-newAngularVel < -maxAngularSpeed) {
-            newAngularVel = -maxAngularSpeed;
-        }
-        angularVelocity = newAngularVel;
+
         if (independentFacing) {
             //If it is independently facing, simply accelerate in the indicated direction.
             linearVelocity.mulAdd(accel, maxLinearAcceleration * delta).limit(maxLinearSpeed);
+            if (sufficientAngularVel) {
+                setOrientation(desiredOrientation);
+                angularVelocity = 0;
+            }
         } else {
             //If not independently facing, rotate linear velocity by angular velocity.
-            float currentOrientation = linearVelocity.angleRad();
-            linearVelocity.setAngleRad(currentOrientation + angularVelocity * delta);
+            if (sufficientAngularVel) {
+                linearVelocity.setAngleRad(desiredOrientation);
+                angularVelocity = 0;
+            } else {
+                linearVelocity.setAngleRad(orientation + angleChange);
+                //If facing near desired heading, accelerate; if facing away from desired heading,
+                //de-accelerate to make a sharper turn.
+                if (Math.abs(desiredOrientationChange) < MathUtils.PI / 2) {
+                    accelerate(maxLinearAcceleration * delta);
+                } else {
+                    accelerate(-maxLinearAcceleration * delta);
+                }
+            }
             //Always orient in direction of velocity.
             setOrientation(linearVelocity.angleRad());
-            //If facing near desired heading, accelerate; if facing away from desired heading,
-            //de-accelerate to make a sharper turn.
-            if (Math.abs(currentOrientation - desiredOrientation) < MathUtils.PI / 2) {
-                accelerate(maxLinearAcceleration * delta);
-            } else {
-                accelerate(-maxLinearAcceleration * delta);
-            }
         }
     }
 
     public void accelerate(float accel) {
-        linearVelocity.setLength(linearVelocity.len() + accel).limit(maxLinearSpeed);
-        if (linearVelocity.len() < minLinearSpeed) {
-            linearVelocity.setLength(minLinearSpeed);
-        }
+        float newSpeed = linearVelocity.len() + accel;
+        newSpeed = MathUtils.clamp(newSpeed, minLinearSpeed, maxLinearSpeed);
+        linearVelocity.setLength(newSpeed);
     }
 
     @Override
@@ -227,6 +244,10 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
 
     @Override
     public float getBoundingRadius() {
+        return getRadius();
+    }
+
+    public float getProjectedRadius() {
         return getRadius() * projectedScale;
     }
 
@@ -249,6 +270,10 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
             return linearVelocity.angleRad();
         }
         return orientation;
+    }
+
+    protected float getProjectedRotation() {
+        return getRotation();
     }
 
     @Override
@@ -376,7 +401,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     public void destroy(boolean removeFromCollection) {
         Log.log(LOG_TAG, "Removing entity of type " + type.toString() + " at position " + getPosition().toString());
         if (removeFromCollection) {
-            ((PlayStage)getStage()).removeObject(this);
+            getPlayStage().removeObject(this);
         }
         remove();
     }
@@ -386,7 +411,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     }
 
     public boolean collidesWith(GameObject object) {
-        if (projectedDistance(object) > getBoundingRadius() + object.getBoundingRadius())
+        if (projectedDistance(object) > getProjectedRadius() + object.getProjectedRadius())
             return false;
         switch (collisionType) {
             case CIRCLE:
@@ -429,7 +454,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     }
 
     protected Circle getCircle() {
-        return new Circle(projectedPosition, getBoundingRadius());
+        return new Circle(projectedPosition, getProjectedRadius());
     }
 
     protected Polygon getRectangle() {
@@ -451,7 +476,7 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
     }
 
     protected Polygon getHexagon() {
-        float r = getBoundingRadius();
+        float r = getProjectedRadius();
         float rot = MathUtils.PI / 3f;
         float[] vertices = new float[12];
         for (int i = 0; i < 6; i++) {
@@ -477,33 +502,35 @@ public abstract class GameObject extends Group implements Steerable<Vector2> {
         if (projectedPosition == null) return;
 
         if (getTexture() != null) {
-            float xOffset = getWidth() * getScaleX() / 2;
-            float yOffset = getHeight() * getScaleY() / 2;
+            float width = getWidth() * getScaleX();
+            float height = getHeight() * getScaleY();
+            float xOffset = width / 2;
+            float yOffset = height / 2;
             batch.draw(
                     getTexture(),
                     projectedPosition.x - xOffset,
                     projectedPosition.y - yOffset,
                     xOffset,
                     yOffset,
-                    getWidth() * getScaleX(),
-                    getHeight() * getScaleY(),
+                    width,
+                    height,
                     1,
                     1,
-                    getRotation()
+                    getProjectedRotation()
             );
         }
 
         super.draw(batch, parentAlpha);
 
         if (debug) {
-            ((PlayStage) getStage()).addShapeRenderRequest(
+            getPlayStage().addShapeRenderRequest(
                     renderer -> {
                         renderer.set(ShapeRenderer.ShapeType.Line);
                         renderer.setColor(Color.WHITE);
                         renderer.circle(
                                 projectedPosition.x,
                                 projectedPosition.y,
-                                getBoundingRadius(),
+                                getProjectedRadius(),
                                 7
                         );
                     }

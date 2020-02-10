@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
+import com.tangledwebgames.asteroidalprojection.gameplay.geometry.Projection;
 import com.tangledwebgames.asteroidalprojection.utility.Assets;
 import com.tangledwebgames.asteroidalprojection.utility.Log;
 
@@ -36,7 +37,7 @@ public class Projectile extends GameObject {
             return;
         }
 
-        PlayStage stage = (PlayStage) getStage();
+        PlayStage stage = getPlayStage();
         for (Iterator<Asteroid> iterator = stage.getAsteroids().iterator(); iterator.hasNext(); ) {
             Asteroid asteroid = iterator.next();
             if (collidesWith(asteroid)) {
@@ -61,10 +62,10 @@ public class Projectile extends GameObject {
                     }
                     if (isPiercing()) {
                         timeSinceCollision = 0;
-                        ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
+                        getPlayStage().addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
                     } else {
                         if (enemy instanceof EnemyCruiser) {
-                            ((PlayStage)getStage()).addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
+                            getPlayStage().addExplosion(position.x, position.y, GameplayConstants.EXPLOSION_TINY_RADIUS);
                         }
                         destroy();
                     }
@@ -72,7 +73,7 @@ public class Projectile extends GameObject {
                 }
             }
         } else {
-            Player player = ((PlayStage)getStage()).getPlayer();
+            Player player = getPlayStage().getPlayer();
             if (collidesWith(player)) {
                 Log.log(LOG_TAG, "Enemy projectile colliding with player at " + getPosition().toString());
                 player.reportHit(linearVelocity);
@@ -85,7 +86,17 @@ public class Projectile extends GameObject {
         }
     }
 
-
+    @Override
+    protected float getProjectedRotation() {
+        // Project the position of the projectile one second in the future, and get the angle
+        // from current projected position to there.
+        return Projection.project(
+                new Vector2(position)
+                .add(linearVelocity)
+        )
+                .sub(projectedPosition)
+                .angle() - 90;
+    }
 
     public boolean isPiercing() {
         return (projectileType == ProjectileType.ENEMY_PIERCING_LASER || projectileType == ProjectileType.PLAYER_PIERCING_LASER);
