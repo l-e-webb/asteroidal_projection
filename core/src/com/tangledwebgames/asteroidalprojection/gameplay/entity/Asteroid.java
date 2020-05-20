@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Align;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.utility.Assets;
@@ -14,7 +13,7 @@ import com.tangledwebgames.asteroidalprojection.utility.SoundManager;
 
 import java.util.Iterator;
 
-public class Asteroid extends GameObject {
+public class Asteroid extends SteerableObject {
 
     public static final String LOG_TAG = Asteroid.class.getSimpleName();
 

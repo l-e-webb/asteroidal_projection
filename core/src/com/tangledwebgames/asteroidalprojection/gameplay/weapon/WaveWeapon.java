@@ -1,7 +1,7 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.weapon;
 
 import com.badlogic.gdx.math.Vector2;
-import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 
 public class WaveWeapon extends BaseWeapon {
@@ -10,7 +10,7 @@ public class WaveWeapon extends BaseWeapon {
     int numShotAngles;
     int shotIndex;
 
-    public WaveWeapon(GameObject mount, Projectile.ProjectileType type, float spread, int numShotAngles) {
+    public WaveWeapon(SteerableObject mount, Projectile.ProjectileType type, float spread, int numShotAngles) {
         super(mount, type);
         this.spread = spread;
         this.numShotAngles = numShotAngles;

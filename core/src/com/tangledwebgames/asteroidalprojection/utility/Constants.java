@@ -37,6 +37,7 @@ public class Constants {
     public static final String SLIDER_KNOB_REGION = "slider_knob";
     public static final String SLIDER_REGION = "slider";
     public static final String GRAY_SQUARE_REGION = "gray_square";
+    public static final String GRADIENT_REGION = "gradient";
 
     //Sound asset constants.
     public static final String BACKGROUND_MUSIC = "audio/Rocket.mp3";

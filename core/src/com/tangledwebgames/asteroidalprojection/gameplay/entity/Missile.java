@@ -1,25 +1,21 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
 import com.badlogic.gdx.ai.steer.behaviors.Pursue;
-import com.badlogic.gdx.ai.steer.behaviors.Seek;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.gameplay.enemybehavior.AvoidAsteroids;
 import com.tangledwebgames.asteroidalprojection.utility.Assets;
 import com.tangledwebgames.asteroidalprojection.utility.Constants;
-import com.tangledwebgames.asteroidalprojection.utility.Log;
 import com.tangledwebgames.asteroidalprojection.utility.SoundManager;
 
 public class Missile extends Projectile {
 
-    protected GameObject target;
+    protected SteerableObject target;
 
-    public Missile(float x, float y, GameObject target, Vector2 heading, boolean playerMissile) {
+    public Missile(float x, float y, SteerableObject target, Vector2 heading, boolean playerMissile) {
         super(
                 x,
                 y,
@@ -45,7 +41,7 @@ public class Missile extends Projectile {
         setAnimation(Assets.instance.missile);
     }
 
-    public void setTarget(GameObject target) {
+    public void setTarget(SteerableObject target) {
         setBehavior(new Pursue<>(this, target, GameplayConstants.MISSILE_PURSUE_PREDICT_TIME));
         this.target = target;
     }

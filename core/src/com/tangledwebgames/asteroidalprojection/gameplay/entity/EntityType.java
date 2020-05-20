@@ -7,5 +7,6 @@ public enum EntityType {
     ASTEROID,
     EXPLOSION,
     POWERUP,
-    TURRET
+    TURRET,
+    OTHER
 }

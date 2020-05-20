@@ -11,7 +11,7 @@ import com.tangledwebgames.asteroidalprojection.utility.Log;
 
 import java.util.Iterator;
 
-public class Projectile extends GameObject {
+public class Projectile extends SteerableObject {
 
     public final ProjectileType projectileType;
 
@@ -87,7 +87,7 @@ public class Projectile extends GameObject {
     }
 
     @Override
-    protected float getProjectedRotation() {
+    public float getProjectedRotation() {
         // Project the position of the projectile one second in the future, and get the angle
         // from current projected position to there.
         return Projection.project(

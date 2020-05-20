@@ -31,11 +31,10 @@ public class PlayStage extends Stage {
     AsteroidSpawner asteroidSpawner;
     EnemySpawner enemySpawner;
 
-    Vector2 worldOffset;
-
     Set<Projectile> projectiles;
     Set<Asteroid> asteroids;
     Set<Enemy> enemies;
+    Group worldGroup;
     Group asteroidGroup;
     Group projectileGroup;
     Group enemyGroup;
@@ -56,6 +55,7 @@ public class PlayStage extends Stage {
         projectiles = new HashSet<>();
         asteroids = new HashSet<>();
         enemies = new HashSet<>();
+        worldGroup = new Group();
         asteroidGroup = new Group();
         AsteroidCollisionDetector.setAsteroids(asteroids);
         projectileGroup = new Group();
@@ -64,12 +64,18 @@ public class PlayStage extends Stage {
         explosionGroup = new Group();
         player = new Player();
         addActor(player);
-        addActor(enemyGroup);
-        addActor(asteroidGroup);
-        addActor(projectileGroup);
-        addActor(powerupGroup);
-        addActor(explosionGroup);
-        worldOffset = new Vector2();
+        addActor(worldGroup);
+        worldGroup.addActor(enemyGroup);
+        worldGroup.addActor(asteroidGroup);
+        worldGroup.addActor(projectileGroup);
+        worldGroup.addActor(powerupGroup);
+        worldGroup.addActor(explosionGroup);
+        worldGroup.setTransform(false);
+        asteroidGroup.setTransform(false);
+        enemyGroup.setTransform(false);
+        explosionGroup.setTransform(false);
+        powerupGroup.setTransform(false);
+        projectileGroup.setTransform(false);
         asteroidSpawner = new AsteroidSpawner();
         enemySpawner = new EnemySpawner();
         shapeRenderer = new ShapeRenderer();
@@ -98,6 +104,7 @@ public class PlayStage extends Stage {
     }
 
     public void initGame(boolean demoScreen) {
+        worldGroup.setPosition(0, 0);
         projectiles.clear();
         enemies.clear();
         asteroids.clear();
@@ -106,7 +113,6 @@ public class PlayStage extends Stage {
         asteroidGroup.clear();
         explosionGroup.clear();
         player.init();
-        worldOffset.setZero();
         time = 0;
         score = 0;
         numCruisers = 0;
@@ -139,7 +145,7 @@ public class PlayStage extends Stage {
     public void draw() {
         if (GridRenderer.gridOn) {
             addShapeRenderRequest(gridRenderer, false);
-            gridRenderer.setOffset(worldOffset);
+            gridRenderer.setOffset(getWorldOffset());
         }
         addShapeRenderRequest(squareBorder, true);
         addShapeRenderRequest(circleBorder, true);
@@ -164,41 +170,49 @@ public class PlayStage extends Stage {
         shapeRenderer.end();
     }
 
+    public Vector2 getWorldOffset() {
+        return new Vector2(getWorldOffsetX(), getWorldOffsetY());
+    }
+
+    public float getWorldOffsetX() {
+        return worldGroup.getX();
+    }
+
+    public float getWorldOffsetY() {
+        return worldGroup.getY();
+    }
+
     public void moveWorld(Vector2 motion) {
         moveWorld(motion.x, motion.y);
     }
 
     public void moveWorld(float x, float y) {
-        worldOffset.add(x, y);
-    }
-
-    public Vector2 getWorldOffset() {
-        return worldOffset;
+        worldGroup.moveBy(x, y);
     }
 
     public void addEnemy(Enemy enemy) {
         enemies.add(enemy);
         enemyGroup.addActor(enemy);
-        enemy.moveBy(-worldOffset.x, -worldOffset.y);
+        enemy.moveBy(-getWorldOffsetX(), -getWorldOffsetY());
         enemy.init();
     }
 
     public void addAsteroid(Asteroid asteroid) {
         asteroids.add(asteroid);
         asteroidGroup.addActor(asteroid);
-        asteroid.moveBy(-worldOffset.x, -worldOffset.y);
+        asteroid.moveBy(-getWorldOffsetX(), -getWorldOffsetY());
     }
 
     public void addProjectile(Projectile projectile) {
         projectiles.add(projectile);
         projectileGroup.addActor(projectile);
-        projectile.moveBy(-worldOffset.x, -worldOffset.y);
+        projectile.moveBy(-getWorldOffsetX(), -getWorldOffsetY());
     }
 
     public void addPowerup(Powerup powerup) {
         powerupGroup.addActor(powerup);
         powerup.setPlayer(player);
-        powerup.moveBy(-worldOffset.x, -worldOffset.y);
+        powerup.moveBy(-getWorldOffsetX(), -getWorldOffsetY());
 
     }
 
@@ -208,7 +222,7 @@ public class PlayStage extends Stage {
 
     public void addExplosion(Explosion explosion) {
         explosionGroup.addActor(explosion);
-        explosion.moveBy(-worldOffset.x, -worldOffset.y);
+        explosion.moveBy(-getWorldOffsetX(), -getWorldOffsetY());
     }
 
     public void addShapeRenderRequest(ShapeRenderRequest request) {

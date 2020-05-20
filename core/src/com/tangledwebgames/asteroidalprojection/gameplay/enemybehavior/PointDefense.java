@@ -7,7 +7,7 @@ import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Asteroid;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.EnemyGun;
-import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 import com.tangledwebgames.asteroidalprojection.gameplay.weapon.BaseWeapon;
 
@@ -32,7 +32,7 @@ public class PointDefense extends EnemyGun {
     @Override
     public Vector2 fire() {
         proximity.update();
-        GameObject targetAsteroid = proximity.getNearestAsteroid();
+        SteerableObject targetAsteroid = proximity.getNearestAsteroid();
         if (targetAsteroid == null ||
                 targetAsteroid.distance2(this) > GameplayConstants.CRUISER_POINT_DEFENSE_RANGE2)
             return null;

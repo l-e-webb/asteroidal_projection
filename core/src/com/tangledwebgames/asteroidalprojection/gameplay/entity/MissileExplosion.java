@@ -18,8 +18,8 @@ public class MissileExplosion extends Explosion {
     }
 
     @Override
-    public void update(float delta) {
-        super.update(delta);
+    public void act(float delta) {
+        super.act(delta);
         if (!appliedDamage) {
             PlayStage stage = (PlayStage) getStage();
             float radius2 = GameplayConstants.MISSILE_EXPLOSION_RADIUS * GameplayConstants.MISSILE_EXPLOSION_RADIUS;
@@ -35,7 +35,7 @@ public class MissileExplosion extends Explosion {
                 asteroid.reportHit(new Vector2(asteroid.getPosition()).sub(getPosition()));
             }
             for (Iterator<Enemy> enemies = stage.getEnemies().iterator(); enemies.hasNext(); ) {
-                GameObject enemy = enemies.next();
+                SteerableObject enemy = enemies.next();
                 if (distance2(enemy) < radius2) {
                     if (enemy instanceof EnemyCruiser) {
                         EnemyCruiser cruiser = (EnemyCruiser) enemy;
@@ -47,7 +47,7 @@ public class MissileExplosion extends Explosion {
                     }
                 }
             }
-            GameObject player = stage.getPlayer();
+            SteerableObject player = stage.getPlayer();
             if (distance2(player) < radius2) {
                 player.reportHit(new Vector2(player.getPosition()).sub(getPosition()));
             }

@@ -2,6 +2,7 @@ package com.tangledwebgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
@@ -12,7 +13,7 @@ import com.tangledwebgames.asteroidalprojection.gameplay.weapon.TripleLaserWeapo
 import com.tangledwebgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.tangledwebgames.asteroidalprojection.utility.*;
 
-public class Player extends GameObject {
+public class Player extends SteerableObject {
 
     public static final String LOG_TAG = Player.class.getSimpleName();
 
@@ -68,34 +69,24 @@ public class Player extends GameObject {
                 getWidth() * (Constants.PLAYER_CANNON_WIDTH_RATIO - 0.5f),
                 getHeight() * (Constants.PLAYER_CANNON_HEIGHT_RATIO - 0.5f),
                 Constants.PLAYER_CANNON_RADIUS,
-                EntityType.TURRET,
-                CollisionType.NONE
-        ) {
-            @Override
-            public Location<Vector2> newLocation() {
-                return null;
-            }
-
-            @Override
-            public void updatePositionVector() {
-                position.set(localToStageCoordinates(new Vector2()));
-            }
-        };
+                EntityType.TURRET
+        );
         cannon.independentExistence = false;
         cannon.independentScaling = false;
         cannon.setTexture(Assets.instance.simpleCannon);
+        Booster booster = new Booster(
+                getWidth() / 2,
+                getHeight() / 4,
+                getHeight() / 3.5f,
+                0.1f,
+                2,
+                Color.BLACK
+        );
         addActor(cannon);
+        addActor(booster);
         setActive(true);
         setPosition(0, 0);
-    }
 
-    @Override
-    public void updatePositionVector() {}
-
-    @Override
-    protected void updateProjectedPosition() {
-        projectedPosition.setZero();
-        updateScale();
     }
 
     @Override
@@ -118,7 +109,7 @@ public class Player extends GameObject {
         Vector2 mousePosition = getStage().screenToStageCoordinates(
                 new Vector2(Gdx.input.getX(), Gdx.input.getY())
         );
-        cannon.setOrientation(mousePosition.angleRad());
+        cannon.setRotation(mousePosition.angle() - 90);
         if (tripleLaserDuration > 0) {
             tripleLaserDuration -= delta;
             if (tripleLaserDuration < 0) {
@@ -231,6 +222,7 @@ public class Player extends GameObject {
     @Override
     public void moveBy(float x, float y) {
         getPlayStage().moveWorld(-x, -y);
+        positionChanged();
     }
 
     @Override

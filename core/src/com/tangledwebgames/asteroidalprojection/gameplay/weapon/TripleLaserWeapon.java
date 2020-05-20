@@ -1,19 +1,19 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.weapon;
 
 import com.badlogic.gdx.math.Vector2;
-import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 
 public class TripleLaserWeapon extends BaseWeapon {
 
     float spread;
 
-    public TripleLaserWeapon(GameObject mount, Projectile.ProjectileType type, float spread) {
+    public TripleLaserWeapon(SteerableObject mount, Projectile.ProjectileType type, float spread) {
         super(mount, type);
         this.spread = spread;
     }
 
-    public TripleLaserWeapon(GameObject mount, Projectile.ProjectileType type) {
+    public TripleLaserWeapon(SteerableObject mount, Projectile.ProjectileType type) {
         this(mount, type, 45f);
     }
 

@@ -16,10 +16,10 @@ import com.tangledwebgames.asteroidalprojection.utility.Constants;
 
 public class EnemyCruiser extends Enemy {
 
-    protected GameObject target;
+    protected SteerableObject target;
     protected int health;
 
-    public EnemyCruiser(float x, float y, GameObject target) {
+    public EnemyCruiser(float x, float y, SteerableObject target) {
         super(x, y, GameplayConstants.CRUISER_WIDTH, GameplayConstants.CRUISER_HEIGHT);
         setBehavior(new Seek<>(this, target));
         this.target = target;

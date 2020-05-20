@@ -15,7 +15,7 @@ import com.tangledwebgames.asteroidalprojection.utility.Constants;
 import com.tangledwebgames.asteroidalprojection.utility.ShapeRenderRequest;
 import com.tangledwebgames.asteroidalprojection.utility.SoundManager;
 
-public abstract class Enemy extends GameObject {
+public abstract class Enemy extends SteerableObject {
 
     private AvoidAsteroidDebugRenderer debugRenderer = new AvoidAsteroidDebugRenderer();
 
@@ -105,7 +105,7 @@ public abstract class Enemy extends GameObject {
         }
     }
 
-    public static Enemy getRandomEnemy(float x, float y, GameObject player, int epoch) {
+    public static Enemy getRandomEnemy(float x, float y, SteerableObject player, int epoch) {
         switch (MathUtils.random(2)) {
             case 0:
             default:

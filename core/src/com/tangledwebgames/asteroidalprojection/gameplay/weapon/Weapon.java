@@ -2,6 +2,7 @@ package com.tangledwebgames.asteroidalprojection.gameplay.weapon;
 
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 
 public abstract class Weapon {
@@ -14,7 +15,7 @@ public abstract class Weapon {
         this.projectileType = type;
     }
 
-    public abstract void fire(GameObject target);
+    public abstract void fire(SteerableObject target);
 
     public abstract void fire(Vector2 target);
 

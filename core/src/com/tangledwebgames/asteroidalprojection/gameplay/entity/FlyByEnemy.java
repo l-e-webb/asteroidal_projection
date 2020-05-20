@@ -14,9 +14,9 @@ import com.tangledwebgames.asteroidalprojection.utility.Constants;
 
 public class FlyByEnemy extends Enemy {
 
-    GameObject target;
+    SteerableObject target;
 
-    public FlyByEnemy(float x, float y, GameObject target) {
+    public FlyByEnemy(float x, float y, SteerableObject target) {
         super(x, y, GameplayConstants.FLY_BY_RADIUS);
         setMaxLinearSpeed(GameplayConstants.FLY_BY_MAX_SPEED);
         setMinLinearSpeed(GameplayConstants.FLY_BY_MIN_SPEED);
@@ -34,7 +34,7 @@ public class FlyByEnemy extends Enemy {
         return new FlyByEnemy(getX(), getY(), target);
     }
 
-    public static Enemy getRandomFlyBy(float x, float y, GameObject target, int epoch) {
+    public static Enemy getRandomFlyBy(float x, float y, SteerableObject target, int epoch) {
         Enemy enemy = new FlyByEnemy(x, y, target);
         Weapon weapon = new BaseWeapon(enemy, Projectile.ProjectileType.ENEMY_LASER);
         FireRate fireRate;

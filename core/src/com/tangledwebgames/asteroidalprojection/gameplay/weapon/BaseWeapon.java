@@ -3,6 +3,7 @@ package com.tangledwebgames.asteroidalprojection.gameplay.weapon;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 
 public class BaseWeapon extends Weapon {
@@ -12,7 +13,7 @@ public class BaseWeapon extends Weapon {
     }
 
     @Override
-    public void fire(GameObject target) {
+    public void fire(SteerableObject target) {
         this.fire(new Vector2(target.getPosition()));
     }
 

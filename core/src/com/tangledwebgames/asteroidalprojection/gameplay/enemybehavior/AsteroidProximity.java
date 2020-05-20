@@ -4,16 +4,16 @@ import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.proximities.RadiusProximity;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Asteroid;
-import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 
 public class AsteroidProximity extends RadiusProximity<Vector2> {
 
-    GameObject owner;
-    GameObject nearestAsteroid;
+    SteerableObject owner;
+    SteerableObject nearestAsteroid;
 
     private NearestAsteroidCallback callback;
 
-    public AsteroidProximity(GameObject owner, Iterable<Asteroid> asteroids, float radius) {
+    public AsteroidProximity(SteerableObject owner, Iterable<Asteroid> asteroids, float radius) {
         super(owner, asteroids, radius);
         this.owner = owner;
         callback = new NearestAsteroidCallback();
@@ -23,7 +23,7 @@ public class AsteroidProximity extends RadiusProximity<Vector2> {
         findNeighbors(callback);
     }
 
-    public GameObject getNearestAsteroid() {
+    public SteerableObject getNearestAsteroid() {
         return nearestAsteroid;
     }
 
@@ -31,9 +31,9 @@ public class AsteroidProximity extends RadiusProximity<Vector2> {
 
         @Override
         public boolean reportNeighbor(Steerable<Vector2> neighbor) {
-            GameObject neighborObject = (GameObject) neighbor;
+            SteerableObject neighborObject = (SteerableObject) neighbor;
             if (nearestAsteroid == null) {
-                nearestAsteroid = (GameObject) neighbor;
+                nearestAsteroid = (SteerableObject) neighbor;
                 return true;
             }
             if (owner.distance2(neighborObject) < owner.distance2(nearestAsteroid)) {

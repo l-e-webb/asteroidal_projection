@@ -36,6 +36,7 @@ public class Assets implements Disposable, AssetErrorListener  {
     public TextureRegion piercingLaserPowerup;
     public TextureRegion pointsPowerup;
     public TextureRegion tripleLaserPowerup;
+    public TextureRegion gradient;
     public Animation<TextureRegion> explosion;
     public Animation<TextureRegion> missile;
     public Drawable missileAmmoDrawable;
@@ -146,6 +147,7 @@ public class Assets implements Disposable, AssetErrorListener  {
         slider = new SpriteDrawable(sliderSprite);
         healthBar = new TextureRegionDrawable(atlas.findRegion(Constants.GRAY_SQUARE_REGION))
                 .tint(UiConstants.HEALTH_BAR_TINT);
+        gradient = new TextureRegion(atlas.findRegion(Constants.GRADIENT_REGION));
     }
 
     public void error(AssetDescriptor asset, Throwable throwable) {

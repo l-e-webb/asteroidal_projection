@@ -14,9 +14,9 @@ import com.tangledwebgames.asteroidalprojection.utility.Constants;
 
 public class SeekerEnemy extends Enemy {
 
-    GameObject target;
+    SteerableObject target;
 
-    public SeekerEnemy(float x, float y, GameObject target) {
+    public SeekerEnemy(float x, float y, SteerableObject target) {
         super(x, y, GameplayConstants.SEEKER_RADIUS);
         this.target = target;
         setBehavior(new MaintainDistance(this, target, GameplayConstants.SEEKER_MAINTAIN_DISTANCE));
@@ -34,7 +34,7 @@ public class SeekerEnemy extends Enemy {
         return new SeekerEnemy(getX(), getY(), target);
     }
 
-    public static Enemy getRandomSeeker(float x, float y, GameObject target, int epoch) {
+    public static Enemy getRandomSeeker(float x, float y, SteerableObject target, int epoch) {
         Enemy enemy = new SeekerEnemy(x, y, target);
         Weapon weapon = new BaseWeapon(enemy, Projectile.ProjectileType.ENEMY_LASER);
         FireRate fireRate;

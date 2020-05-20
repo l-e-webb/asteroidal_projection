@@ -264,56 +264,63 @@ sniper
   index: 3
 explosion
   rotate: false
-  xy: 204, 54
+  xy: 306, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 1
 explosion
   rotate: false
-  xy: 254, 54
+  xy: 356, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 2
 explosion
   rotate: false
-  xy: 304, 54
+  xy: 406, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 3
 explosion
   rotate: false
-  xy: 354, 54
+  xy: 456, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: 4
+gradient
+  rotate: false
+  xy: 204, 2
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 missileammo
   rotate: false
-  xy: 210, 2
+  xy: 306, 52
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 piercinglaser
   rotate: false
-  xy: 262, 2
+  xy: 680, 152
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 points
   rotate: false
-  xy: 314, 2
+  xy: 732, 204
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 triplelaser
   rotate: false
-  xy: 732, 204
+  xy: 732, 152
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
@@ -341,28 +348,28 @@ missile
   index: 3
 missile
   rotate: false
-  xy: 158, 2
+  xy: 680, 204
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: 4
 redlaser
   rotate: false
-  xy: 366, 2
+  xy: 358, 52
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 redround
   rotate: false
-  xy: 680, 204
+  xy: 410, 52
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 redsharp
   rotate: false
-  xy: 680, 152
+  xy: 462, 52
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

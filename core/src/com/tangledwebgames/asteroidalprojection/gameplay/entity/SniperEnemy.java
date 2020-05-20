@@ -16,9 +16,9 @@ import com.tangledwebgames.asteroidalprojection.utility.Constants;
 
 public class SniperEnemy extends Enemy {
 
-    protected GameObject target;
+    protected SteerableObject target;
 
-    public SniperEnemy(float x, float y, GameObject target) {
+    public SniperEnemy(float x, float y, SteerableObject target) {
         super(x, y, GameplayConstants.SNIPER_RADIUS);
         setMaxLinearSpeed(GameplayConstants.SNIPER_MAX_SPEED);
         setMaxLinearAcceleration(GameplayConstants.SNIPER_ACCEL);
@@ -36,7 +36,7 @@ public class SniperEnemy extends Enemy {
         return new SniperEnemy(getX(), getY(), target);
     }
 
-    public static Enemy getRandomSniper(float x, float y, GameObject target, int epoch) {
+    public static Enemy getRandomSniper(float x, float y, SteerableObject target, int epoch) {
         Enemy enemy = new SniperEnemy(x, y, target);
         Projectile.ProjectileType type;
         FireRate fireRate;

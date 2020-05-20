@@ -3,25 +3,25 @@ package com.tangledwebgames.asteroidalprojection.gameplay.weapon;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.gameplay.PlayStage;
-import com.tangledwebgames.asteroidalprojection.gameplay.entity.GameObject;
+import com.tangledwebgames.asteroidalprojection.gameplay.entity.SteerableObject;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Missile;
 import com.tangledwebgames.asteroidalprojection.gameplay.entity.Projectile;
 
 public class MissileLauncher extends BaseWeapon {
 
-    public Iterable<? extends GameObject> targetSet;
+    public Iterable<? extends SteerableObject> targetSet;
 
-    public MissileLauncher(GameObject mount, Iterable<? extends GameObject> targetSet, boolean playerMissile) {
+    public MissileLauncher(SteerableObject mount, Iterable<? extends SteerableObject> targetSet, boolean playerMissile) {
         super(mount, playerMissile ? Projectile.ProjectileType.PLAYER_MISSILE : Projectile.ProjectileType.ENEMY_MISSILE);
         this.targetSet = targetSet;
     }
 
     @Override
     public void fire(Vector2 target) {
-        GameObject nearest = null;
+        SteerableObject nearest = null;
         float closest2 = Float.MAX_VALUE;
         float lockRad = GameplayConstants.MISSILE_LOCK_RADIUS2;
-        for (GameObject object : targetSet) {
+        for (SteerableObject object : targetSet) {
             float distance2 = target.dst2(object.getPosition());
             if (distance2 < lockRad && distance2 < closest2) {
                 nearest = object;
@@ -43,7 +43,7 @@ public class MissileLauncher extends BaseWeapon {
     }
 
     @Override
-    public void fire(GameObject target) {
+    public void fire(SteerableObject target) {
         Vector2 start = mount.getPosition();
         Vector2 headingToTarget = new Vector2(target.getPosition()).sub(start);
         PlayStage stage = mount.getPlayStage();

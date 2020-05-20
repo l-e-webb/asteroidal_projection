@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
 import com.tangledwebgames.asteroidalprojection.utility.Assets;
 
-public class Powerup extends GameObject {
+public class Powerup extends SteerableObject {
 
     public final PowerupType powerupType;
 

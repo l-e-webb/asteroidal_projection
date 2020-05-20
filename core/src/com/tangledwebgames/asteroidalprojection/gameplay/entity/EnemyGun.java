@@ -7,7 +7,7 @@ import com.tangledwebgames.asteroidalprojection.gameplay.weapon.Weapon;
 import com.tangledwebgames.asteroidalprojection.utility.Constants;
 import com.tangledwebgames.asteroidalprojection.utility.SoundManager;
 
-public abstract class EnemyGun extends GameObject {
+public abstract class EnemyGun extends SteerableObject {
 
     public FireRate rate;
     public Weapon weapon;
@@ -36,7 +36,8 @@ public abstract class EnemyGun extends GameObject {
     }
 
     @Override
-    public void update(float delta) {
+    public void act(float delta) {
+        super.act(delta);
         if (ready()) {
             Vector2 fireDirection = fire();
             if (rotateWithShot && fireDirection != null) {
