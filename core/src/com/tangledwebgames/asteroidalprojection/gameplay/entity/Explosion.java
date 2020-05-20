@@ -9,6 +9,7 @@ public class Explosion extends GameObject {
     public Explosion(float x, float y, float radius) {
         super(x, y, radius, EntityType.EXPLOSION);
         setAnimation(Assets.instance.explosion);
+        onlyUpdatePositionOnRender = true;
     }
 
     @Override

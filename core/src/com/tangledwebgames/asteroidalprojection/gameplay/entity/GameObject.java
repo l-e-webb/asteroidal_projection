@@ -27,6 +27,7 @@ public class GameObject extends Group {
     protected boolean independentScaling = true;
     protected boolean independentExistence = true;
     protected boolean independentRotation = true;
+    protected boolean onlyUpdatePositionOnRender = false;
 
     // Rendering
     private TextureRegion texture;
@@ -119,6 +120,7 @@ public class GameObject extends Group {
     @Override
     protected void positionChanged() {
         super.positionChanged();
+        if (onlyUpdatePositionOnRender) return;
         updatePosition();
         updateProjectedPosition();
         SnapshotArray<Actor> children = getChildren();
@@ -126,8 +128,7 @@ public class GameObject extends Group {
             GameObject object;
             try {
                 object = (GameObject) actor;
-                object.updatePosition();
-                object.updateProjectedPosition();
+                object.positionChanged();
             } catch (ClassCastException e) {
                 Log.log(LOG_TAG, "Non-GameObject actor found as child of GameObject", Log.LogLevel.DEBUG);
             }
@@ -177,6 +178,10 @@ public class GameObject extends Group {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        if (onlyUpdatePositionOnRender) {
+            updatePosition();
+            updateProjectedPosition();
+        }
         if (projectedPosition == null) return;
 
         if (getTexture() != null) {

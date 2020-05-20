@@ -63,8 +63,6 @@ public class PlayStage extends Stage {
         powerupGroup = new Group();
         explosionGroup = new Group();
         player = new Player();
-        addActor(player);
-        addActor(worldGroup);
         worldGroup.addActor(enemyGroup);
         worldGroup.addActor(asteroidGroup);
         worldGroup.addActor(projectileGroup);
@@ -104,7 +102,7 @@ public class PlayStage extends Stage {
     }
 
     public void initGame(boolean demoScreen) {
-        worldGroup.setPosition(0, 0);
+        clear();
         projectiles.clear();
         enemies.clear();
         asteroids.clear();
@@ -112,7 +110,9 @@ public class PlayStage extends Stage {
         enemyGroup.clear();
         asteroidGroup.clear();
         explosionGroup.clear();
-        player.init();
+        addActor(player);
+        addActor(worldGroup);
+        worldGroup.setPosition(0, 0);
         time = 0;
         score = 0;
         numCruisers = 0;
@@ -121,6 +121,7 @@ public class PlayStage extends Stage {
             player.setActive(false);
             enemySpawner.active = false;
         } else {
+            player.init();
             player.setActive(true);
             enemySpawner.active = true;
         }

@@ -28,6 +28,7 @@ public class Booster extends GameObject {
         independentExistence = false;
         independentScaling = false;
         independentRotation = false;
+        onlyUpdatePositionOnRender = true;
         setTexture(Assets.instance.gradient);
     }
 

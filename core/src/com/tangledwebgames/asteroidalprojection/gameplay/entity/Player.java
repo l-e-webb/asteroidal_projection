@@ -84,6 +84,9 @@ public class Player extends SteerableObject {
         );
         addActor(cannon);
         addActor(booster);
+        FlightTrail flightTrail = new FlightTrail(Color.WHITE);
+        flightTrail.setTarget(this);
+        getStage().addActor(flightTrail);
         setActive(true);
         setPosition(0, 0);
 

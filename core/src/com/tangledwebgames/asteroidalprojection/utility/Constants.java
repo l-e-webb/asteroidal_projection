@@ -68,7 +68,7 @@ public class Constants {
     public static final float PLAYER_CANNON_WIDTH_RATIO = 0.5f;
     public static final float PLAYER_CANNON_HEIGHT_RATIO = 0.3f;
     public static final float ENEMY_CANNON_RADIUS = 0.3f;
-    public static final float ENEMY_HOLE_CANNON_RADIUS = 0.3f;
+    public static final float ENEMY_HOLE_CANNON_RADIUS = 0.15f;
     public static final float POINT_DEFENSE_CANNON_RADIUS = 0.25f;
     public static final float SEEKER_CANNON_WIDTH_RATIO = 0.5f;
     public static final float SEEKER_CANNON_HEIGHT_RATIO = 0.33f;

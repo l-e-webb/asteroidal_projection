@@ -1,6 +1,7 @@
 package com.tangledwebgames.asteroidalprojection.gameplay.entity;
 
 import com.badlogic.gdx.ai.utils.Location;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.tangledwebgames.asteroidalprojection.gameplay.GameplayConstants;
@@ -27,6 +28,14 @@ public class SeekerEnemy extends Enemy {
         setMaxAngularAcceleration(GameplayConstants.SEEKER_MAX_ANGULAR_ACCEL);
         pointValue = GameplayConstants.SEEKER_POINT_VALUE;
         setAnimation(Assets.instance.seekerEnemy);
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        FlightTrail trail = new FlightTrail(Color.RED);
+        trail.setTarget(this);
+        getStage().addActor(trail);
     }
 
     @Override

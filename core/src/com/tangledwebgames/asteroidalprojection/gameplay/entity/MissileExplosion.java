@@ -15,6 +15,7 @@ public class MissileExplosion extends Explosion {
     public MissileExplosion(float x, float y) {
         super(x, y, GameplayConstants.MISSILE_EXPLOSION_RADIUS);
         appliedDamage = false;
+        onlyUpdatePositionOnRender = false;
     }
 
     @Override
@@ -44,6 +45,8 @@ public class MissileExplosion extends Explosion {
                             cruiser.destroy(false);
                             enemies.remove();
                         }
+                    } else if (enemy.reportHit(new Vector2())) {
+                        enemies.remove();
                     }
                 }
             }
