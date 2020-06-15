@@ -10,7 +10,7 @@ This is a free game licensed under a [Creative Commons Attribution-NonCommercial
 
 ## Credits
 
-Concept, design, programming, visuals: Ashlen ([Tangled Web Games](https://tangledwebgames.itch.io))
+Concept, design, programming, visuals: Louis Webb ([Tangled Web Games](https://tangledwebgames.itch.io))
 
 Music: _Rocket_ by Kevin Macleod (incompetech.com)<br>
 Licensed under Creative Commons: By Attribution 3.0 License<br>
